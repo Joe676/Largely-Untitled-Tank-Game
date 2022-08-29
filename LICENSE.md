@@ -1,2 +1,2 @@
 
-Copyright (C) 2022 
+Copyright Józef Bossowski (C) 2022 
