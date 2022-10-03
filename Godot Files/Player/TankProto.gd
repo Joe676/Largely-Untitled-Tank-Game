@@ -12,7 +12,7 @@ func _physics_process(delta):
 	
 	if Input.is_action_pressed("Forward"):
 		#Move forward
-		velocity = 10 * Vector3.FORWARD
+		velocity.z += 10
 
 	if Input.is_action_pressed("Back"):
 		#Move back
@@ -20,13 +20,13 @@ func _physics_process(delta):
 
 	if Input.is_action_pressed("Left"):
 		#Turn left
-		angular_velocity += 20
+		angular_velocity += 40
 
 	if Input.is_action_pressed("Right"):
 		#Turn right
-		angular_velocity -= 20
+		angular_velocity -= 40
 
-	velocity = move_and_slide(velocity)
+	velocity = move_and_slide(velocity.rotated(Vector3(0, 1, 0), rotation.y))
 	if velocity.x != 0: 
 		print("Tank position: " + str(transform.origin))
 		print("Model origin: " + str($Model.transform.origin))
