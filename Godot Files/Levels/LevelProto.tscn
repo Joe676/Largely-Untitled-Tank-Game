@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Player/TankProto.tscn" type="PackedScene" id=1]
 
@@ -39,6 +39,10 @@ nodes/fragment/connections = PoolIntArray( 2, 0, 0, 0 )
 
 [sub_resource type="ShaderMaterial" id=3]
 shader = SubResource( 2 )
+
+[sub_resource type="SphereMesh" id=4]
+radial_segments = 10
+rings = 10
 
 [node name="World" type="Spatial"]
 
@@ -155,9 +159,17 @@ width = 14.556
 height = 6.00392
 depth = 17.1564
 
+[node name="MeshInstance" type="MeshInstance" parent="PrototypeLevel/Obstacles"]
+
 [node name="InterpolatedCamera" type="InterpolatedCamera" parent="."]
-transform = Transform( -1, 7.57103e-08, 4.37114e-08, 0, -0.5, 0.866025, 8.74228e-08, 0.866025, 0.5, 0, 39.9058, -55.9889 )
+transform = Transform( -1, 8.74228e-08, -1.04251e-15, 0, 1.19249e-08, 1, 8.74228e-08, 1, -1.19249e-08, 0, 39.9058, -55.9889 )
 current = true
 far = 201.5
 target = NodePath("../Tank/CameraTarget")
 enabled = true
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.965926, 0.12941, 0.224144, -0.258819, 0.482963, 0.836516, 0, -0.866025, 0.5, 0, 34, 0 )
+
+[node name="DEBUG_BALL" type="MeshInstance" parent="."]
+mesh = SubResource( 4 )
