@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Player/TankProto.gd" type="Script" id=1]
+[ext_resource path="res://Objects/Bullet.tscn" type="PackedScene" id=2]
 
 [sub_resource type="CubeMesh" id=2]
 size = Vector3( 3, 2, 4 )
@@ -19,6 +20,7 @@ extents = Vector3( 1.5, 1, 2 )
 
 [node name="Tank" type="KinematicBody"]
 script = ExtResource( 1 )
+bullet_scene = ExtResource( 2 )
 
 [node name="Model" type="Spatial" parent="."]
 
@@ -44,6 +46,9 @@ mesh = SubResource( 4 )
 __meta__ = {
 "_editor_description_": "Barrel of the tank"
 }
+
+[node name="BulletOrigin" type="Spatial" parent="Model/Head/Barrel"]
+transform = Transform( -1, -8.74228e-08, 3.82137e-15, 0, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, 0, -1.5, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )

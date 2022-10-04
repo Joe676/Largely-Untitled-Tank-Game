@@ -1,7 +1,9 @@
 extends KinematicBody
 
+export (PackedScene) var bullet_scene
 var velocity:Vector3
 var angular_velocity:int
+# var bullet_scene = preload("res://Objects/Bullet.tscn")
 
 func _ready():
 	print("ready")
@@ -25,6 +27,9 @@ func _physics_process(delta):
 	if Input.is_action_pressed("Right"):
 		#Turn right
 		angular_velocity -= 40
+	
+	if Input.is_action_just_pressed("MainAction"):
+		shoot()
 
 	velocity = move_and_slide(velocity.rotated(Vector3(0, 1, 0), rotation.y))
 	# if velocity.x != 0: 
@@ -39,7 +44,14 @@ func _physics_process(delta):
 		if ball == null:
 			return
 		ball.transform.origin = pointed_position
-		
+
+func shoot():
+	var bullet_transform = get_node("Model/Head/Barrel/BulletOrigin").global_transform
+	var new_bullet = bullet_scene.instance()
+	owner.add_child(new_bullet)
+	new_bullet.transform = bullet_transform
+	print(new_bullet.transform.origin)
+
 func flatten(vector: Vector3) -> Vector3:
 	return Vector3(vector.x, 0, vector.z)
 
