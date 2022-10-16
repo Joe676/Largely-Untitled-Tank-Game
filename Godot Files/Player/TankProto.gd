@@ -1,49 +1,44 @@
 extends KinematicBody
 
+onready var tween = $Tween
+
 export (PackedScene) var bullet_scene
+
+export var max_angular_velocity = 40
+export var max_speed = 10
+
 var velocity:Vector3
 var angular_velocity:int
-# var bullet_scene = preload("res://Objects/Bullet.tscn")
+
+puppet var puppet_position = Vector3() setget set_puppet_position
 
 func _ready():
 	print("ready")
 
 func _physics_process(delta):
-	velocity = Vector3()
-	angular_velocity = 0
-	
-	if Input.is_action_pressed("Forward"):
-		#Move forward
-		velocity.z += 10
-
-	if Input.is_action_pressed("Back"):
-		#Move back
-		velocity.z -= 10
-
-	if Input.is_action_pressed("Left"):
-		#Turn left
-		angular_velocity += 40
-
-	if Input.is_action_pressed("Right"):
-		#Turn right
-		angular_velocity -= 40
-	
-	if Input.is_action_just_pressed("MainAction"):
-		shoot()
-
-	velocity = move_and_slide(velocity.rotated(Vector3(0, 1, 0), rotation.y))
+	# if is_network_master():
+	if !is_network_master():
+		velocity = Vector3()
+		angular_velocity = 0
+		var forward_input = int(Input.is_action_pressed("Forward")) - int(Input.is_action_pressed("Back"))
+		var turn_input = int(Input.is_action_pressed("Left")) - int(Input.is_action_pressed("Right"))
+		
+		if Input.is_action_just_pressed("MainAction"):
+			shoot()
+		velocity.z = forward_input*max_speed
+		velocity = move_and_slide(velocity.rotated(Vector3(0, 1, 0), rotation.y))
 	# if velocity.x != 0: 
 	# 	print("Tank position: " + str(transform.origin))
 	# 	print("Model origin: " + str($Model.transform.origin))
-
-	rotate_y(deg2rad(angular_velocity)*delta)
-	var pointed_position = mousePositionToWorldPosition()
-	if pointed_position != null:
-		get_node("Model/Head").look_at(flatten(pointed_position), Vector3.UP)
-		var ball = get_tree().root.get_node("World/DEBUG_BALL")
-		if ball == null:
-			return
-		ball.transform.origin = pointed_position
+		angular_velocity = turn_input*max_angular_velocity
+		rotate_y(deg2rad(angular_velocity)*delta)
+		var pointed_position = mousePositionToWorldPosition()
+		if pointed_position != null:
+			get_node("Model/Head").look_at(flatten(pointed_position), Vector3.UP)
+			var ball = get_tree().root.get_node("World/DEBUG_BALL")
+			if ball == null:
+				return
+			ball.transform.origin = pointed_position
 
 func shoot():
 	var bullet_transform = get_node("Model/Head/Barrel/BulletOrigin").global_transform
@@ -74,3 +69,12 @@ func mousePositionToWorldPosition():
 		return ray_array["position"]
 	return null
 	
+func set_puppet_position(new_value) -> void:
+	puppet_position = new_value
+
+	tween.interpolate_property(self, "global_translation", puppet_position, 0.1)
+	tween.start()
+
+func _on_NetworkTickRate_timeout():
+	if is_network_master():
+		rset_unreliable("puppet_position", global_translation)

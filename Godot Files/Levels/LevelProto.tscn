@@ -166,6 +166,7 @@ transform = Transform( -1, 8.74228e-08, -1.04251e-15, 0, 1.19249e-08, 1, 8.74228
 current = true
 far = 201.5
 target = NodePath("../Tank/CameraTarget")
+speed = 2.0
 enabled = true
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
