@@ -2,7 +2,7 @@ extends Node
 
 func instance_node_at_location(node:Object, parent:Object, location:Vector3):
 	var node_instance = instance_node(node, parent)
-	node_instance.global_position = location
+	node_instance.transform.origin = location
 	return node_instance
 
 func instance_node(node:Object, parent:Object)->Object:

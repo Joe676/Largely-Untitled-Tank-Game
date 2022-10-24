@@ -161,7 +161,7 @@ depth = 17.1564
 
 [node name="MeshInstance" type="MeshInstance" parent="PrototypeLevel/Obstacles"]
 
-[node name="InterpolatedCamera" type="InterpolatedCamera" parent="."]
+[node name="Camera" type="InterpolatedCamera" parent="."]
 transform = Transform( -1, 8.74228e-08, -1.04251e-15, 0, 1.19249e-08, 1, 8.74228e-08, 1, -1.19249e-08, 0, 39.9058, -55.9889 )
 current = true
 far = 201.5
