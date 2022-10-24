@@ -9,3 +9,10 @@ func instance_node(node:Object, parent:Object)->Object:
 	var node_instance = node.instance()
 	parent.add_child(node_instance)
 	return node_instance
+
+
+func instance_player(id):
+	var player = load("res://Player/TankProto.tscn")
+	var player_instance = Global.instance_node_at_location(player, Players, Vector3(5, 0, 5))
+	player_instance.name = str(id)
+	player_instance.set_network_master(id)

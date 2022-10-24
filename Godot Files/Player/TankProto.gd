@@ -2,7 +2,7 @@ extends KinematicBody
 
 onready var tween = $Tween
 
-export (PackedScene) var bullet_scene
+export (PackedScene) var bullet_scene = load("res://Objects/Bullet.tscn")
 
 export var max_angular_velocity = 40
 export var max_speed = 10
@@ -70,7 +70,7 @@ func _physics_process(delta):
 func shoot():
 	var bullet_transform = get_node("Model/Head/Barrel/BulletOrigin").global_transform
 	var new_bullet = bullet_scene.instance()
-	owner.add_child(new_bullet)
+	add_child(new_bullet)
 	new_bullet.transform = bullet_transform
 
 func flatten(vector: Vector3) -> Vector3:
@@ -82,10 +82,10 @@ func mousePositionToWorldPosition():
 	var mouse_pos = get_viewport().get_mouse_position()
 
 	var camera = get_tree().root.get_camera()
-	# var ray_origin = camera.project_ray_origin(mouse_pos)
+	if camera == null:
+		return null
+
 	var ray_origin = camera.global_translation
-	# camera.project_local_ray_normal()
-	# var ray_direction = camera.project_ray_normal(mouse_pos) * 300
 	var ray_direction = camera.project_position(mouse_pos, 300)
 
 	var ray_array = space_state.intersect_ray(ray_origin, ray_direction)
