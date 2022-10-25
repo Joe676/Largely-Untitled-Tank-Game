@@ -7,26 +7,12 @@ onready var server_ip_address = $MultiplayerConfigure/ServerIPAddressTxt
 onready var device_ip_address = $CanvasLayer/DeviceIPAddressLbl
 
 func _ready():
-	get_tree().connect("network_peer_connected", self, "_player_connected")
-	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
-	# get_tree().connect("connected_to_server", self, "_connected_to_server")
-
 	device_ip_address.text = Network.ip_address
-
-func _player_connected(id: int):
-	print("Player has connected: " + str(id))
-	instance_player(id)
-	
-func _player_disconnected(id: int):
-	print("Player has disconnected: " + str(id))
-
-	if Players.has_node(str(id)):
-		Players.get_node(str(id)).queue_free()
 
 func _on_CreateServerBtn_pressed():
 	multiplayer_config_ui.hide()
 	Network.create_server()
-	instance_player(get_tree().get_network_unique_id())
+	Global.instance_player(get_tree().get_network_unique_id())
 	get_tree().change_scene("res://Levels/LevelProto.tscn")
 
 
@@ -37,9 +23,3 @@ func _on_JoinServerBtn_pressed():
 		multiplayer_config_ui.hide()
 		get_tree().change_scene("res://Levels/LevelProto.tscn")
 
-
-func instance_player(id):
-	var player = load("res://Player/TankProto.tscn")
-	var player_instance = Global.instance_node_at_location(player, Players, Vector3(rand_range(-10, 10), 0, rand_range(-10, 10)))
-	player_instance.name = str(id)
-	player_instance.set_network_master(id)
