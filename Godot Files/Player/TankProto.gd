@@ -70,7 +70,7 @@ func _physics_process(delta):
 func shoot():
 	var bullet_transform = get_node("Model/Head/Barrel/BulletOrigin").global_transform
 	var new_bullet = bullet_scene.instance()
-	add_child(new_bullet)
+	get_parent().add_child(new_bullet)
 	new_bullet.transform = bullet_transform
 
 func flatten(vector: Vector3) -> Vector3:

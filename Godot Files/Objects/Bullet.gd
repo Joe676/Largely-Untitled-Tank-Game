@@ -6,7 +6,7 @@ export (float) var life_limit : float = 1
 var velocity = Vector3.ZERO
 
 func _ready():
-	print("bullet shot!")
+	# print("bullet shot!")
 	var lifespan_timer = $LifespanTimer
 	lifespan_timer.wait_time = life_limit
 	lifespan_timer.start()
@@ -20,5 +20,5 @@ func _on_LifespanTimer_timeout():
 	queue_free()
 
 func _on_Bullet_body_entered(body:Node):
-	print("hit: " + str(body.name))
+	# print("hit: " + str(body.name))
 	queue_free()

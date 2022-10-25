@@ -161,6 +161,7 @@ depth = 17.1564
 transform = Transform( -1, 8.74228e-08, -1.04251e-15, 0, 1.19249e-08, 1, 8.74228e-08, 1, -1.19249e-08, 0, 39.9058, -55.9889 )
 current = true
 far = 201.5
+target = NodePath("../CameraTarget")
 speed = 2.0
 enabled = true
 
@@ -169,3 +170,5 @@ transform = Transform( 0.965926, 0.12941, 0.224144, -0.258819, 0.482963, 0.83651
 
 [node name="DEBUG_BALL" type="MeshInstance" parent="."]
 mesh = SubResource( 4 )
+
+[node name="CameraTarget" type="Spatial" parent="."]

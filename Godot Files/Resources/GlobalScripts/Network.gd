@@ -20,17 +20,19 @@ func create_server() -> void:
 	server = NetworkedMultiplayerENet.new()
 	server.create_server(DEAFAULT_PORT, MAX_CLIENTS)
 	get_tree().set_network_peer(server)
+	print("Server created")
 
 func join_server() -> void:
 	client = NetworkedMultiplayerENet.new()
 	client.create_client(ip_address, DEAFAULT_PORT)
-	get_tree().set_network_peer(client)
+	var result = get_tree().set_network_peer(client)
+	print("Server joined with result:", result)
 
 func _connected_to_server() -> void:
 	print("Connected to server")
 	Global.instance_player(get_tree().get_network_unique_id())
 
 func _server_disconnected() -> void:
-	print("Disconnected from server")
+	print("Server kicked you")
 	
 
