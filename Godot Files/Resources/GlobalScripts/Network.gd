@@ -12,9 +12,10 @@ func _ready():
 	# if OS.name == "Windows":
 	ip_address = IP.get_local_addresses()[3]
 	print("Found ip: " + ip_address)
-	
 	get_tree().connect("connected_to_server", self, "_connected_to_server")
 	get_tree().connect("server_disconnected", self, "_server_disconnected")
+	get_tree().connect("network_peer_connected", self, "_player_connected")
+	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
 
 func create_server() -> void:
 	server = NetworkedMultiplayerENet.new()
@@ -34,5 +35,13 @@ func _connected_to_server() -> void:
 
 func _server_disconnected() -> void:
 	print("Server kicked you")
-	
 
+func _player_connected(id: int):
+	print("Player has connected: " + str(id))
+	Global.instance_player(id)
+	
+func _player_disconnected(id: int):
+	print("Player has disconnected: " + str(id))
+
+	if Players.has_node(str(id)):
+		Players.get_node(str(id)).queue_free()

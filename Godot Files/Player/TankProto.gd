@@ -16,8 +16,8 @@ var angular_velocity: int
 puppet var puppet_position = Vector3(0, 0, 0) setget set_puppet_position
 puppet var puppet_velocity = Vector3(0, 0, 0)
 
-puppet var puppet_body_transform = Vector3(0, 0, 0)
-puppet var puppet_head_transform = Vector3(0, 0, 0)
+puppet var puppet_body_rotation = 0
+puppet var puppet_head_rotation = 0
 
 
 func _ready():
@@ -53,16 +53,18 @@ func _physics_process(delta):
 			ball.transform.origin = pointed_position
 			
 	else: # This is another player - move them according to the data from network
-		var body_quat = Quat(transform.basis)
-		var pup_body_quat = Quat(puppet_body_transform)
-		var body_rotated = body_quat.slerp(pup_body_quat, 0.5)
+		# var body_quat = Quat(transform.basis)
+		# var pup_body_quat = Quat(puppet_body_transform)
+		# var body_rotated = body_quat.slerp(pup_body_quat, 0.5)
 
-		var head_quat = Quat($Model/Head.transform.basis)
-		var pup_head_quat = Quat(puppet_head_transform)
-		var head_rotated = head_quat.slerp(pup_head_quat, 0.5)
+		# var head_quat = Quat($Model/Head.transform.basis)
+		# var pup_head_quat = Quat(puppet_head_transform)
+		# var head_rotated = head_quat.slerp(pup_head_quat, 0.5)
 
-		transform.basis = Basis(body_rotated)
-		$Model/Head.transform.basis = Basis(head_rotated)
+		# transform.basis = Basis(body_rotated)
+		# $Model/Head.transform.basis = Basis(head_rotated)
+		rotation.y = puppet_body_rotation
+		$Model/Head.rotation.y = puppet_head_rotation
 
 		if not tween.is_active():
 			puppet_velocity = move_and_slide(puppet_velocity.rotated(Vector3(0, 1, 0), rotation.y))
@@ -105,5 +107,5 @@ func _on_NetworkTickRate_timeout():
 		rset_unreliable("puppet_position", global_translation)
 		rset_unreliable("puppet_velocity", velocity)
 
-		rset_unreliable("puppet_body_transform", transform)
-		rset_unreliable("puppet_head_transform", $Model/Head.transform)
+		rset_unreliable("puppet_body_rotation", rotation.y)
+		rset_unreliable("puppet_head_rotation", $Model/Head.rotation.y)
