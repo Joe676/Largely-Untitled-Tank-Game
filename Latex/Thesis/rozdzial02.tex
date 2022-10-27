@@ -3,7 +3,9 @@ W projektowanej grze gracze steruj¹ czo³gami, mog¹ do siebie strzelaæ, a w czasi
 W tym rozdziale szczwegó³owo opisane zostan¹ mechaniki gry oraz wymagania z dziedziny \emph{game designu}.
 
 \section{Projekt mechanik}
+
 Do zaimplementowania zaplanowane zosta³y nastêpuj¹ce mechaniki:
+
 \begin{itemize}
     \item Sterowanie gracza,
     \item Strzelanie,
@@ -13,14 +15,18 @@ Do zaimplementowania zaplanowane zosta³y nastêpuj¹ce mechaniki:
     \item Charakterystyki pasywne i aktywne,
     \item \emph{User experience}.
 \end{itemize}
+
 Zostan¹ one szczegó³owo opisane w kolejnych sekcjach.
 Ponadto poni¿sze mechaniki opisano jako wymagania dodatkowe, nieobowi¹zkowe:
+
 \begin{itemize}
     \item Zdolnoœci specjalne,
     \item Zagro¿enia œrodowiskowe.
 \end{itemize}
 
+
 \subsection{Sterowanie gracza}
+
 W przypadku wiêkszoœci gier, w których gracz steruje pewn¹ postaci¹ (awatarem), istniej¹ za³o¿enia gracza zwi¹zane z tym jak takie sterowanie implementowane jest w innych produkcjach.
 W projektowanej grze awatarem gracza jest czo³g, wykorzystany zostanie wiêc schemat sterowania zwany "sterowaniem czo³gowym" (ang. \emph{tank controls}). (cite: https://bloody-disgusting.com/news/3224958/horror-declassified-an-examination-of-tank-controls/)
 Poza potencjalnie intuicyjn¹ interpretacj¹ sterowania przez graczy, taki schemat charakteryzuje siê równie¿ przewidywalnym zachowaniem awatara w przypadku zmiany perspektywy kamery.
@@ -31,9 +37,42 @@ Gra przygotowywana jest z myœl¹ o sterowaniu klawiatur¹ i mysz¹, schemat sterowa
 
 \subsection{Strzelanie}
 
+Podstawow¹ akcj¹ wykonywan¹ przez gracza bêdzie strzelanie do przeciwników.
 
+Gracz bêdzie celowa³ przy pomocy myszy, lufa czo³gu bêdzie obraca³a siê w kierunku rzutu myszy na jej p³aszczyznê w przestrzeni 3D.
+Taka metoda sterowania da du¿¹ dok³adnoœæ celowania. Jest równie¿ stosunkowo prosta w implementacji i intuicyjna dla gracza.
+
+Na pociski gracza nie bêdzie dzia³aæ fizyka - bêd¹ porusza³y siê jedynie w p³aszczyŸnie równoleg³ej do ziemi. Pociski bêd¹ wchodziæ w kontakt z innymi graczami oraz z obiektami umieszczonymi w poziomie.
+
+Gracz bêdzie móg³ strzeliæ z wykorzystaniem lewego przycisku myszy. Ka¿de wciœniêcie przycisku odpowiadaæ bêdzie jednemu wystrzelonwmu pociskowi, choæ to zachowanie mo¿e ulec zmianie w czasie rozgrywki [odniesienie do rozdzia³u z kartami?].
+
+Postaæ gracza bêdzie mia³a ograniczon¹ pojemnoœæ "magazynku". Prze³adowanie bêdzie trwa³o okreœlony czas. W przeciwieñstwie do wielu gier z podobn¹ mechanik¹, prze³adowanie nie bêdzie konsumowaæ pocisków z wiêkszej puli - gracz ma mo¿liwoœæ nieograniczonych prze³adowañ. Rol¹ tej mechaniki jest wymuszenie na graczach myœlenia taktycznego oraz zarz¹dzania zasobami.
+
+Aby uniemo¿liwiæ nazbyt szybkie strzelanie gracz bêdzie mia³ ograniczon¹ maksymaln¹ "szybkoœæ ataku". Jest ona okreœlona jako minimalny czas pomiêdzy kolejnymi strza³ami.
+
+Zosta³y okreœlone nastêpuj¹ce charakterystyki pocisku:
+
+\begin{itemize}
+    \item Obra¿enia - wartoœæ liczbowa okreœlaj¹ca jak mocno pocisk zrani trafionego,
+    \item Szybkoœæ - wartoœæ liczbowa okreœlaj¹ca jak szybko pocisk siê przemieszcza,
+    \item Kolor[Materia³?] - Okreœla wygl¹d pocisku,
+    \item Rozmiar - okreœla wymiary pocisku (najpewniej zwi¹zany (liniowo?) z obra¿eniami),
+    \item W³aœciciel - Gracz, który wyœwietli³ pocisk,
+    \item Efekty przy trafieniu - lista wydarzeñ, które aktywowane zostaj¹ gdy pocisk trafia gracza lub przeszkodê.
+\end{itemize}
+
+Ze strzelaniem zwi¹zane s¹ równie¿ nastêpuj¹ce charakterystyki gracza:
+
+\begin{itemize}
+    \item Pojemnoœæ magazynku,
+    \item Czas prze³adowania,
+    \item Szybkoœæ ataku,
+    \item Celnoœæ - zmniejsza rozrzut pocisków (TODO: opisaæ rozrzut wy¿ej),
+    \item Charakterystyki wystrzeliwanych pocisków,
+\end{itemize}
 
 \subsection{System zdrowia i ¿ycia}
+
 
 
 \subsection{System rund}

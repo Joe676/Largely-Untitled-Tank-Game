@@ -325,7 +325,7 @@ Listing \thelstlisting: #1\hfill%\hfill%
 % Redefinitions of labels for tables, figures and bibliography 
 %\AtBeginDocument{% 
         \addto\captionspolish{% 
-        \renewcommand{\lstlistlistingname}{Spis listingï¿½w}%
+        \renewcommand{\lstlistlistingname}{Spis listingów}%
 }%} 
 \newlistof{lstlistoflistings}{lol}{\lstlistlistingname}
 
@@ -588,7 +588,7 @@ Listing \thelstlisting: #1\hfill%\hfill%
 
 %\AtBeginDocument{% 
         \addto\captionspolish{% 
-        \renewcommand{\listfigurename}{Spis rysunkï¿½w}% 
+        \renewcommand{\listfigurename}{Spis rysunków}% 
 }%}
 
 %\AtBeginDocument{% 
@@ -830,9 +830,6 @@ Specjalnoœæ: & {\bfseries \@specjalnosc}\\
 \pdfbookmark[0]{Tytu³}{Tytul.1}
 \maketitle
 \clearpage
-% INFO: Strona z licencjï¿½ CC zdefiniowana poniï¿½ej dotyczy tylko zredagowanej treï¿½ci. 
-%       Z samego szablon moï¿½na korzystywaï¿½ bez koniecznoï¿½ci cytowania jego autora.
-%       Podczas pisania pracy dyplomowej stronï¿½ tï¿½ moï¿½na usunï¿½ï¿½ (a nawet naleï¿½y).
 \thispagestyle{empty}
 \mbox{}\vfill
 
@@ -860,15 +857,12 @@ Specjalnoœæ: & {\bfseries \@specjalnosc}\\
 %\bibliographystyle{plalpha}
 \bibliographystyle{plabbrv}
 
-%UWAGA: bibliotekï¿½ referencji naleï¿½y przygotowaï¿½ samemu. Dobrym do tego narzï¿½dziem jest JabRef.
-%       Nazwï¿½ przygotowanej biblioteki wpisuje siï¿½ poniï¿½ej bez rozszerzenia 
-%       (w tym przypadku jest to "dokumentacja.bib")
-\setlength{\bibitemsep}{2pt} % - by zacieï¿½niï¿½ wykaz literatury
+\setlength{\bibitemsep}{2pt} % - by zaciesnic wykaz literatury
 %\addtocontents{toc}{\addvspace{5pt}} % ustawiamy odstï¿½p przed literaturï¿½ w spisie treï¿½ci
 \bibliography{dokumentacja}
 
 
-\pdfbookmark[0]{Spis rysunkï¿½w}{spisRysunkow.1} % jeï¿½li chcemy mieï¿½ w spisie treï¿½ci, to zamarkowaï¿½ tï¿½ liniï¿½, a odmarkowaï¿½ linie poniï¿½sze
+\pdfbookmark[0]{Spis rysunków}{spisRysunkow.1} % jeï¿½li chcemy mieï¿½ w spisie treï¿½ci, to zamarkowaï¿½ tï¿½ liniï¿½, a odmarkowaï¿½ linie poniï¿½sze
 %%\phantomsection
 %%\addcontentsline{toc}{chapter}{Spis rysunkï¿½w}
 \listoffigures*
@@ -878,7 +872,7 @@ Specjalnoœæ: & {\bfseries \@specjalnosc}\\
 %%\addcontentsline{toc}{chapter}{Spis tabel}
 \listoftables*
 \clearpage
-\pdfbookmark[0]{Spis listingï¿½w}{spisListingow.1} %
+\pdfbookmark[0]{Spis listingów}{spisListingow.1} %
 %%\phantomsection
 %%\addcontentsline{toc}{chapter}{Spis listingï¿½w}
 \lstlistoflistings*
@@ -886,7 +880,7 @@ Specjalnoœæ: & {\bfseries \@specjalnosc}\\
 
 % \include{skroty} %skrï¿½ty moï¿½na sobie pominï¿½ï¿½
 
-\appendix
+% \appendix
 % \include{dodatekA}
 % \include{dodatekB}
 
