@@ -17,12 +17,12 @@ Do zaimplementowania zaplanowane zosta³y nastêpuj¹ce mechaniki:
 \end{itemize}
 
 Zostan¹ one szczegó³owo opisane w kolejnych sekcjach.
-Ponadto poni¿sze mechaniki opisano jako wymagania dodatkowe, nieobowi¹zkowe:
+% Ponadto poni¿sze mechaniki opisano jako wymagania dodatkowe, nieobowi¹zkowe:
 
-\begin{itemize}
-    \item Zdolnoœci specjalne,
-    \item Zagro¿enia œrodowiskowe.
-\end{itemize}
+% \begin{itemize}
+%     \item Zdolnoœci specjalne,
+%     \item Zagro¿enia œrodowiskowe.
+% \end{itemize}
 
 
 \subsection{Sterowanie gracza}
@@ -67,7 +67,7 @@ Ze strzelaniem zwi¹zane s¹ równie¿ nastêpuj¹ce charakterystyki gracza:
     \item Pojemnoœæ magazynku,
     \item Czas prze³adowania,
     \item Szybkoœæ ataku,
-    \item Celnoœæ - zmniejsza rozrzut pocisków (TODO: opisaæ rozrzut wy¿ej),
+    \item (?)Celnoœæ - zmniejsza rozrzut pocisków (TODO: opisaæ rozrzut wy¿ej),
     \item Charakterystyki wystrzeliwanych pocisków,
 \end{itemize}
 
@@ -90,25 +90,24 @@ Okreœlone zostan¹ nastêpuj¹ce charakterystyki postaci:
 
 \subsection{System rund}
 
-Gra bêdzie podzielona na rundy. Ka¿da z rund trwa do momentu, w którym tylko jeden gracz nie bêdzie wyeliminowany. Ten gracz dostaje jeden punkt zwyciêstwa, a nastêpnie gracze przechodz¹ do kolejnej rundy. Gra trwa do rundy, po której jeden z graczy osi¹gnie docelow¹ liczbê punktów zwyciêstwa.
+Gra bêdzie podzielona na rundy. Ka¿da z rund trwa do momentu, w którym tylko jeden gracz nie bêdzie wyeliminowany. Ten gracz dostaje jeden punkt zwyciêstwa, a nastêpnie gracze przechodz¹ do kolejnej rundy. Pomiêdzy rundami nastêpuje faza wyboru kart (opisana w rozdziale \ref{sec:upgrade_cards}). Gra trwa do rundy, po której jeden z graczy osi¹gnie docelow¹ liczbê punktów zwyciêstwa.
 
 Taki system rozgrywki prowadzi do ró¿nej liczby rund dla ró¿nej liczby graczy oraz dla ró¿nej docelowej liczby punktów. Minimaln¹ i maksymaln¹ liczbê rund mo¿na wyraziæ nastêpuj¹cymi wzorami:
 
-$$
-n - docelowa liczba punktów zwyciêstwa 
-p - liczba graczy
-r_{min} - minimalna liczba rund 
-r_{max} - maksymalna liczba rund \\
-r_{min} = n \\
-r_{max} = p * (n-1) + 1
-$$
+$$ n - docelowa\ liczba\ punktów\ zwyciêstwa $$
+$$ p - liczba\ graczy $$
+$$ r_{min} - minimalna\ liczba\ rund $$
+$$ r_{max} - maksymalna\ liczba\ rund $$
+$$ r_{min} = n \\ $$
+$$ r_{max} = p * (n-1) + 1 $$
 
-Wyliczenia dla mo¿liwych liczb graczy oraz dla przyk³adowych liczb docelowych punktów zosta³y zaprezentowane w tabeli \ref{tab:round_count}.
+
+Minimalna liczba rund to rozgrywka, w której w ka¿dej rundzie wygrywa ten sam gracz. Maksymalna liczba rund to rozgrywka, w której ka¿dy gracz wygrywa liczbê rund o jeden mniejsz¹ ni¿ docelowa, a nastêpnie jeden z graczy wygrywa rundê, tym samym wygrywaj¹c grê. Wyliczenia dla mo¿liwych liczb graczy oraz dla przyk³adowych liczb docelowych punktów zosta³y zaprezentowane w tabeli \ref{tab:round_count}.
 
 \begin{table}
     \small
     \centering
-    \caption{Rozk³ad liczby rund dla ró¿nej liczby graczy i docelowych punktów zwyciêstwa}
+    \caption{Rozk³ad liczby rund dla ró¿nej liczby graczy i docelowych punktów zwyciêstwa.\\ $(n - docelowa\ liczba\ punktów\ zwyciêstwa)$}
     \label{tab:round_count}
     \begin{tabularx}{\linewidth}{|c||X|X|}
         \hline
@@ -127,11 +126,84 @@ Wyliczenia dla mo¿liwych liczb graczy oraz dla przyk³adowych liczb docelowych pu
     \end{tabularx}
 \end{table}
 
-\subsection{Karty ulepszeñ}
+W zwi¹zku ze zwiêkszeniem liczby rund znacznie zwiêkszy siê czas rozgrywki. Z tego wzglêdu dla wiêkszych liczb graczy sugerowane bêd¹ mniejsze cele punktowe, jednak nie zostan¹ one ograniczone domyœlnie; decyzja na temat liczby docelowych punktów zwyciêstwa zostanie pozostawiona hostowi.
 
+\subsection{Charakterystyki pasywne i aktywne}\label{sec:characteristics}
 
-\subsection{Charakterystyki pasywne i aktywne}
+W celu rezprezentacji ró¿nych cech postaci gracza ka¿dy z nich ma swoje \emph{charakterystyki}. Dziel¹ siê one na pasywne i aktywne.
 
+Charakterystyki pasywne reprezentowane s¹ jedynie jako wartoœci liczbowe, które wp³ywaj¹ na zwyk³e akcje wykonywane przez gracza. Ka¿da z postaci ma charakterystyki pasywne dotycz¹ce jej samej oraz u¿ywanych przez ni¹ pocisków. Ka¿dy z graczy ma sta³y zbiór charakterystyk pasywnych.
+
+Charakterystyki aktywne to wydarzenia wywo³ywane w momencie zaistnienia innego wydarzenia. W projektowanych mechanikach jedynym wydarzeniem inicjuj¹cym jest trafienie pociskiem innego gracza lub przeszkody, jednak mo¿liwe jest wprowadzenie kolejnych w czasie rozwoju gry.
+
+TODO: TABELA, W KTÓREJ ZAWARTE S¥ WSZYSTKIE CHARAKTERYSTYKI [NAZWA + KATEGORIA + OPIS]\\
+TODO: USUN¥Æ CHARAKTERYSTYKI Z ROZDZIA£ÓW + DODAÆ REFERENCJE
+TODO: Dodaæ planowane charakterystyki aktywne (Taki glosariusz dla nastêpnych sekcji)
+
+\subsection{Karty ulepszeñ}\label{sec:upgrade_cards}
+
+W czasie rozgrywki gracze bêd¹ otrzymywali ulepszenia wzmacniaj¹ce ich mo¿liwoœci bojowe. Te ulepszenia gracze wybieraj¹ w fazie wyboru kart, pomiêdzy rundami.
+
+Po zakoñczeniu rundy, ka¿dy z graczy o najmniejszej liczbie punktów zwyciêstwa otrzyma zestaw losowych kart, spoœród których bêdzie musia³ wybraæ jedn¹. Wybrana karta zostaje zapisana dla tego gracza i od tej pory bêdzie dzia³a³a na jego postaæ. Po wybraniu karty przez ka¿dego z graczy nastêpuje przejœcie do kolejnej rundy.
+
+Ulepszenia nadawane s¹ jedynie postaciom o najmniejszej liczbie punktów zwyciêstwa w celu wyrównania szans pomiêdzy graczami o ró¿nym poziomie umiejêtnoœci. Taka technika nazywana jest \emph{metod¹ gumki recepturki} (ang. \emph{rubberbanding})(cite Practical Game Design).
+
+Ka¿da z kart ulepszeñ modyfikuje co najmniej jedn¹ charakterystykê postaci - zwiêksza lub zmniejsza wartoœæ pasywn¹ lub dodaje kolejn¹ charakterystykê aktywn¹. Karta poprawi przynajmniej jedn¹ wartoœæ charakterystyki, jednak mo¿liwe jest, ¿e pogorszy inne charakterystyki aby zbalansowaæ jej dzia³anie. Wprowadza to równie¿ nieoczywist¹ decyzjê do podjêcia dla gracza (przyk³adowo: \emph{Czy warto wybraæ kartê poprawiaj¹c¹ dwukrotnie zadawane obra¿enia, ale obni¿aj¹c¹ o po³owê w³asn¹ ¿ywotnoœæ?}).
+
+\subsubsection{Pocz¹tkowy zbiór kart}
+W celu zró¿nicowania doœwiadczenia graczy przygotowane zostanie 20 kart z mo¿liwoœci¹ dodania kolejnych w przysz³oœci. Planowane do zaimplementowania karty przedstawione zosta³y w tabeli \ref{tab:cards}
+
+\begin{table}
+    \small
+    \centering
+    \caption{Pocz¹tkowy zbiór kart}
+    \label{tab:cards}
+    \begin{tabularx}{\linewidth}{|c|c|c|X|}
+        \hline
+        lp. & Nazwa & Nazwa angielska & Opis\\
+        \hline \hline
+        1 & tbc & TANK & Zwiêkszona ¿ywotnoœæ, Zmniejszona szybkoœæ \\
+        \hline 
+        2 & tbc & Speedy Gonzales & Zwiêkszona szybkoœæ, Zmniejszona ¿ywotnoœæ \\
+        \hline 
+        3 & tbc & Glass Canon & Zwiêkszone obra¿enia, Zancznie zmniejszona ¿ywotnoœæ \\
+        \hline 
+        4 & tbc & Cockroach & Zmniejszona ¿ywotnoœæ, zwiêkszona wartoœæ leczenia \\
+        \hline 
+        5 & tbc & Sniper & Zwiêkszone obra¿enia, zwiêkszona szybkoœæ kuli, zmniejszona szybkostrzelnoœæ, zmniejszona pojemnoœæ magazynka \\
+        \hline 
+        6 & tbc & Rubber Bullets & Dodatkowe odbicia kuli, Wyd³u¿ony czas prze³adowania\\
+        \hline 
+        7 & tbc & FULL AUTO & Zwiêkszona szybkostrzelnoœæ, zmniejszone obra¿enia, znacznie zwiêkszona pojemnoœæ magazynku, zwiêkszony czas prze³adowania (jeœli siê uda: Automatyczne strzelanie, nie trzeba puszczaæ przycisku strza³u, aby wykonaæ kolejny strza³) \\
+        \hline 
+        8 & tbc & Granade Launcher & Zmniejszone obra¿enia pocisku, zmniejszona prêdkoœæ pocisku, AKTYWNA: Przy trafieniu lub zakoñczeniu ¿ycia pocisk eksploduje, zadaj¹c obra¿enia w promieniu \\
+        \hline 
+        9 & tbc & Flame & Pociski podpalaj¹ trafionego gracza, zadaj¹c mu obra¿enia przez kilka sekund, Zwiêkszone obra¿enia, wyd³u¿ony czas prze³adowania \\
+        \hline 
+        10 & tbc & Life Steal & Trafienie przeciwnika leczy w³aœciciela o czêœæ zadanych obra¿eñ  \\
+        \hline 
+        11 & tbc & NUKE & Zmniejszenie pojemnoœci magazynku, Znaczne zwiêkszenie obra¿eñ, Eksplozja\\
+        \hline 
+        12 & tbc & Quick Reload & Znaczne zmniejszenie czasu prze³adowania \\
+        \hline 
+        13 & tbc & BIG BOY & Znaczne zwiêkszenie ¿ywotnoœci, Znaczne zmniejszenie wartoœci leczenia (albo zwiêkszenie czasu leczenia)  \\
+        \hline 
+        14 & tbc & Fragmentation & Po trafieniu przeszkody w miejscu trafienia tworzone s¹ mniejsze, s³absze pociski skierowane w losowych kierunkach (od³amki), Zwiêkszony czas prze³adowywania\\
+        \hline 
+        15 & tbc & Freezing Bullet & Zwiêkszony czas prze³adowania, Po trafieniu postaci zostaje ona zamro¿ona - jej szybkoœæ zostaje znacznie zmniejszona \\
+        \hline 
+        16 & tbc & Cowboy & Znacznie zwiêkszona szybkostrzelnoœæ, Zwiêkszone obra¿enia, Znacznie zwiêkszony czas prze³adowania \\
+        \hline 
+        17 & tbc & CHAOS & Znacznie wiêcej odbiæ kuli, Zmniejszone obra¿enia \\
+        \hline 
+        18 & tbc & Knockback & Trafiona postaæ zostaje odepchniêta w kierunku, w którym lecia³a kula \\
+        \hline 
+        19 & tbc & Directed Bounce & Dodatkowe jedno odbicie, Kule odbijaj¹ siê w kierunku najbli¿szego widocznego gracza, je¿eli ¿aden nie jest widoczny odbijaj¹ siê normalnie \\
+        \hline 
+        20 & tbc & Tactical Advantage & Trafienie przeciwnika prze³adowuje magazynek w³aœciciela, Znaczne zwiêkszenie czasu prze³adowania \\
+        \hline 
+    \end{tabularx}
+\end{table}
 
 \subsection{User experience}%predykcje klienckie + buforowanie akcji
 
