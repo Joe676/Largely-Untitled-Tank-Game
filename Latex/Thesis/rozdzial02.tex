@@ -73,10 +73,59 @@ Ze strzelaniem zwi¹zane s¹ równie¿ nastêpuj¹ce charakterystyki gracza:
 
 \subsection{System zdrowia i ¿ycia}
 
+Aby umo¿liwiæ graczom eliminacjê przeciwników wprowadzony zostanie system zdrowia. 
 
+Ka¿d¹ rundê gracz rozpoczyna z punktami ¿ycia równymi ich maksymalnej wartoœci. W czasie rozgrywki, otrzymuj¹c obra¿enia, ta wartoœæ bêdzie zmniejszana. Gdy wartoœæ ta osi¹gnie 0, gracz zostaje wyeliminowany z aktualnej rundy.
+
+W czasie rozgrywki ¿ywotnoœæ postaci bêdzie siê zamoistnie zwiêkszaæ, je¿eli wystarczaj¹co d³ugo nie otrzyma³ obra¿eñ. Nie mo¿e ona jednak przekroczyæ maksymalnej wartoœci.
+
+Okreœlone zostan¹ nastêpuj¹ce charakterystyki postaci:
+\begin{itemize}
+    \item Maksymalna ¿ywotnoœæ postaci - Okreœla z jak¹ liczb¹ punktów ¿ycia rundê rozpoczyna gracz oraz jakiej wartoœci nie mog¹ przekroczyæ jego aktualne punkty ¿ycia w wyniku leczenia.
+    \item Aktualna ¿ywotnoœæ postaci - Okreœla ile punktów ¿ycia aktualnie posiada gracz; zmniejszenie tej wartoœci do 0 oznacza eliminacjê gracza.
+    \item OpóŸnienie leczenia - Okreœla ile czasu po otrzymaniu obra¿eñ postaæ gracza zaczyna siê leczyæ.
+    \item Wartoœæ leczenia - Okreœla ile punktów ¿ycia gracz otrzymuje w ka¿dym okresie leczenia.
+    \item Okres leczenia - Okreœla jak czêsto gracz bêdzie otrzymywa³ punkty ¿ycia podczas leczenia.
+\end{itemize}
 
 \subsection{System rund}
 
+Gra bêdzie podzielona na rundy. Ka¿da z rund trwa do momentu, w którym tylko jeden gracz nie bêdzie wyeliminowany. Ten gracz dostaje jeden punkt zwyciêstwa, a nastêpnie gracze przechodz¹ do kolejnej rundy. Gra trwa do rundy, po której jeden z graczy osi¹gnie docelow¹ liczbê punktów zwyciêstwa.
+
+Taki system rozgrywki prowadzi do ró¿nej liczby rund dla ró¿nej liczby graczy oraz dla ró¿nej docelowej liczby punktów. Minimaln¹ i maksymaln¹ liczbê rund mo¿na wyraziæ nastêpuj¹cymi wzorami:
+
+$$
+n - docelowa liczba punktów zwyciêstwa 
+p - liczba graczy
+r_{min} - minimalna liczba rund 
+r_{max} - maksymalna liczba rund \\
+r_{min} = n \\
+r_{max} = p * (n-1) + 1
+$$
+
+Wyliczenia dla mo¿liwych liczb graczy oraz dla przyk³adowych liczb docelowych punktów zosta³y zaprezentowane w tabeli \ref{tab:round_count}.
+
+\begin{table}
+    \small
+    \centering
+    \caption{Rozk³ad liczby rund dla ró¿nej liczby graczy i docelowych punktów zwyciêstwa}
+    \label{tab:round_count}
+    \begin{tabularx}{\linewidth}{|c||X|X|}
+        \hline
+        Liczba graczy & Liczba rund dla $n=3$ & Liczba rund dla $n=5$ \\
+        \hline \hline
+        2 & 3 - 5 & 5 - 9 \\
+        \hline 
+        3 & 3 - 7 & 5 - 13 \\
+        \hline
+        4 & 3 - 9 & 5 - 17 \\
+        \hline
+        5 & 3 - 11 & 5 - 21 \\
+        \hline
+        6 & 3 - 13 & 5 - 25 \\
+        \hline 
+    \end{tabularx}
+\end{table}
 
 \subsection{Karty ulepszeñ}
 
