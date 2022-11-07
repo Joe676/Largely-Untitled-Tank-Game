@@ -67,7 +67,7 @@ Ze strzelaniem zwi¹zane s¹ równie¿ nastêpuj¹ce charakterystyki gracza:
     \item Pojemnoœæ magazynku,
     \item Czas prze³adowania,
     \item Szybkoœæ ataku,
-    \item (?)Celnoœæ - zmniejsza rozrzut pocisków (TODO: opisaæ rozrzut wy¿ej),
+    % \item (?)Celnoœæ - zmniejsza rozrzut pocisków (TODO: opisaæ rozrzut wy¿ej),
     \item Charakterystyki wystrzeliwanych pocisków,
 \end{itemize}
 
@@ -107,7 +107,7 @@ Minimalna liczba rund to rozgrywka, w której w ka¿dej rundzie wygrywa ten sam gr
 \begin{table}
     \small
     \centering
-    \caption{Rozk³ad liczby rund dla ró¿nej liczby graczy i docelowych punktów zwyciêstwa.\\ $(n - docelowa\ liczba\ punktów\ zwyciêstwa)$}
+    \caption{Rozk³ad liczby rund dla ró¿nej liczby graczy i docelowych punktów zwyciêstwa.\\ }%}
     \label{tab:round_count}
     \begin{tabularx}{\linewidth}{|c||X|X|}
         \hline
@@ -211,7 +211,7 @@ W celu zapewnienia satysfakcjonuj¹cej rozgrywki zostan¹ zastosowane techniki pop
 
 \subsubsection{Buforowanie akcji}
 
-Buforowanie akcji odnosi siê do techniki, w której polecenia wydawane przez gracza s¹ zapisywane w przypadku gdy nie jest mo¿liwe wykonanie ich natychmiast. Akcje wywo³ywane przez te polecenia zostaj¹ aktywowane w momencie gdy nastanie taka mo¿liwoœæ. 
+Buforowanie akcji odnosi siê do techniki, w której polecenia wydawane przez gracza s¹ zapisywane w przypadku gdy nie jest mo¿liwe wykonanie ich natychmiast. Akcje wywo³ywane przez te polecenia zostaj¹ aktywowane w momencie gdy nastanie taka mo¿liwoœæ. (TODO: cite https://barbariangrunge.com/game-feel-input-buffering/)
 
 W przygotowywanej grze ta technika zostanie wykorzystana dla akcji strzelania. Gdy postaæ gracza bêdzie w stanie prze³adowywania lub oczekiwania na kolejny strza³ a gracz wprowadzi polecenie strza³u zostanie ono zapisane na kilka klatek i wykonane, je¿eli w tym czasie ta akcja zostanie odblokowana. 
 
