@@ -151,7 +151,7 @@ Ulepszenia nadawane s¹ jedynie postaciom o najmniejszej liczbie punktów zwyciêst
 Ka¿da z kart ulepszeñ modyfikuje co najmniej jedn¹ charakterystykê postaci - zwiêksza lub zmniejsza wartoœæ pasywn¹ lub dodaje kolejn¹ charakterystykê aktywn¹. Karta poprawi przynajmniej jedn¹ wartoœæ charakterystyki, jednak mo¿liwe jest, ¿e pogorszy inne charakterystyki aby zbalansowaæ jej dzia³anie. Wprowadza to równie¿ nieoczywist¹ decyzjê do podjêcia dla gracza (przyk³adowo: \emph{Czy warto wybraæ kartê poprawiaj¹c¹ dwukrotnie zadawane obra¿enia, ale obni¿aj¹c¹ o po³owê w³asn¹ ¿ywotnoœæ?}).
 
 \subsubsection{Pocz¹tkowy zbiór kart}
-W celu zró¿nicowania doœwiadczenia graczy przygotowane zostanie 20 kart z mo¿liwoœci¹ dodania kolejnych w przysz³oœci. Planowane do zaimplementowania karty przedstawione zosta³y w tabeli \ref{tab:cards}
+W celu zró¿nicowania rozgrywek przygotowane zostanie 20 kart z mo¿liwoœci¹ dodania kolejnych w przysz³oœci. Planowane do zaimplementowania karty przedstawione zosta³y w tabeli \ref{tab:cards}.
 
 \begin{table}
     \small
@@ -206,4 +206,20 @@ W celu zró¿nicowania doœwiadczenia graczy przygotowane zostanie 20 kart z mo¿liw
 \end{table}
 
 \subsection{User experience}%predykcje klienckie + buforowanie akcji
+
+W celu zapewnienia satysfakcjonuj¹cej rozgrywki zostan¹ zastosowane techniki poprawy doœwiadczenia graczy (\emph{User Experience} - UX). 
+
+\subsubsection{Buforowanie akcji}
+
+Buforowanie akcji odnosi siê do techniki, w której polecenia wydawane przez gracza s¹ zapisywane w przypadku gdy nie jest mo¿liwe wykonanie ich natychmiast. Akcje wywo³ywane przez te polecenia zostaj¹ aktywowane w momencie gdy nastanie taka mo¿liwoœæ. 
+
+W przygotowywanej grze ta technika zostanie wykorzystana dla akcji strzelania. Gdy postaæ gracza bêdzie w stanie prze³adowywania lub oczekiwania na kolejny strza³ a gracz wprowadzi polecenie strza³u zostanie ono zapisane na kilka klatek i wykonane, je¿eli w tym czasie ta akcja zostanie odblokowana. 
+
+Zastosowanie tej techniki pozwoli unikn¹æ sytuacji, w której gracz wprowadzi polecenie tu¿ przed zmian¹ stanu. Bez buforowania akcji to polecenie zosta³oby zignorowane, co mo¿e prowadziæ do poczucia niesprawiedliwego potraktowania przez grê. Wprowadzenie buforowania sprawia, ¿e gra \emph{wydaje siê} byæ bardziej sprawiedliwa poprzez wybaczanie drobnych b³êdów gracza.
+
+\subsubsection{Predykcje klienckie}
+
+W grze sieciowej nie sposób unikn¹æ opóŸnieñ zwi¹zanych z po³¹czeniem, nawet gdy komputery graczy znajduj¹ siê w tej samej sieci. Przesy³aj¹c pozycjê graczy przez sieæ opóŸnienie i utracone pakiety sprawiaj¹, ¿e postaci innych graczy wygl¹daj¹ jakby "przeskakiwa³y". W zwi¹zku z tym nale¿y wprowadziæ usprawnienia sprawiaj¹ce, ¿e te "przeskoki" nie sa widoczne. 
+
+Taki efekt mo¿na osi¹gn¹æ na kilka sposobów. Po pierwsze, wprowadzona zostanie interpolacja pozycji i rotacji postaci. Nie bêd¹ one zmienia³y pozycji nagle, lecz bêdzie ona p³ynnie, liniowo zmieniana w czasie. Ponadto zastosowane zostan¹ predykcje klienckie - poza pozycj¹ i rotacj¹ gracza przesy³ana bêdzie równie¿ jego prêdkoœæ. W przypadku utraty wielu pakietów postaæ bêdzie nadal porusza³a siê z t¹ sam¹ prêdkoœci¹. Jest to sposób na "zgadniêcie" przysz³ych, nieznanych pozycji gracza.  
 
