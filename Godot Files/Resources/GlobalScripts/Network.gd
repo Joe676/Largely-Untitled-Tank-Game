@@ -15,7 +15,7 @@ func _ready():
 	get_tree().connect("connected_to_server", self, "_connected_to_server")
 	get_tree().connect("server_disconnected", self, "_server_disconnected")
 	get_tree().connect("network_peer_connected", self, "_player_connected")
-	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
+	get_tree().connect("network_peer_disconnected", self,"_player_disconnected")
 
 func create_server() -> void:
 	server = NetworkedMultiplayerENet.new()

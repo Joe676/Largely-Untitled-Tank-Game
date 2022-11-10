@@ -100,18 +100,57 @@ Podstawowy system sieciowy zosta³ zaimplementowany z wykorzystaniem poradnika (c
 
 Do projektu dodano pusty wêze³ statyczny maj¹cy przechowywaæ graczy w drzewie. Ponadto dodano menu startowe (Rys. \ref{fig:prototype_menu}). Stworzono równie¿ dwa skrypty globalne oraz zmodyfikowano skrypt gracza.
 
+\begin{figure}
+    \centering
+    \includegraphics[width=.9\linewidth]{Images/prototype/prototype_net_menu.png}
+    \caption{Menu startowe prototypu po wprowadzeniu systemu sieciowego}
+    \label{fig:prototype_menu}
+\end{figure}
+
 Na interfejsie menu widoczne s¹ dwa przyciski. Przycisk ``Create Server'' powoduje rozpoczêcie gry jako host. Gra hostowana jest wtedy na adresie IP maszyny u¿ytkownika. Przycisk ``Join Server'' powoduje rozpoczêcie gry na serwerze, którego adres IP wpisany jest w pole tekstowe. W prototypie nie zosta³y zastosowane ¿adne techniki obrony przed wpisaniem niepoprawnego adresu IP ani próby po³¹czenia z nieistniej¹cym serwerem.
 
 Skrypt globalny \texttt{Network} jest odpowiedzialny za po³¹czenia sieciowe. Korzysta on z wysokopoziomowego interfejsu sieciowego Godota. 
 
-Podczas uruchomienia gry ten skrypt pobiera adres IP maszyny. Wtedy 
-    
+Podczas uruchomienia gry ten skrypt pobiera adres IP maszyny. Nastêpnie ³¹czy siê z sygna³ami zwi¹zanymi ze zmianami sieciowego stanu gry (Listing \ref{lst:signal_connecting_prototype}). 
 
-\begin{figure}[b]
-	\centering
-	\includegraphics[width=.6\linewidth]{Images/prototype/prototype_net_menu.png}
-	\caption{Menu startowe prototypu po wprowadzeniu systemu sieciowego}
-	\label{fig:prototype_menu}
-\end{figure}
+
+\begin{lstlisting}[language=python,caption=Pod³¹czanie do najwa¿niejszych sygna³ów sieciowych, label=lst:signal_connecting_prototype ,basicstyle=\footnotesize\ttfamily]
+get_tree().connect("connected_to_server", self, "_connected_to_server")
+get_tree().connect("server_disconnected", self, "_server_disconnected")
+get_tree().connect("network_peer_connected", self, "_player_connected")
+get_tree().connect("network_peer_disconnected",self,"_player_disconnected")
+\end{lstlisting}
+
+Poni¿ej zosta³y opisane sygna³y oraz przypisane do nich funkcje:
+\begin{itemize}
+    \item \texttt{connected\_to\_server} zostaje emitowany gdy gra po³¹czy siê z serwerem. Funkcja tworzy instancjê w³asnej postaci gracza.
+    \item \texttt{server\_disconnected} zostaje emitowany gdy gra zostanie roz³¹czona z serwerem; W prototypie funkcja jedynie loguje wydarzenie.
+    \item \texttt{network\_peer\_connected} zostaje emitowany gdy inny gracz zostaje pod³¹czony do gry. W sytuacji gdy gracz pierwszy raz pod³¹cza siê do serwera ten sygna³ emitowany jest dla wszystkich graczy ju¿ na serwerze. Funkcja tworzy instancjê postaci nowo pod³¹czonego gracza.
+    \item \texttt{network\_peer\_disconnected} zostaje emitowany gdy inny gracz od³¹cza siê od serwera. Funkcja usuwa postaæ roz³¹czonego gracza.
+\end{itemize}
+
+Ponadto w skrypcie \texttt{Network} zdefiniowane s¹ funkcje \texttt{create\_server} i \texttt{join\_server} s³u¿¹ce do, odpowiednio, stworzenia serwera i do³¹czenia do serwera. W tym celu wykorzystana zosta³a klasa \texttt{NetworkedMultiplayerENet}, implementuj¹ca warstwê sieciow¹ korzystaj¹c¹ z po³¹czenia UDP.
+
+
+\begin{lstlisting}[language=python,caption=Funkcja inicjuj¹ca serwer gry., label=lst:create_server_prototype ,basicstyle=\footnotesize\ttfamily]
+func create_server() -> void:
+  server = NetworkedMultiplayerENet.new()
+  server.create_server(DEAFAULT_PORT, MAX_CLIENTS)
+  get_tree().set_network_peer(server)
+\end{lstlisting}
+\begin{lstlisting}[language=python,caption=Funkcja ³¹cz¹ca do serwera gry., label=lst:join_server_prototype ,basicstyle=\footnotesize\ttfamily]
+func join_server() -> void:
+  client = NetworkedMultiplayerENet.new()
+  client.create_client(ip_address, DEAFAULT_PORT)
+  get_tree().set_network_peer(client)
+\end{lstlisting}
+
+Skrypt \texttt{Global} sk³ada siê z metod u³atwiaj¹cych instancjonowanie graczy. S¹ one wykorzystywane podczas rozpoczynania gry.
+
+Do sceny gracza dodano wêz³y \texttt{Timer} - odliczaj¹cy okres synchronizacji z serwerem i \texttt{Tween} - pozwalaj¹cy p³ynnie przekszta³caæ w³aœciwoœci wêz³a. Do skryptu gracza dodano zmienne oznaczone s³owem kluczowym typu \texttt{puppet} - s¹ to wartoœci, które bêd¹ synchronizowane przez sieæ. Takie zmienne stworzono dla pozycji i rotacji gracza, rotacji wie¿yczki oraz prêdkoœci gracza. 
+
+\texttt{Timer} ustawiony zosta³ na okres 0.3 sekundy. Co taki okres wysy³a on sygna³, który wywo³uje funkcjê synchronizuj¹c¹ wartoœci zmiennych puppet po sieci. W momencie ustawienia w ten sposób pozycji jest ona interpolowana z wykorzystaniem wêz³a \texttt{Tween}. Jest to implementacja za³o¿eñ z sekcji \ref{sec:concept_prediction}. Postaæ gracza wysy³a wtedy wartoœæ swoich rzeczywistych zmiennych. Awatar gracza w grze pozosta³ych graczy w procesie fizycznym zmienia równie¿ rotacjê cia³a i wie¿yczki. Je¿eli \texttt{Tween} nie jest aktywny, postaæ jest przemieszczana z prêdkoœci¹ otrzyman¹ z sieci. Jest to implementacja predykcji klienckich, równie¿ z sekcji \ref{sec:concept_prediction}.
+
+Strzelanie nie zosta³o zaimplementowane w systemie sieciowym prototypu.
 
 \section{Wnioski}
