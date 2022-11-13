@@ -151,6 +151,11 @@ Do sceny gracza dodano wêz³y \texttt{Timer} - odliczaj¹cy okres synchronizacji z
 
 \texttt{Timer} ustawiony zosta³ na okres 0.3 sekundy. Co taki okres wysy³a on sygna³, który wywo³uje funkcjê synchronizuj¹c¹ wartoœci zmiennych puppet po sieci. W momencie ustawienia w ten sposób pozycji jest ona interpolowana z wykorzystaniem wêz³a \texttt{Tween}. Jest to implementacja za³o¿eñ z sekcji \ref{sec:concept_prediction}. Postaæ gracza wysy³a wtedy wartoœæ swoich rzeczywistych zmiennych. Awatar gracza w grze pozosta³ych graczy w procesie fizycznym zmienia równie¿ rotacjê cia³a i wie¿yczki. Je¿eli \texttt{Tween} nie jest aktywny, postaæ jest przemieszczana z prêdkoœci¹ otrzyman¹ z sieci. Jest to implementacja predykcji klienckich, równie¿ z sekcji \ref{sec:concept_prediction}.
 
-Strzelanie nie zosta³o zaimplementowane w systemie sieciowym prototypu.
 
 \section{Wnioski}
+
+Zgodnie z za³o¿eniami, przygotowanie prototypu pozwoli³o zapoznaæ siê z zawi³oœciami silnika Godot oraz zlokalizowaæ przysz³e trudnoœci. 
+
+Implementacja podstawowych mechanik nie bêdzie stanowiæ wiêkszych trudnoœci. Zostan¹ one zaimplementowane w sposób zbli¿ony do tego z prototypu. Po³¹czenie sieciowe bêdzie stanowi³o najwiêksze wyzwanie. Aby jego implementacja przebieg³a sprawnie niezbêdny bêdzie dok³adny projekt modelu danych oraz ich przep³ywu przez sieæ. Jednak zastosowanie wysokopoziomowej warstwy sieciowej silnika Godot pozwoli znacznie uproœciæ ca³y system sieciowy.
+
+

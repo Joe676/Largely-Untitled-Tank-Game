@@ -12,7 +12,7 @@ Do zaimplementowania zaplanowane zosta³y nastêpuj¹ce mechaniki:
     \item System zdrowia/¿ycia,
     \item System rund,
     \item Karty ulepszeñ,
-    \item Charakterystyki pasywne i aktywne,
+    \item Atrybuty pasywne i aktywne,
     \item \emph{User experience}.
 \end{itemize}
 
@@ -28,7 +28,7 @@ Zostan¹ one szczegó³owo opisane w kolejnych sekcjach.
 \subsection{Sterowanie gracza}\label{sec:steering_concept}
 
 W przypadku wiêkszoœci gier, w których gracz steruje pewn¹ postaci¹ (awatarem), istniej¹ za³o¿enia gracza zwi¹zane z tym jak takie sterowanie implementowane jest w innych produkcjach.
-W projektowanej grze awatarem gracza jest czo³g, wykorzystany zostanie wiêc schemat sterowania zwany "sterowaniem czo³gowym" (ang. \emph{tank controls}). (cite: https://bloody-disgusting.com/news/3224958/horror-declassified-an-examination-of-tank-controls/)
+W projektowanej grze awatarem gracza jest czo³g, wykorzystany zostanie wiêc schemat sterowania zwany "sterowaniem czo³gowym" (ang. \emph{tank controls}). \cite{horror_tank_controls}
 Poza potencjalnie intuicyjn¹ interpretacj¹ sterowania przez graczy, taki schemat charakteryzuje siê równie¿ przewidywalnym zachowaniem awatara w przypadku zmiany perspektywy kamery.
 
 W tym schemacie sterowania awatar porusza siê w kierunku okreœlonym wzglêdem jego w³asnej orientacji, w przeciwieñstwie do wielu wspó³czesnych tytu³ów, w których postaæ porusza siê w kierunku wzglêdnym do kamery. [przygotowaæ schemat na rysunku]
@@ -52,26 +52,7 @@ Postaæ gracza bêdzie mia³a ograniczon¹ pojemnoœæ "magazynku". Prze³adowanie bêdz
 
 Aby uniemo¿liwiæ nazbyt szybkie strzelanie gracz bêdzie mia³ ograniczon¹ maksymaln¹ "szybkoœæ ataku". Jest ona okreœlona jako minimalny czas pomiêdzy kolejnymi strza³ami.
 
-Zosta³y okreœlone nastêpuj¹ce charakterystyki pocisku:
-
-\begin{itemize}
-    \item Obra¿enia - wartoœæ liczbowa okreœlaj¹ca jak mocno pocisk zrani trafionego,
-    \item Szybkoœæ - wartoœæ liczbowa okreœlaj¹ca jak szybko pocisk siê przemieszcza,
-    \item Kolor[Materia³?] - Okreœla wygl¹d pocisku,
-    \item Rozmiar - okreœla wymiary pocisku (najpewniej zwi¹zany (liniowo?) z obra¿eniami),
-    \item W³aœciciel - Gracz, który wyœwietli³ pocisk,
-    \item Efekty przy trafieniu - lista wydarzeñ, które aktywowane zostaj¹ gdy pocisk trafia gracza lub przeszkodê.
-\end{itemize}
-
-Ze strzelaniem zwi¹zane s¹ równie¿ nastêpuj¹ce charakterystyki gracza:
-
-\begin{itemize}
-    \item Pojemnoœæ magazynku,
-    \item Czas prze³adowania,
-    \item Szybkoœæ ataku,
-    % \item (?)Celnoœæ - zmniejsza rozrzut pocisków (TODO: opisaæ rozrzut wy¿ej),
-    \item Charakterystyki wystrzeliwanych pocisków,
-\end{itemize}
+Atrybuty zwi¹zane ze strzelaniem zosta³y zebrane i opisane w tabeli \ref{tab:stats_description}. 
 
 \subsection{System zdrowia i ¿ycia}
 
@@ -81,14 +62,7 @@ Ka¿d¹ rundê gracz rozpoczyna z punktami ¿ycia równymi ich maksymalnej wartoœci. 
 
 W czasie rozgrywki ¿ywotnoœæ postaci bêdzie siê zamoistnie zwiêkszaæ, je¿eli wystarczaj¹co d³ugo nie otrzyma³ obra¿eñ. Nie mo¿e ona jednak przekroczyæ maksymalnej wartoœci.
 
-Okreœlone zostan¹ nastêpuj¹ce charakterystyki postaci:
-\begin{itemize}
-    \item Maksymalna ¿ywotnoœæ postaci - Okreœla z jak¹ liczb¹ punktów ¿ycia rundê rozpoczyna gracz oraz jakiej wartoœci nie mog¹ przekroczyæ jego aktualne punkty ¿ycia w wyniku leczenia.
-    \item Aktualna ¿ywotnoœæ postaci - Okreœla ile punktów ¿ycia aktualnie posiada gracz; zmniejszenie tej wartoœci do 0 oznacza eliminacjê gracza.
-    \item OpóŸnienie leczenia - Okreœla ile czasu po otrzymaniu obra¿eñ postaæ gracza zaczyna siê leczyæ.
-    \item Wartoœæ leczenia - Okreœla ile punktów ¿ycia gracz otrzymuje w ka¿dym okresie leczenia.
-    \item Okres leczenia - Okreœla jak czêsto gracz bêdzie otrzymywa³ punkty ¿ycia podczas leczenia.
-\end{itemize}
+Atrybuty postaci zwi¹zane ze zdrowiem zosta³y zebrane i opisane w tabeli \ref{tab:stats_description}.
 
 \subsection{System rund}
 
@@ -109,7 +83,7 @@ Minimalna liczba rund to rozgrywka, w której w ka¿dej rundzie wygrywa ten sam gr
 \begin{table}
     \small
     \centering
-    \caption{Liczba rund dla ró¿nej liczby graczy i docelowych punktów zwyciêstwa.\\ }%}
+    \caption{Liczba rund dla ró¿nej liczby graczy i docelowych punktów zwyciêstwa.}
     \label{tab:round_count}
     \begin{tabularx}{\linewidth}{|c||X|X|}
         \hline
@@ -130,17 +104,58 @@ Minimalna liczba rund to rozgrywka, w której w ka¿dej rundzie wygrywa ten sam gr
 
 W zwi¹zku ze zwiêkszeniem liczby rund znacznie zwiêkszy siê czas rozgrywki. Z tego wzglêdu dla wiêkszych liczb graczy sugerowane bêd¹ mniejsze cele punktowe, jednak nie zostan¹ one ograniczone domyœlnie; decyzja na temat liczby docelowych punktów zwyciêstwa zostanie pozostawiona hostowi.
 
-\subsection{Charakterystyki pasywne i aktywne}\label{sec:characteristics}
+\subsection{Atrybuty pasywne i aktywne}\label{sec:characteristics}
 
-W celu rezprezentacji ró¿nych cech postaci gracza ka¿dy z nich ma swoje \emph{charakterystyki}. Dziel¹ siê one na pasywne i aktywne.
+W celu rezprezentacji ró¿nych cech postaci gracza ka¿dy z nich ma swoje \emph{atrybuty}. Dziel¹ siê one na pasywne i aktywne.
 
-Charakterystyki pasywne reprezentowane s¹ jedynie jako wartoœci liczbowe, które wp³ywaj¹ na zwyk³e akcje wykonywane przez gracza. Ka¿da z postaci ma charakterystyki pasywne dotycz¹ce jej samej oraz u¿ywanych przez ni¹ pocisków. Ka¿dy z graczy ma sta³y zbiór charakterystyk pasywnych.
+Atrybuty pasywne reprezentowane s¹ jedynie jako wartoœci liczbowe, które wp³ywaj¹ na zwyk³e akcje wykonywane przez gracza. Ka¿da z postaci zapisuje atrybuty pasywne dotycz¹ce jej samej oraz u¿ywanych przez ni¹ pocisków. Ka¿dy z graczy ma sta³y zbiór atrybutów pasywnych.
 
-Charakterystyki aktywne to wydarzenia wywo³ywane w momencie zaistnienia innego wydarzenia. W projektowanych mechanikach jedynym wydarzeniem inicjuj¹cym jest trafienie pociskiem innego gracza lub przeszkody, jednak mo¿liwe jest wprowadzenie kolejnych w czasie rozwoju gry.
+Atrybuty aktywne to wydarzenia wywo³ywane w momencie zaistnienia innego wydarzenia. W projektowanych mechanikach jedynym wydarzeniem inicjuj¹cym jest trafienie pociskiem innego gracza lub przeszkody, jednak mo¿liwe jest wprowadzenie kolejnych w czasie rozwoju gry.
 
-TODO: TABELA, W KTÓREJ ZAWARTE S¥ WSZYSTKIE CHARAKTERYSTYKI [NAZWA + KATEGORIA + OPIS]\\
-TODO: USUN¥Æ CHARAKTERYSTYKI Z ROZDZIA£ÓW + DODAÆ REFERENCJE
-TODO: Dodaæ planowane charakterystyki aktywne (Taki glosariusz dla nastêpnych sekcji)
+% TODO: Dodaæ planowane atrybuty aktywne (Taki glosariusz dla nastêpnych sekcji)
+
+\begin{table}
+    \small
+    \centering
+    \caption{Opis atrybutów postaci i pocisku}
+    \label{tab:stats_description}
+    \begin{tabularx}{\linewidth}{|c|c|X|}
+        \hline
+        Nazwa atrybutu & Kategoria & Opis\\
+        \hline \hline
+        Maksymalna prêdkoœæ & Ruch & Z tak¹ najwy¿sz¹ prêdkoœci¹ mo¿e poruszaæ siê postaæ gracza.\\
+        \hline
+        Maksymalna prêdkoœæ k¹towa & Ruch & Z tak¹ najwy¿sz¹ prêdkoœci¹ k¹tow¹ mo¿e obracaæ siê postaæ gracza.\\
+        \hline
+        Maksymalna ¿ywotnoœæ & Zdrowie & Tyle najwy¿ej punktów zdrowia mo¿e mieæ postaæ. \\
+        \hline 
+        OpóŸnienie leczenia & Zdrowie & Tyle czasu nale¿y odczekaæ od ostatnich otrzymanych obra¿eñ przed rozpoczêciem samoleczenia. \\
+        \hline
+        Okres leczenia & Zdrowie & Tyle czasu up³ywa miêdzy kolejnymi wydarzeniami leczenia. \\
+        \hline
+        Wartoœæ leczenia & Zdrowie & O tak¹ wartoœæ zwiêkszone zostanie aktualne zdrowie postaci w ka¿dym wydarzeniu leczenia.\\
+        \hline
+        Pojemnoœæ magazynku & Strzelanie & Tyle pocisków mo¿e wystrzeliæ gracz przed prze³adowaniem.\\
+        \hline
+        Czas prze³adowania & Strzelanie & Tyle czasu up³ywa pomiêdzy pocz¹tkiem a koñcem prze³adowania. \\
+        \hline
+        Szybkoœæ ataku & Strzelanie & Tyle czasu nale¿y odczekaæ pomiêdzy kolejnymi strza³ami. \\
+        \hline
+        Obra¿enia & Atrybuty pocisku & Wartoœæ o jak¹ zmniejszy siê ¿ycie trafionej pociskiem postaci. \\
+        \hline
+        Szybkoœæ pocisku & Atrybuty pocisku & Szybkoœæ z jak¹ przemieszcza siê pocisk. \\
+        \hline
+        Okres istnienia pocisku & Atrybuty pocisku & Czas, przez jaki istnieje pocisk. Po up³ywie tego czasu od utworzenia, pocisk jest usuwany.\\
+        \hline
+        Rozmiar & Atrybuty pocisku & Okreœla wymiary pocisku. Zwi¹zany z obra¿eniami. Skalowany jest zarówno model jak i figura kolizji. \\
+        \hline
+        W³aœciciel & Atrybuty pocisku & Gracz który wystrzeli³ pocisk.\\
+        \hline
+        Efekty przy trafieniu & Atrybuty pocisku & Wydarzenia wywo³ywane po trafieniu pociskiem w postaæ lub przeszkodê. \\
+        \hline
+    \end{tabularx}
+
+\end{table}
 
 \subsection{Karty ulepszeñ}\label{sec:upgrade_cards}
 
@@ -148,9 +163,9 @@ W czasie rozgrywki gracze bêd¹ otrzymywali ulepszenia wzmacniaj¹ce ich mo¿liwoœc
 
 Po zakoñczeniu rundy, ka¿dy z graczy o najmniejszej liczbie punktów zwyciêstwa otrzyma zestaw losowych kart, spoœród których bêdzie musia³ wybraæ jedn¹. Wybrana karta zostaje zapisana dla tego gracza i od tej pory bêdzie dzia³a³a na jego postaæ. Po wybraniu karty przez ka¿dego z graczy nastêpuje przejœcie do kolejnej rundy.
 
-Ulepszenia nadawane s¹ jedynie postaciom o najmniejszej liczbie punktów zwyciêstwa w celu wyrównania szans pomiêdzy graczami o ró¿nym poziomie umiejêtnoœci. Taka technika nazywana jest \emph{metod¹ gumki recepturki} (ang. \emph{rubberbanding})(cite Practical Game Design).
+Ulepszenia nadawane s¹ jedynie postaciom o najmniejszej liczbie punktów zwyciêstwa w celu wyrównania szans pomiêdzy graczami o ró¿nym poziomie umiejêtnoœci. Taka technika nazywana jest \emph{metod¹ gumki recepturki} (ang. \emph{rubberbanding})\cite{practical_game_design}.
 
-Ka¿da z kart ulepszeñ modyfikuje co najmniej jedn¹ charakterystykê postaci - zwiêksza lub zmniejsza wartoœæ pasywn¹ lub dodaje kolejn¹ charakterystykê aktywn¹. Karta poprawi przynajmniej jedn¹ wartoœæ charakterystyki, jednak mo¿liwe jest, ¿e pogorszy inne charakterystyki aby zbalansowaæ jej dzia³anie. Wprowadza to równie¿ nieoczywist¹ decyzjê do podjêcia dla gracza (przyk³adowo: \emph{Czy warto wybraæ kartê poprawiaj¹c¹ dwukrotnie zadawane obra¿enia, ale obni¿aj¹c¹ o po³owê w³asn¹ ¿ywotnoœæ?}).
+Ka¿da z kart ulepszeñ modyfikuje co najmniej jeden atrybut postaci - zwiêksza lub zmniejsza wartoœæ pasywn¹ lub dodaje kolejny atrybut aktywny. Karta poprawi przynajmniej jedn¹ wartoœæ atrybutu, jednak mo¿liwe jest, ¿e pogorszy inne atrybuty aby zbalansowaæ jej dzia³anie. Wprowadza to równie¿ nieoczywist¹ decyzjê do podjêcia dla gracza (przyk³adowo: \emph{Czy warto wybraæ kartê poprawiaj¹c¹ dwukrotnie zadawane obra¿enia, ale obni¿aj¹c¹ o po³owê w³asn¹ ¿ywotnoœæ?}).
 
 \subsubsection{Pocz¹tkowy zbiór kart}
 W celu zró¿nicowania rozgrywek przygotowane zostanie 20 kart z mo¿liwoœci¹ dodania kolejnych w przysz³oœci. Planowane do zaimplementowania karty przedstawione zosta³y w tabeli \ref{tab:cards}.
@@ -213,7 +228,7 @@ W celu zapewnienia satysfakcjonuj¹cej rozgrywki zostan¹ zastosowane techniki pop
 
 \subsubsection{Buforowanie akcji}
 
-Buforowanie akcji odnosi siê do techniki, w której polecenia wydawane przez gracza s¹ zapisywane w przypadku gdy nie jest mo¿liwe wykonanie ich natychmiast. Akcje wywo³ywane przez te polecenia zostaj¹ aktywowane w momencie gdy nastanie taka mo¿liwoœæ. (TODO: cite https://barbariangrunge.com/game-feel-input-buffering/)
+Buforowanie akcji odnosi siê do techniki, w której polecenia wydawane przez gracza s¹ zapisywane w przypadku gdy nie jest mo¿liwe wykonanie ich natychmiast. Akcje wywo³ywane przez te polecenia zostaj¹ aktywowane w momencie gdy nastanie taka mo¿liwoœæ. \cite{input_buffering}
 
 W przygotowywanej grze ta technika zostanie wykorzystana dla akcji strzelania. Gdy postaæ gracza bêdzie w stanie prze³adowywania lub oczekiwania na kolejny strza³ a gracz wprowadzi polecenie strza³u zostanie ono zapisane na kilka klatek i wykonane, je¿eli w tym czasie ta akcja zostanie odblokowana. 
 
