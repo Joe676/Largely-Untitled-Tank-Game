@@ -25,7 +25,7 @@ Zostan¹ one szczegó³owo opisane w kolejnych sekcjach.
 % \end{itemize}
 
 
-\subsection{Sterowanie gracza}
+\subsection{Sterowanie gracza}\label{sec:steering_concept}
 
 W przypadku wiêkszoœci gier, w których gracz steruje pewn¹ postaci¹ (awatarem), istniej¹ za³o¿enia gracza zwi¹zane z tym jak takie sterowanie implementowane jest w innych produkcjach.
 W projektowanej grze awatarem gracza jest czo³g, wykorzystany zostanie wiêc schemat sterowania zwany "sterowaniem czo³gowym" (ang. \emph{tank controls}). (cite: https://bloody-disgusting.com/news/3224958/horror-declassified-an-examination-of-tank-controls/)
@@ -35,7 +35,9 @@ W tym schemacie sterowania awatar porusza siê w kierunku okreœlonym wzglêdem jeg
 
 Gra przygotowywana jest z myœl¹ o sterowaniu klawiatur¹ i mysz¹, schemat sterowania zostanie wiêc zmapowany na odpowiednie przyciski i gesty zwi¹zane z charakterystyk¹ tych urz¹dzeñ. [tabela ze schematem sterowania]
 
-\subsection{Strzelanie}
+TODO: Tabelka z pe³nym schematem sterowania. - do rodzia³u z projektem.
+
+\subsection{Strzelanie}\label{sec:shooting_concept}
 
 Podstawow¹ akcj¹ wykonywan¹ przez gracza bêdzie strzelanie do przeciwników.
 
@@ -107,7 +109,7 @@ Minimalna liczba rund to rozgrywka, w której w ka¿dej rundzie wygrywa ten sam gr
 \begin{table}
     \small
     \centering
-    \caption{Rozk³ad liczby rund dla ró¿nej liczby graczy i docelowych punktów zwyciêstwa.\\ }%}
+    \caption{Liczba rund dla ró¿nej liczby graczy i docelowych punktów zwyciêstwa.\\ }%}
     \label{tab:round_count}
     \begin{tabularx}{\linewidth}{|c||X|X|}
         \hline
@@ -217,7 +219,7 @@ W przygotowywanej grze ta technika zostanie wykorzystana dla akcji strzelania. G
 
 Zastosowanie tej techniki pozwoli unikn¹æ sytuacji, w której gracz wprowadzi polecenie tu¿ przed zmian¹ stanu. Bez buforowania akcji to polecenie zosta³oby zignorowane, co mo¿e prowadziæ do poczucia niesprawiedliwego potraktowania przez grê. Wprowadzenie buforowania sprawia, ¿e gra \emph{wydaje siê} byæ bardziej sprawiedliwa poprzez wybaczanie drobnych b³êdów gracza.
 
-\subsubsection{Predykcje klienckie}
+\subsubsection{Predykcje klienckie}\label{sec:concept_prediction}
 
 W grze sieciowej nie sposób unikn¹æ opóŸnieñ zwi¹zanych z po³¹czeniem, nawet gdy komputery graczy znajduj¹ siê w tej samej sieci. Przesy³aj¹c pozycjê graczy przez sieæ opóŸnienie i utracone pakiety sprawiaj¹, ¿e postaci innych graczy wygl¹daj¹ jakby "przeskakiwa³y". W zwi¹zku z tym nale¿y wprowadziæ usprawnienia sprawiaj¹ce, ¿e te "przeskoki" nie sa widoczne. 
 
