@@ -6,7 +6,6 @@ export (float) var life_limit : float = 1
 var velocity = Vector3.ZERO
 
 func _ready():
-	# print("bullet shot!")
 	var lifespan_timer = $LifespanTimer
 	lifespan_timer.wait_time = life_limit
 	lifespan_timer.start()

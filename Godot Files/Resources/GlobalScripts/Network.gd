@@ -9,7 +9,6 @@ var client = null
 var ip_address : String = ""
 
 func _ready():
-	# if OS.name == "Windows":
 	ip_address = IP.get_local_addresses()[3]
 	print("Found ip: " + ip_address)
 	get_tree().connect("connected_to_server", self, "_connected_to_server")
@@ -42,6 +41,6 @@ func _player_connected(id: int):
 	
 func _player_disconnected(id: int):
 	print("Player has disconnected: " + str(id))
-
-	if Players.has_node(str(id)):
-		Players.get_node(str(id)).queue_free()
+	#Deal with disconneting
+	if PersistentNodes.has_node(str(id)):
+		PersistentNodes.get_node(str(id)).queue_free()
