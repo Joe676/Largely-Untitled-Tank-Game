@@ -2,12 +2,7 @@ extends Spatial
 
 const camera_target_displaycement = Vector3(0, 20, -40)
 
-func _ready():
-	pass
-	# var current_player = PersistentNodes.get_node(str(get_tree().get_network_unique_id()))
-
-
-func _physics_process(delta):
+func _physics_process(_delta):
 	hook_camera_to_player()
 
 func hook_camera_to_player():

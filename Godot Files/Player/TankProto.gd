@@ -7,11 +7,11 @@ export (PackedScene) var bullet_scene = load("res://Objects/Bullet.tscn")
 export var max_angular_velocity = 40
 export var max_speed = 10
 
+#atributes
+
+
 var velocity: Vector3
 var angular_velocity: int
-
-# var body_transform = Vector3()
-# var head_transform = Vector3()
 
 puppet var puppet_position = Vector3(0, 0, 0) setget set_puppet_position
 puppet var puppet_velocity = Vector3(0, 0, 0)
@@ -25,7 +25,6 @@ func _ready():
 
 func _physics_process(delta):
 	if is_network_master(): # only steer this player's object
-	# if !is_network_master():
 		velocity = Vector3()
 		angular_velocity = 0
 		

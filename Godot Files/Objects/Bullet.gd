@@ -18,6 +18,5 @@ func _physics_process(delta):
 func _on_LifespanTimer_timeout():
 	queue_free()
 
-func _on_Bullet_body_entered(body:Node):
-	# print("hit: " + str(body.name))
+func _on_Bullet_body_entered(_body:Node):
 	queue_free()
