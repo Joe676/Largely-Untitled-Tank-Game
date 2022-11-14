@@ -4,10 +4,26 @@ onready var tween = $Tween
 
 export (PackedScene) var bullet_scene = load("res://Objects/Bullet.tscn")
 
-export var max_angular_velocity = 40
-export var max_speed = 10
 
 #atributes
+#movement
+export(int) var max_speed: int = 10 
+export(int) var max_angular_speed: int = 40
+export(int) var max_health: int = 100
+#healing
+export(float) var time_to_healing: float = 5.0
+export(float) var time_between_healing: float = 1.0
+export(int, 0, 100) var healing_value: int = 5
+#shooting
+export(int) var max_bullets: int = 6
+export(float) var reload_time: float = 1.5
+export(float) var shooting_cooldown_time: float = 0.4
+#bullet characteristics
+export(int) var bullet_damage: int = 40
+export(int) var bullet_speed: int = 20
+export(float) var bullet_lifetime: float = 2.0
+export(float) var bullet_size: float = 4.0 #scale
+var bullet_on_hit: Array = []
 
 
 var velocity: Vector3
@@ -18,7 +34,6 @@ puppet var puppet_velocity = Vector3(0, 0, 0)
 
 puppet var puppet_body_rotation = 0
 puppet var puppet_head_rotation = 0
-
 
 func _ready():
 	print("ready")
@@ -38,7 +53,7 @@ func _physics_process(delta):
 		# interpret inputs
 		velocity.z = forward_input*max_speed
 		velocity = move_and_slide(velocity.rotated(Vector3(0, 1, 0), rotation.y))
-		angular_velocity = turn_input*max_angular_velocity
+		angular_velocity = turn_input*max_angular_speed
 		rotate_y(deg2rad(angular_velocity)*delta)
 		
 		# get mouse position and rotate barrel towards it
@@ -59,8 +74,8 @@ func _physics_process(delta):
 			puppet_velocity = move_and_slide(puppet_velocity.rotated(Vector3(0, 1, 0), rotation.y))
 
 func shoot():
-	var bullet_transform = get_node("Model/Head/Barrel/BulletOrigin").global_transform
-	var new_bullet = bullet_scene.instance()
+	var bullet_transform: Transform = get_node("Model/Head/Barrel/BulletOrigin").global_transform
+	var new_bullet = bullet_scene.instance().ctor(bullet_damage, bullet_speed, bullet_lifetime, bullet_size, bullet_on_hit)
 	get_parent().add_child(new_bullet)
 	new_bullet.transform = bullet_transform
 

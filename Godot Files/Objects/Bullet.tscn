@@ -21,9 +21,8 @@ height = 0.5
 [node name="Bullet" type="Area"]
 script = ExtResource( 1 )
 speed = 50
-life_limit = 2.0
 
-[node name="MeshInstance" type="MeshInstance" parent="."]
+[node name="Mesh" type="MeshInstance" parent="."]
 mesh = SubResource( 1 )
 material/0 = SubResource( 2 )
 
