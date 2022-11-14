@@ -12,7 +12,7 @@ func instance_node(node:Object, parent:Object)->Object:
 
 func instance_player(id):
 	var player = load("res://Player/TankProto.tscn")
-	var player_instance = Global.instance_node_at_location(player, Players, Vector3(rand_range(-10, 10), 0, rand_range(-10, 10)))
+	var player_instance = Global.instance_node_at_location(player, PersistentNodes, Vector3(rand_range(-10, 10), 0, rand_range(-10, 10)))
 	player_instance.name = str(id)
 	player_instance.set_network_master(id)
 	

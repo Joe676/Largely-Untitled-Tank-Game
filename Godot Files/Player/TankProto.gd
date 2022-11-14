@@ -53,20 +53,10 @@ func _physics_process(delta):
 			ball.transform.origin = pointed_position
 			
 	else: # This is another player - move them according to the data from network
-		# var body_quat = Quat(transform.basis)
-		# var pup_body_quat = Quat(puppet_body_transform)
-		# var body_rotated = body_quat.slerp(pup_body_quat, 0.5)
-
-		# var head_quat = Quat($Model/Head.transform.basis)
-		# var pup_head_quat = Quat(puppet_head_transform)
-		# var head_rotated = head_quat.slerp(pup_head_quat, 0.5)
-
-		# transform.basis = Basis(body_rotated)
-		# $Model/Head.transform.basis = Basis(head_rotated)
 		rotation.y = puppet_body_rotation
 		$Model/Head.rotation.y = puppet_head_rotation
 
-		if not tween.is_active():
+		if not tween.is_active(): # Client predictions
 			puppet_velocity = move_and_slide(puppet_velocity.rotated(Vector3(0, 1, 0), rotation.y))
 
 func shoot():
@@ -99,7 +89,7 @@ func mousePositionToWorldPosition():
 func set_puppet_position(new_value) -> void:
 	puppet_position = new_value
 
-	tween.interpolate_property(self, "global_translation", global_translation, puppet_position, 0.1)
+	tween.interpolate_property(self, "global_translation", global_translation, puppet_position, 0.1) # Interpolate position to compensate for lag
 	tween.start()
 
 func _on_NetworkTickRate_timeout():
