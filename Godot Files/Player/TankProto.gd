@@ -4,7 +4,6 @@ onready var tween = $Tween
 
 export (PackedScene) var bullet_scene = load("res://Objects/Bullet.tscn")
 
-
 #atributes
 #movement
 export(int) var max_speed: int = 10 
@@ -22,7 +21,7 @@ export(float) var shooting_cooldown_time: float = 0.4
 export(int) var bullet_damage: int = 40
 export(int) var bullet_speed: int = 20
 export(float) var bullet_lifetime: float = 2.0
-export(float) var bullet_size: float = 4.0 #scale
+export(float) var bullet_size: float = 1.0 #scale
 var bullet_on_hit: Array = []
 
 
