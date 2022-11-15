@@ -1,0 +1,63 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Player/TankProto.gd" type="Script" id=1]
+[ext_resource path="res://Objects/Bullet.tscn" type="PackedScene" id=2]
+
+[sub_resource type="CubeMesh" id=2]
+size = Vector3( 3, 2, 4 )
+
+[sub_resource type="SphereMesh" id=3]
+radius = 0.9
+height = 1.8
+
+[sub_resource type="CylinderMesh" id=4]
+top_radius = 0.4
+bottom_radius = 0.4
+height = 3.0
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 1.5, 1, 2 )
+
+[node name="Tank" type="KinematicBody"]
+script = ExtResource( 1 )
+bullet_scene = ExtResource( 2 )
+
+[node name="Model" type="Spatial" parent="."]
+
+[node name="Body" type="Spatial" parent="Model"]
+
+[node name="Body" type="MeshInstance" parent="Model/Body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+mesh = SubResource( 2 )
+skeleton = NodePath("../../..")
+
+[node name="Head" type="Spatial" parent="Model"]
+
+[node name="Tower" type="MeshInstance" parent="Model/Head"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
+mesh = SubResource( 3 )
+__meta__ = {
+"_editor_description_": "Where the barrel is located"
+}
+
+[node name="Barrel" type="MeshInstance" parent="Model/Head"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2.4, -1.5 )
+mesh = SubResource( 4 )
+__meta__ = {
+"_editor_description_": "Barrel of the tank"
+}
+
+[node name="BulletOrigin" type="Spatial" parent="Model/Head/Barrel"]
+transform = Transform( -1, -8.74228e-08, 3.82137e-15, 0, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, 0, -1.5, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = SubResource( 1 )
+
+[node name="NetworkTickRate" type="Timer" parent="."]
+wait_time = 0.03
+autostart = true
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="timeout" from="NetworkTickRate" to="." method="_on_NetworkTickRate_timeout"]
