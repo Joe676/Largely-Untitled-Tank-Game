@@ -4,7 +4,7 @@ onready var tween = $Tween
 
 export (PackedScene) var bullet_scene = load("res://Objects/Bullet.tscn")
 
-#atributes
+#attributes
 #movement
 export(int) var max_speed: int = 10 
 export(int) var max_angular_speed: int = 40
@@ -19,11 +19,13 @@ export(float) var reload_time: float = 1.5
 export(float) var shooting_cooldown_time: float = 0.4
 #bullet characteristics
 export(int) var bullet_damage: int = 40
-export(int) var bullet_speed: int = 20
+export(int) var bullet_speed: int = 5
 export(float) var bullet_lifetime: float = 2.0
 export(float) var bullet_size: float = 1.0 #scale
 var bullet_on_hit: Array = []
 
+var can_shoot: bool = true
+var is_reloading: bool = false
 
 var velocity: Vector3
 var angular_velocity: int
@@ -46,8 +48,9 @@ func _physics_process(delta):
 		var forward_input = int(Input.is_action_pressed("Forward")) - int(Input.is_action_pressed("Back"))
 		var turn_input = int(Input.is_action_pressed("Left")) - int(Input.is_action_pressed("Right"))
 		
-		if Input.is_action_just_pressed("MainAction"):
-			shoot()
+		if Input.is_action_just_pressed("MainAction") and can_shoot:
+			if not is_reloading:
+				shoot()
 		
 		# interpret inputs
 		velocity.z = forward_input*max_speed
@@ -73,10 +76,8 @@ func _physics_process(delta):
 			puppet_velocity = move_and_slide(puppet_velocity.rotated(Vector3(0, 1, 0), rotation.y))
 
 func shoot():
-	var bullet_transform: Transform = get_node("Model/Head/Barrel/BulletOrigin").global_transform
-	var new_bullet = bullet_scene.instance().ctor(bullet_damage, bullet_speed, bullet_lifetime, bullet_size, bullet_on_hit)
-	get_parent().add_child(new_bullet)
-	new_bullet.transform = bullet_transform
+	rpc("instance_bullet", get_tree().get_network_unique_id())
+
 
 func flatten(vector: Vector3) -> Vector3:
 	return Vector3(vector.x, 0, vector.z)
@@ -112,3 +113,14 @@ func _on_NetworkTickRate_timeout():
 
 		rset_unreliable("puppet_body_rotation", rotation.y)
 		rset_unreliable("puppet_head_rotation", $Model/Head.rotation.y)
+
+sync func instance_bullet(id):
+	var bullet_transform: Transform = get_node("Model/Head/Barrel/BulletOrigin").global_transform
+	var new_bullet = Global.instance_node_with_transform(bullet_scene, bullet_transform)\
+		.ctor(bullet_damage, bullet_speed, bullet_lifetime, bullet_size, bullet_on_hit, id, bullet_transform)
+	
+	Global.name_networked_object(new_bullet, name, "Bullet")
+	new_bullet.set_network_master(id)
+
+	get_parent().add_child(new_bullet)
+	pass

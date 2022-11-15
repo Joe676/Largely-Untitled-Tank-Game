@@ -8,6 +8,9 @@ var client = null
 
 var ip_address : String = ""
 
+var networked_object_name_index: int = 0 setget set_networked_object_name_index
+puppet var puppet_networked_object_name_index: int setget set_puppet_networked_object_name_index
+
 func _ready():
 	ip_address = IP.get_local_addresses()[3]
 	print("Found ip: " + ip_address)
@@ -43,3 +46,11 @@ func _player_disconnected(id: int):
 	#Deal with disconneting
 	if PersistentNodes.has_node(str(id)):
 		PersistentNodes.get_node(str(id)).queue_free()
+
+func set_puppet_networked_object_name_index(new_value) -> void:
+	networked_object_name_index = new_value
+
+func set_networked_object_name_index(new_value) -> void:
+	networked_object_name_index = new_value
+	if(get_tree().is_network_server()):
+		rset("puppet_networked_object_name_index", networked_object_name_index)
