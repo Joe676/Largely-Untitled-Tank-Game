@@ -54,7 +54,6 @@ func _physics_process(delta):
 		transform.origin += velocity * speed * delta
 	else:
 		print("puppet velocity", puppet_velocity)
-		# transform = puppet_transform
 		transform.origin += puppet_velocity * speed * delta
 
 sync func destroy() -> void:
