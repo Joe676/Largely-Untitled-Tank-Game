@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Player/TankProto.gd" type="Script" id=1]
 [ext_resource path="res://Objects/Bullet.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/HUD.tscn" type="PackedScene" id=3]
 
 [sub_resource type="CubeMesh" id=2]
 size = Vector3( 3, 2, 4 )
@@ -59,5 +60,7 @@ wait_time = 0.03
 autostart = true
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="HUD" parent="." instance=ExtResource( 3 )]
 
 [connection signal="timeout" from="NetworkTickRate" to="." method="_on_NetworkTickRate_timeout"]

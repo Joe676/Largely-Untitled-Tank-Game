@@ -24,6 +24,7 @@ func instance_player(id):
 	var player_instance = Global.instance_node_at_location(player, PersistentNodes, Vector3(rand_range(-10, 10), 0, rand_range(-10, 10)))
 	player_instance.name = str(id)
 	player_instance.set_network_master(id)
+	player_instance.set_up()
 	
 func name_networked_object(node: Node, creator_name: String, base_name: String) -> String:
 	var node_name = base_name + creator_name + str(Network.networked_object_name_index)

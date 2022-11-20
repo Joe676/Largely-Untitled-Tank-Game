@@ -1,5 +1,8 @@
 extends KinematicBody
 
+signal health_updated(new_value, max_health)#, player_id)
+signal died
+
 onready var tween = $Tween
 
 export (PackedScene) var bullet_scene = load("res://Objects/Bullet.tscn")
@@ -31,6 +34,7 @@ var velocity: Vector3
 var angular_velocity: int
 
 var current_health: int setget set_current_health
+puppet var puppet_current_health: int setget set_puppet_current_health
 
 puppet var puppet_position = Vector3(0, 0, 0) setget set_puppet_position
 puppet var puppet_velocity = Vector3(0, 0, 0)
@@ -39,8 +43,20 @@ puppet var puppet_body_rotation = 0
 puppet var puppet_head_rotation = 0
 
 func _ready():
+	start_round()
+
+func set_up():
+	if is_network_master():
+		connect("health_updated", $HUD/OwnInfo, "_on_health_updated")
+		emit_signal("health_updated", current_health, max_health)
+		print("health signal connected")
+	else:
+		$HUD.visible = false
+	
+func start_round():
 	current_health = max_health
-	print("ready")
+	$CollisionShape.disabled = false
+	# print("Player ", name, "is ready for the round")
 
 func _physics_process(delta):
 	if is_network_master(): # only steer this player's object
@@ -80,7 +96,6 @@ func _physics_process(delta):
 
 func shoot():
 	rpc("instance_bullet", get_tree().get_network_unique_id())
-
 
 func flatten(vector: Vector3) -> Vector3:
 	return Vector3(vector.x, 0, vector.z)
@@ -131,9 +146,28 @@ sync func instance_bullet(id):
 sync func die():
 	can_shoot = 0
 	hide()
-	print("Player died!")
+	$CollisionShape.disabled = true
+	emit_signal("died")
+	# print("Player ", name, " died!")
 
 func set_current_health(new_value):
 	current_health = new_value if new_value >= 0 else 0
-	if current_health == 0:
-		rpc("die")
+	# print("current_health updated, now it's ", current_health)
+	emit_signal("health_updated", current_health, max_health)#, name)
+	if is_network_master():
+		rset("puppet_current_health", current_health)
+		if current_health == 0:
+			rpc("die")
+
+func set_puppet_current_health(new_value):
+	puppet_current_health = new_value
+	if not is_network_master():
+		current_health = puppet_current_health
+
+func damage(amount):
+	if get_tree().is_network_server():
+		rpc("update_health", -amount)
+		
+sync func update_health(amount):
+	set_current_health(current_health + amount)
+	

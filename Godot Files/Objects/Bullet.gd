@@ -53,17 +53,20 @@ func _physics_process(delta):
 	if(is_network_master()):
 		transform.origin += velocity * speed * delta
 	else:
-		print("puppet velocity", puppet_velocity)
+		# print("puppet velocity", puppet_velocity)
 		transform.origin += puppet_velocity * speed * delta
 
 sync func destroy() -> void:
-	print("rpc destroying the bullet")
+	# print("rpc destroying the bullet")
 	queue_free()
 
 func _on_LifespanTimer_timeout():
-	if(is_network_master()):
+	if is_network_master():
 		rpc("destroy")
 
-func _on_Bullet_body_entered(_body:Node):
-	if(is_network_master()):
+func _on_Bullet_body_entered(body:Node):
+	if body.has_method("damage"):
+		print("player ", body.name, " hit!")
+		body.damage(damage)
+	if is_network_master():
 		rpc("destroy")
