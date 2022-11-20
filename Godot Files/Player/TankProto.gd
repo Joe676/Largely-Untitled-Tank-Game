@@ -30,6 +30,8 @@ var is_reloading: bool = false
 var velocity: Vector3
 var angular_velocity: int
 
+var current_health: int setget set_current_health
+
 puppet var puppet_position = Vector3(0, 0, 0) setget set_puppet_position
 puppet var puppet_velocity = Vector3(0, 0, 0)
 
@@ -37,6 +39,7 @@ puppet var puppet_body_rotation = 0
 puppet var puppet_head_rotation = 0
 
 func _ready():
+	current_health = max_health
 	print("ready")
 
 func _physics_process(delta):
@@ -124,3 +127,13 @@ sync func instance_bullet(id):
 
 	get_parent().add_child(new_bullet)
 	pass
+
+sync func die():
+	can_shoot = 0
+	hide()
+	print("Player died!")
+
+func set_current_health(new_value):
+	current_health = new_value if new_value >= 0 else 0
+	if current_health == 0:
+		rpc("die")
