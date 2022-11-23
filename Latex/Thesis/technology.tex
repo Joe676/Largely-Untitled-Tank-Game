@@ -15,6 +15,27 @@ Do podstawowych zadañ silnika gier nale¿¹:
 \end{itemize}
 
 \section{Silnik Godot}
-Przygotowanie projektu odbêdzie siê z wykorzystaniem silnika gier Godot\cite{godot_docs}. 
+Silnik Godot\cite{godot_main} jest darmowym silnikiem gier s³u¿¹cym do rozwoju gier 2D oraz 3D. Jest rozwijany od roku 2007, z pierwsz¹ pe³n¹ wersj¹ dostêpn¹ od 2014 roku. W tym samym roku projekt zosta³ udostêpniony otwartoŸród³owo na platformie GitHub\cite{godot_github}, z licencj¹ MIT. Od tego czasu Godot jest nieustannie rozwijany, czego efektem jest wiele dostêpnych wersji oprogramowania. 
+
+W momencie tworzenia projektu najnowsza dostêpna wersja silnika to beta wersji 4.0. Dodaje ona szereg usprawnieñ wzglêdem wersji 3.x, w szczególnoœci te dotycz¹ce wydajnoœci i renderowania grafiki 3D. Jest ona jednak dostêpna we wczesnej fazie rozwoju, co mo¿e powodowaæ problemy ze stabilnoœci¹ oraz dostêpnoœci¹ rozszerzeñ. Dla wersji 4.0 jest równie¿ niewiele dostêpnych materia³ów edukacyjnych. Z tych wzglêdów zdecydowano o wykorzystaniu najnowszej (w momencie rozpoczynania projektu) stabilnej wersji - 3.5. 
+
+\subsection{Jêzyk GDScript}
+Godot umo¿liwia pisanie kodu z wykorzystaniem kilku jêzyków. Przez twórców projektu wspierane s¹ jêzyki C\# i C++, oraz interfejs programowania wizualnego. Z wykorzystaniem rozszerzeñ przygotowanych przez spo³ecznoœæ mo¿liwe jest dodanie wsparcia dla wielu innych jêzyków. Domyœlnym jêzykiem dla Godota jest jednak ich w³asny jêzyk GDScript. 
+
+Sk³adnia GDScripta jest oparta o sk³adniê Pythona - bloki kodu oddzielone s¹ wciêciami, a nie nawiasami. Te dwa jêzyki dziel¹ równie¿ wiele podstawowych s³ów kluczowych. 
+
+\subsection{Drzewo gry}
+Podstawow¹ abstrakcj¹, z jak¹ budowane s¹ gry w Godocie jest ich podzia³ na drzewo wêz³ów (ang. \emph{node}). Wêz³y mog¹ byæ grupowane w sceny (ang. \emph{scenes}) w celu umo¿liwienia ponownego ich wykorzystywania. Sceny równie¿ reprezentowane s¹ jako drzewo wêz³ów z których siê sk³adaj¹. 
+
+Godot dostarcza wiele rodzajów wêz³ów, umo¿liwiaj¹cych wprowadzenie do gry najwa¿niejszych funkcjonalnoœci. 
+
+\begin{itemize}
+    \item[\textbf{\texttt{Node}}] Podstawowy, pusty wêze³. Najczêœciej wykorzystywany jako kontener na inne wêz³y. Jest równie¿ baz¹ dla wspieraj¹cych wêz³ów takich jak \texttt{Timer}, \texttt{Tween} czy \texttt{AnimationPlayer}.
+    \item[\textbf{\texttt{Spatial}}] Wêze³ przestrzenny, bêd¹cy baz¹ wszystkich wêz³ów wykorzystywanych w grach 3D, m.in. \texttt{Camera}, \texttt{PhysicsBody}, \texttt{CollisionShape}. Zawiera podstawowe informacje na temat po³o¿enia w przestrzeni.
+    \item[\textbf{\texttt{Control}}] Wêze³ bêd¹cy baz¹ wêz³ów interfejsu u¿ytkownika takich jak \texttt{Button}, \texttt{Label} czy \texttt{ColorRect}.
+    \item[\textbf{\texttt{Node2D}}] Podstawowy wêze³ dla elementów gier dwuwymiarowych. Zawiera w sobie przede wszystkim informacje o po³o¿eniu na p³aszczyŸnie. 
+\end{itemize}
+
+W czasie rozgrywki silnik tworzy drzewo z korzeniem nazwanym \texttt{root}. Jako jego dziecko inicjowana jest scena g³ówna, okreœlona w ustawieniach projektu. Ponadto inicjowane s¹ sceny statyczne, które równie¿ mog¹ byæ okreœlone w ustawieniach projektu jako ,,Auto³adowane''. Takie sceny pozwalaj¹ na globalny dostêp z innych miejsc drzewa, umo¿liwiaj¹ przechowywanie danych dostêpnych miêdzy zmianami scen oraz pozwalaj¹ na implementacjê wzorca projektowego singletonu\cite{singleton_refactoring_guru}. Jednak, jak podkreœlono w dokumentacji, samo auto³adowanie sceny nie tworzy singletonu, poniewa¿ mo¿liwe jest ponowne instancjonowanie scen auto³adowanych. 
 
 \section{GUT}
