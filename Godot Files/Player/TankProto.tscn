@@ -63,4 +63,22 @@ autostart = true
 
 [node name="HUD" parent="." instance=ExtResource( 3 )]
 
+[node name="Timers" type="Node" parent="."]
+
+[node name="ShootingTimer" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="ReloadTimer" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="PreHealTimer" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="HealTimer" type="Timer" parent="Timers"]
+autostart = true
+
 [connection signal="timeout" from="NetworkTickRate" to="." method="_on_NetworkTickRate_timeout"]
+[connection signal="timeout" from="Timers/ShootingTimer" to="." method="_on_ShootingTimer_timeout"]
+[connection signal="timeout" from="Timers/ReloadTimer" to="." method="_on_ReloadTimer_timeout"]
+[connection signal="timeout" from="Timers/PreHealTimer" to="." method="_on_PreHealTimer_timeout"]
+[connection signal="timeout" from="Timers/HealTimer" to="." method="_on_HealTimer_timeout"]

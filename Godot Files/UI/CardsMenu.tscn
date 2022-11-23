@@ -1,0 +1,46 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Resources/Themes/BaseTheme.tres" type="Theme" id=1]
+
+[node name="CardsMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.176471, 0.176471, 0.176471, 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Label" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_top = 10.0
+margin_bottom = 14.0
+grow_horizontal = 2
+theme = ExtResource( 1 )
+text = "Choose a Card"
+uppercase = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -280.0
+margin_bottom = 280.0
+custom_constants/separation = 30
+alignment = 1
+
+[node name="Button" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_top = -130.0
+margin_bottom = -20.0
+grow_horizontal = 2
+theme = ExtResource( 1 )
+text = "SELECT"
+flat = true

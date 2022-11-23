@@ -17,7 +17,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Network="*res://Resources/GlobalScripts/Network.gd"
-Global="*res://Global.gd"
+Global="*res://Resources/GlobalScripts/Global.gd"
 PersistentNodes="*res://Resources/GlobalScripts/PersistentNodes.tscn"
 
 [display]

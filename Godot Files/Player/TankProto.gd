@@ -1,9 +1,17 @@
 extends KinematicBody
 
 signal health_updated(new_value, max_health)#, player_id)
+signal bullets_updated(current_bullets, max_bullets)
 signal died
 
 onready var tween = $Tween
+onready var own_info_hud = $HUD/OwnInfo
+onready var reloading_lbl = $HUD/OwnInfo/VFlowContainer/ReloadingLabel
+
+onready var shooting_timer: Timer = $Timers/ShootingTimer
+onready var reload_timer: Timer = $Timers/ReloadTimer
+onready var pre_heal_timer: Timer = $Timers/PreHealTimer
+onready var heal_timer: Timer = $Timers/HealTimer
 
 export (PackedScene) var bullet_scene = load("res://Objects/Bullet.tscn")
 
@@ -27,14 +35,17 @@ export(float) var bullet_lifetime: float = 2.0
 export(float) var bullet_size: float = 1.0 #scale
 var bullet_on_hit: Array = []
 
-var can_shoot: bool = true
-var is_reloading: bool = false
-
 var velocity: Vector3
 var angular_velocity: int
 
 var current_health: int setget set_current_health
 puppet var puppet_current_health: int setget set_puppet_current_health
+
+var current_bullets: int
+
+var is_reloading: bool = false
+var has_just_shot: bool = false
+var can_shoot: bool = true
 
 puppet var puppet_position = Vector3(0, 0, 0) setget set_puppet_position
 puppet var puppet_velocity = Vector3(0, 0, 0)
@@ -47,15 +58,32 @@ func _ready():
 
 func set_up():
 	if is_network_master():
-		connect("health_updated", $HUD/OwnInfo, "_on_health_updated")
+		connect("health_updated", own_info_hud, "_on_health_updated")
 		emit_signal("health_updated", current_health, max_health)
-		print("health signal connected")
+
+		connect("bullets_updated", own_info_hud, "_on_bullets_updated")
+		emit_signal("bullets_updated", current_bullets, max_bullets)
+		
+		print("health and bullets signals connected")
 	else:
 		$HUD.visible = false
-	
+
+func set_timers():
+	shooting_timer.stop()
+	reload_timer.stop()
+	pre_heal_timer.stop()
+	heal_timer.stop()
+	shooting_timer.wait_time = shooting_cooldown_time
+	reload_timer.wait_time = reload_time
+	pre_heal_timer.wait_time = time_to_healing
+	heal_timer.wait_time = time_between_healing
+
 func start_round():
 	current_health = max_health
 	$CollisionShape.disabled = false
+	set_timers()
+	current_bullets = max_bullets
+	emit_signal("bullets_updated", current_bullets, max_bullets)
 	# print("Player ", name, "is ready for the round")
 
 func _physics_process(delta):
@@ -68,7 +96,7 @@ func _physics_process(delta):
 		var turn_input = int(Input.is_action_pressed("Left")) - int(Input.is_action_pressed("Right"))
 		
 		if Input.is_action_just_pressed("MainAction") and can_shoot:
-			if not is_reloading:
+			if not has_just_shot and not is_reloading:
 				shoot()
 		
 		# interpret inputs
@@ -96,6 +124,17 @@ func _physics_process(delta):
 
 func shoot():
 	rpc("instance_bullet", get_tree().get_network_unique_id())
+	has_just_shot = true
+	shooting_timer.start()
+	current_bullets -= 1
+	emit_signal("bullets_updated", current_bullets, max_bullets)
+	if current_bullets == 0:
+		start_reload()
+
+func start_reload():
+	is_reloading = true
+	reload_timer.start()
+	reloading_lbl.visible = true
 
 func flatten(vector: Vector3) -> Vector3:
 	return Vector3(vector.x, 0, vector.z)
@@ -165,9 +204,27 @@ func set_puppet_current_health(new_value):
 		current_health = puppet_current_health
 
 func damage(amount):
+	heal_timer.stop()
+	heal_timer.paused = true
+	pre_heal_timer.start()
 	if get_tree().is_network_server():
 		rpc("update_health", -amount)
 		
 sync func update_health(amount):
 	set_current_health(current_health + amount)
-	
+
+func _on_ShootingTimer_timeout():
+	has_just_shot = false
+
+func _on_PreHealTimer_timeout():
+	heal_timer.paused = false
+	heal_timer.start()
+
+func _on_HealTimer_timeout():
+	update_health(healing_value)
+
+func _on_ReloadTimer_timeout():
+	is_reloading = false
+	current_bullets = max_bullets
+	emit_signal("bullets_updated", current_bullets, max_bullets)
+	reloading_lbl.visible = false

@@ -1,0 +1,87 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Resources/Themes/BaseTheme.tres" type="Theme" id=1]
+
+[node name="Lobby" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.176471, 0.176471, 0.176471, 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Title" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_top = 40.0
+grow_horizontal = 2
+theme = ExtResource( 1 )
+text = "Lobby"
+uppercase = true
+
+[node name="ServerIP" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -79.0
+margin_top = 136.0
+margin_right = 80.0
+margin_bottom = 232.0
+grow_horizontal = 2
+theme = ExtResource( 1 )
+text = "Server IP: 0.0.0.0"
+
+[node name="NumberOfPlayers" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -204.0
+margin_top = 232.0
+margin_right = 205.0
+margin_bottom = 328.0
+grow_horizontal = 2
+theme = ExtResource( 1 )
+text = "# players connected"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = 130.0
+margin_top = -130.0
+margin_right = -130.0
+margin_bottom = 317.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackBtn" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -5.0
+margin_top = -120.0
+margin_right = 7.0
+margin_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource( 1 )
+text = "Back to Menu"
+flat = true
+
+[node name="StartBtn" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -163.0
+margin_top = -223.0
+margin_right = 165.0
+margin_bottom = -121.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource( 1 )
+text = "Start Game"
+flat = true
