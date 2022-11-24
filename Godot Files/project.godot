@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Node",
+"class": "BaseCard",
+"language": "GDScript",
+"path": "res://Objects/Cards/BaseCard.gd"
+} ]
+_global_script_class_icons={
+"BaseCard": ""
+}
+
 [application]
 
 config/name="TankGame"
@@ -16,6 +26,8 @@ config/icon="res://icon.png"
 
 [autoload]
 
+CommandsRepository="*res://Resources/CommandsRepository.gd"
+CardsRepository="*res://Objects/Cards/CardsRepository.gd"
 Network="*res://Resources/GlobalScripts/Network.gd"
 Global="*res://Resources/GlobalScripts/Global.gd"
 PersistentNodes="*res://Resources/GlobalScripts/PersistentNodes.tscn"

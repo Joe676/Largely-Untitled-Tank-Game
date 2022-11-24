@@ -35,6 +35,8 @@ export(float) var bullet_lifetime: float = 2.0
 export(float) var bullet_size: float = 1.0 #scale
 var bullet_on_hit: Array = []
 
+var cards: Array = []
+
 var velocity: Vector3
 var angular_velocity: int
 
@@ -54,6 +56,7 @@ puppet var puppet_body_rotation = 0
 puppet var puppet_head_rotation = 0
 
 func _ready():
+	CardsRepository.life_steal_card.attach_to_player(self)
 	start_round()
 
 func set_up():
