@@ -56,7 +56,6 @@ puppet var puppet_body_rotation = 0
 puppet var puppet_head_rotation = 0
 
 func _ready():
-	CardsRepository.life_steal_card.attach_to_player(self)
 	start_round()
 
 func set_up():
@@ -82,6 +81,7 @@ func set_timers():
 	heal_timer.wait_time = time_between_healing
 
 func start_round():
+	CardsRepository.life_steal_card.attach_to_player(self)
 	current_health = max_health
 	$CollisionShape.disabled = false
 	set_timers()

@@ -4,7 +4,7 @@ var _base_command = preload("res://Resources/BaseCommand.gd")
 
 func _steal_health(bullet, hit_body, _hit_point):
 	var shooter_id: int = bullet.owner_id
-	if str(shooter_id) == hit_body.name:
+	if str(shooter_id) == hit_body.name or not hit_body.get("current_health"):
 		return
 	var shooter = get_node("/root/PersistentNodes/%d" % shooter_id)
 	var healing_value = min(bullet.damage, hit_body.current_health)

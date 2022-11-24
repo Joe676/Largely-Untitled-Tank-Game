@@ -12,10 +12,8 @@ var networked_object_name_index: int = 0 setget set_networked_object_name_index
 puppet var puppet_networked_object_name_index: int setget set_puppet_networked_object_name_index
 
 func _ready():
-	print(IP.get_local_addresses())
-	# ip_address = IP.get_local_addresses()[3]
 	ip_address = IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")),1) #https://godotengine.org/qa/105799/how-to-get-local-ip-address
-	print("Found ip: " + ip_address)
+	print("My ip: " + ip_address)
 	get_tree().connect("connected_to_server", self, "_connected_to_server")
 	get_tree().connect("server_disconnected", self, "_server_disconnected")
 	get_tree().connect("network_peer_connected", self, "_player_connected")

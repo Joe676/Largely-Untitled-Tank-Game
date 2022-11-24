@@ -21,5 +21,6 @@ func attach_to_player(player: KinematicBody):
 	# if player.get("bullet_on_hit"):
 	player["bullet_on_hit"].append_array(on_hit)
 	print(player["bullet_on_hit"].size(), " on hit events attached")
+	print(player["bullet_on_hit"])
 	if player.get("cards"):
 		player["cards"].append(self)
