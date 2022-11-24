@@ -21,12 +21,9 @@ Aby móc programowaæ i testowaæ implementacje mechanik niezbêdne by³o przygotowan
 
 Awatar gracza zosta³ z³o¿ony z dwóch czêœci - cia³a (ang. \emph{body}) i g³owy (ang. \emph{head}). S¹ to jedynie nazwy dla prostego rozró¿nienia kad³uba od wie¿yczki wraz z luf¹. Taki podzia³ zosta³ wprowadzony w celu prostszego i niezale¿ego sterowania transformacj¹ oraz rotacj¹ tych elementów. Ca³oœæ zosta³a przygotowana z wykorzystaniem trzech bry³ - prostopad³oœcianu dla cia³a, kuli dla wie¿yczki oraz walca dla lufy.
 
-TODO: screen z modelem z prototypu
-
-TODO: consider opisaæ sceny godot - system wêz³ów i drzewa, obiekty, skrypty
 
 \subsection{Poruszanie}
-Zosta³ wprowadzony schemat sterowania zgodny z ustaleniami sekcji \ref{sec:steering_concept} oraz tabeli TODO: ref tabelkê ze sterowaniem. 
+Zosta³ wprowadzony schemat sterowania zgodny z ustaleniami sekcji \ref{sec:steering_concept} oraz tabeli \ref{tab:steering}. 
 
 Postaæ gracza poruszana jest jedynie w przypadku je¿eli odpowiedni przycisk jest przytrzymywany. W tym celu w procesie fizycznym wykonywane jest sprawdzenie wprowadzanych przez gracza poleceñ. 
 
@@ -39,7 +36,7 @@ var forward_input = int(Input.is_action_pressed("Forward")) - int(Input.is_actio
 var turn_input = int(Input.is_action_pressed("Left")) - int(Input.is_action_pressed("Right"))
 \end{lstlisting}
 
-\texttt{Input} jest obiektem tworzonym przez silnik, singletonem, który zarz¹dza interfejsami poleceñ gracza takimi jak klawiatura i mysz. Zamiast metody \texttt{is\_action\_pressed}, która sprawdza aktualny stan akcji, mo¿liwe jest równie¿ wykorzystanie metody \texttt{get\_axis}, która pozwala skróciæ powy¿szy zapis zachowuj¹c ten sam rezultat. Akcje ``Forward'', ``Back'', ``Left'' i ``Right'' zosta³y rêcznie stworzone i zmapowane do odpowiednich wejœæ z tabeli (TODO: ref tabelê wejœæ), korzystaj¹c z mapowania wejœcia w ustawieniach projektu Godota.
+\texttt{Input} jest obiektem tworzonym przez silnik, singletonem, który zarz¹dza interfejsami poleceñ gracza takimi jak klawiatura i mysz. Zamiast metody \texttt{is\_action\_pressed}, która sprawdza aktualny stan akcji, mo¿liwe jest równie¿ wykorzystanie metody \texttt{get\_axis}, która pozwala skróciæ powy¿szy zapis zachowuj¹c ten sam rezultat. Odpowiednie akcje zosta³y stworzone i zmapowane do odpowiednich wejœæ z tabeli \ref{tab:steering}, korzystaj¹c z mapowania wejœcia w ustawieniach projektu Godota.
 
 W skrypcie gracza zdefiniowane zosta³y atrybuty niezbêdne do implementacji poruszania - prêdkoœæ maksymalna i aktualna poruszania oraz prêdkoœæ k¹towa maksymalna i aktualna obrotu. Aktualna prêdkoœæ poruszania jest wartoœci¹ wektorow¹, pozosta³e zaœ s¹ wartoœciami skalarnymi. Zmienne przechowuj¹ce wartoœci maksymalne s¹ zdefiniowane wykorzystaniem s³owa kluczowego \texttt{export} co pozwala na edytowanie ich w oknie silnika Godot.
 
@@ -96,7 +93,7 @@ Do skryptu pocisku dodano sta³e okreœlaj¹ce szybkoœæ poruszania oraz limit czasu
 
 \section{System sieciowy}\label{sec:network_prototype}
 
-Podstawowy system sieciowy zosta³ zaimplementowany z wykorzystaniem poradnika (cite https://youtu.be/lpkaMKE081M). Ostateczna implementacja zosta³a jednak dostosowana do przygotowywanego rozwi¹zania, poniewa¿ projekt z poradnika jest tworzony z wykorzystaniem grafiki 2D.
+Podstawowy system sieciowy zosta³ zaimplementowany z wykorzystaniem wideoporadnika \cite{godot_network_tutorial}. Ostateczna implementacja zosta³a jednak dostosowana do przygotowywanego rozwi¹zania, poniewa¿ projekt z poradnika jest tworzony z wykorzystaniem grafiki 2D.
 
 Do projektu dodano pusty wêze³ statyczny maj¹cy przechowywaæ graczy w drzewie. Ponadto dodano menu startowe (Rys. \ref{fig:prototype_menu}). Stworzono równie¿ dwa skrypty globalne oraz zmodyfikowano skrypt gracza.
 
@@ -129,7 +126,7 @@ Poni¿ej zosta³y opisane sygna³y oraz przypisane do nich funkcje:
     \item \texttt{network\_peer\_disconnected} zostaje emitowany gdy inny gracz od³¹cza siê od serwera. Funkcja usuwa postaæ roz³¹czonego gracza.
 \end{itemize}
 
-Ponadto w skrypcie \texttt{Network} zdefiniowane s¹ funkcje \texttt{create\_server} i \texttt{join\_server} s³u¿¹ce do, odpowiednio, stworzenia serwera i do³¹czenia do serwera. W tym celu wykorzystana zosta³a klasa \texttt{NetworkedMultiplayerENet}, implementuj¹ca warstwê sieciow¹ korzystaj¹c¹ z po³¹czenia UDP.
+Ponadto w skrypcie \texttt{Network} zdefiniowane s¹ funkcje \texttt{create\_server}\ref{create_server_prototype} i \texttt{join\_server}\ref{join_server_prototype} s³u¿¹ce do, odpowiednio, stworzenia serwera i do³¹czenia do serwera. W tym celu wykorzystana zosta³a klasa \texttt{NetworkedMultiplayerENet}, implementuj¹ca warstwê sieciow¹ korzystaj¹c¹ z po³¹czenia UDP.
 
 
 \begin{lstlisting}[language=python,caption=Funkcja inicjuj¹ca serwer gry., label=lst:create_server_prototype ,basicstyle=\footnotesize\ttfamily]
