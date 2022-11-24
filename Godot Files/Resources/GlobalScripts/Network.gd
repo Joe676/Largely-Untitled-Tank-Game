@@ -25,10 +25,13 @@ func create_server() -> void:
 	get_tree().set_network_peer(server)
 	print("Server created")
 
-func join_server() -> void:
+func join_server(ip) -> bool:
 	client = NetworkedMultiplayerENet.new()
-	client.create_client(ip_address, DEAFAULT_PORT)
+	var response = client.create_client(ip, DEAFAULT_PORT)
+	if response != OK:
+		return false
 	get_tree().set_network_peer(client)
+	return true
 
 func _connected_to_server() -> void:
 	print("Connected to server")

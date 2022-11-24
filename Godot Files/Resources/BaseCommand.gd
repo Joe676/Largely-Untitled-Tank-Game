@@ -7,4 +7,3 @@ func _init(new_func: FuncRef):
 
 func execute_command(bullet, hit_body, hit_point):
 	func_ref.call_func(bullet, hit_body, hit_point)
-	print("in command: function called")

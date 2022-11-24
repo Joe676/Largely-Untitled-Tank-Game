@@ -15,6 +15,14 @@ onready var heal_timer: Timer = $Timers/HealTimer
 
 export (PackedScene) var bullet_scene = load("res://Objects/Bullet.tscn")
 
+var player_name: String setget set_player_name
+puppet var puppet_player_name: String setget set_puppet_player_name
+
+var player_colour: Color setget set_player_colour
+puppet var puppet_player_colour: Color setget set_puppet_player_colour
+
+var current_vp: int
+
 #attributes
 #movement
 export(int) var max_speed: int = 10 
@@ -56,6 +64,7 @@ puppet var puppet_body_rotation = 0
 puppet var puppet_head_rotation = 0
 
 func _ready():
+	get_tree().connect("network_peer_connected", self, "_player_connected")
 	start_round()
 
 func set_up():
@@ -193,8 +202,12 @@ sync func die():
 	# print("Player ", name, " died!")
 
 func set_current_health(new_value):
-	current_health = new_value if new_value >= 0 else 0
-	# print("current_health updated, now it's ", current_health)
+	# print("health changing: ", new_value)
+	current_health = new_value
+	if new_value <= 0:
+		current_health = 0
+	elif new_value >= max_health:
+		current_health = max_health
 	emit_signal("health_updated", current_health, max_health)#, name)
 	if is_network_master():
 		rset("puppet_current_health", current_health)
@@ -231,3 +244,33 @@ func _on_ReloadTimer_timeout():
 	current_bullets = max_bullets
 	emit_signal("bullets_updated", current_bullets, max_bullets)
 	reloading_lbl.visible = false
+
+func set_player_name(new_name: String):
+	player_name = new_name
+	if is_network_master():
+		rset("puppet_player_name", player_name)
+	print("name ", player_name, " set for player ", name)
+
+func set_player_colour(new_colour: Color):
+	player_colour = new_colour
+	# var material = $Model/Body/Body.get_surface_material(0)
+	var material = SpatialMaterial.new()
+	material.albedo_color = player_colour
+	$Model/Body/Body.set_surface_material(0, material)
+	if is_network_master():
+		rset("puppet_player_colour", player_colour)
+	print("colour set for player ", name)
+
+func set_puppet_player_colour(new_colour: Color):
+	puppet_player_colour = new_colour
+	if not is_network_master():
+		set_player_colour(puppet_player_colour)
+
+func set_puppet_player_name(new_name: String):
+	puppet_player_name = new_name
+	if not is_network_master():
+		player_name = puppet_player_name
+	
+func _player_connected(id):
+	rset_id(id, "puppet_player_name", player_name)
+	rset_id(id, "puppet_player_colour", player_colour)

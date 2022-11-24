@@ -1,8 +1,11 @@
 extends Node
 
-enum GameState {IN_GAME, IN_MENU}
+onready var my_player_data: Dictionary = {
+	"player_name": "",
+	"player_colour": Color.blue
+}
 
-var game_state: int = GameState.IN_MENU
+var vp_goal = 3
 
 func instance_node_at_location(node:Object, parent:Object, location:Vector3):
 	var node_instance = instance_node(node, parent)
@@ -24,6 +27,9 @@ func instance_player(id):
 	var player_instance = Global.instance_node_at_location(player, PersistentNodes, Vector3(rand_range(-10, 10), 0, rand_range(-10, 10)))
 	player_instance.name = str(id)
 	player_instance.set_network_master(id)
+	if player_instance.is_network_master():
+		player_instance.player_name = my_player_data["player_name"]
+		player_instance.player_colour = my_player_data["player_colour"]
 	player_instance.set_up()
 	
 func name_networked_object(node: Node, creator_name: String, base_name: String) -> String:

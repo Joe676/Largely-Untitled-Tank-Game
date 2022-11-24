@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Resources/Themes/BaseTheme.tres" type="Theme" id=1]
+[ext_resource path="res://UI/MainMenu.gd" type="Script" id=2]
 
 [sub_resource type="Gradient" id=1]
 interpolation_mode = 2
@@ -15,6 +16,7 @@ fill_to = Vector2( 0, 1 )
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 2 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
@@ -98,3 +100,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource( 2 )
 expand = true
+
+[connection signal="pressed" from="Buttons/HostButton" to="." method="_on_HostButton_pressed"]
+[connection signal="pressed" from="Buttons/JoinButton" to="." method="_on_JoinButton_pressed"]
+[connection signal="pressed" from="Buttons/QuitButton" to="." method="_on_QuitButton_pressed"]

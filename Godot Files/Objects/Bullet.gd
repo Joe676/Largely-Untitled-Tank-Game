@@ -67,9 +67,9 @@ func _on_LifespanTimer_timeout():
 func _on_Bullet_body_entered(body:Node):
 	for command in on_hit:
 		command.execute_command(self, body, null)
-		print("command executed")
+		# print("command executed")
 	if body.has_method("damage"):
-		print("player ", body.name, " hit!")
+		# print("player ", body.name, " hit!")
 		body.damage(damage)
 	if is_network_master():
 		rpc("destroy")
