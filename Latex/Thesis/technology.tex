@@ -38,4 +38,41 @@ Godot dostarcza wiele rodzajów wêz³ów, umo¿liwiaj¹cych wprowadzenie do gry najwa
 
 W czasie rozgrywki silnik tworzy drzewo z korzeniem nazwanym \texttt{root}. Jako jego dziecko inicjowana jest scena g³ówna, okreœlona w ustawieniach projektu. Ponadto inicjowane s¹ sceny statyczne, które równie¿ mog¹ byæ okreœlone w ustawieniach projektu jako ,,Auto³adowane''. Takie sceny pozwalaj¹ na globalny dostêp z innych miejsc drzewa, umo¿liwiaj¹ przechowywanie danych dostêpnych miêdzy zmianami scen oraz pozwalaj¹ na implementacjê wzorca projektowego singletonu\cite{singleton_refactoring_guru}. Jednak, jak podkreœlono w dokumentacji, samo auto³adowanie sceny nie tworzy singletonu, poniewa¿ mo¿liwe jest ponowne instancjonowanie scen auto³adowanych. 
 
+Wêz³em w drzewie sceny (a co za tym idzie, równie¿ w drzewie gry) mo¿e byæ równie¿ instancja innej sceny. Jest ona widoczna jako pojedynczy wêze³, mimo, ¿e sama w sobie równie¿ jest drzewem. Tak inicjowane sceny równie¿ mog¹ mieæ przypisane dzieci.
+
+W czasie dzia³ania programu mo¿liwe jest prze³¹czenie sceny g³ównej programistycznej, poprzez wywo³anie na drzewie metody \texttt{change\_scene}, której argumentem jest œcie¿ka do pliku z now¹ scen¹. Obiekt bêd¹cy instancj¹ poprzedniej sceny zostaje wtedy usuniêty i zast¹piony instancj¹ nowej sceny.
+
+Drzewo udostêpnia równie¿ szereg u¿ytecznych metod. Przyk³adem takiej metody mo¿e byæ \texttt{notification} - metoda rozsy³aj¹ca powiadomienie do wszystkich obiektów aktualnie w drzewie. Jest ona przydatna przyk³adowo w momencie zamykania aplikacji - pozwala to zakoñczyæ niezbêdne procesy lub wyœwietliæ proœbê o potwierdzenie zamkniêcia.
+
+\subsection{Zasoby}
+Zasoby (ang. \emph{Resources}) s¹ podstawowym sposobem na przechowywanie i dzielenie danych w silniku Godot. Zasoby dziel¹ siê na zewnêtrzne, bêd¹ce plikami zapisanymi na dysku, oraz wbudowane, zapisane jako element sceny. W sytuacji gdy wiele wêz³ów lub zasobów korzysta z tego samego zasobu zmiany w nim bêd¹ widoczne dla ka¿dego u¿ytkownika. Jest to szczególnie istotne w przypadku materia³ów. Aby zmieniæ materia³ dla jednego modelu, nie wprowadzaj¹c zmian we wszystkich, nale¿y ,,ulokalniæ'' go do wybranej sceny. 
+
+\subsection{Renderowanie grafiki}
+Godot udostêpnia dwa silniki graficzne: GLES2, oparty na OpenGL 2.1 oraz GLES3 oparty na OpenGL 3.3. Ze wzglêdu na nowoczeœniejszy silnik bazowy, GLES3 dostarcza funkcje niedostêpne w GLES2, takie jak akceleracja GPU dla animacji cz¹steczkowych. Ponadto zapewnia on lepsz¹ wydajnoœæ. GLES2 jest kompatybilny z wiêksz¹ liczb¹, szczególnie starszych, urz¹dzeñ.
+
+Do rozwoju projektu zostanie zastosowany GLES3.
+
+\subsection{Sygna³y}
+W Godocie wbudowana jest implementacja wzorca projektowego obserwatora \cite{game_programming_patterns}, nazwana sygna³ami. Wêz³y wysy³aj¹ sygna³y, aby poinformowaæ wêz³y nas³uchuj¹ce o zajœciu jakiegoœ wydarzenia. Wraz z sygna³em mog¹ zostaæ wys³ane argumenty, których mo¿e u¿yæ s³uchacz
+
+\subsection{Edytor}
+Godot udostêpnia kompleksowy edytor pozwalaj¹cy na edycjê wszystkich elementów projektu od ustawieñ, po grafikê i kod. Poni¿ej opisane zosta³y najwa¿niejsze elementy edytora.
+
+\subsubsection{Okno graficzne}
+Wiêksz¹ czêœæ okna Godota zajmuje okno edycji. Domyœlnie dostêpne s¹ dla niego cztery tryby: Edycji 2D, edycji 3D, edycji kodu i biblioteki zasobów. Okno edycji 2D umo¿liwia wizualn¹ edycjê scen dwuwymiarowych, zarówno dla gier 2D jak i dla edycji interfejsów. Okno edycji 3D umo¿liwia wizualn¹ edycjê scen 3D. Okno edycji kodu pozwala na tworzenie skryptów wewn¹trz edytora. Zawiera kolorowanie sk³adni dla wspieranych jêzyków oraz aktualn¹ dokumentacjê. Biblioteka zasobów pozwala pobieraæ darmowe rozszerzenia dla Godota.
+
+\subsubsection{Pole Scena}
+Pole przypiête do brzegu ekranu, s³u¿¹ce do edycji drzewa sceny. Wskazuje korzeñ sceny oraz jego potomków na wszystkich warstwach. Pozwala równie¿ dodawaæ wêz³y potomne, wybieraj¹c je z listy dostêpnych lub inicjuj¹c inne sceny. dostêpna jest tu równie¿ mo¿liwoœæ dodania skryptu bezpoœrednio do wêz³a. To pole wyœwietla równie¿ podstawowe informacje na temat wêz³a, takie jak widocznoœæ, blokady, generowane sygna³y czy pod³¹czone skrypty.
+
+\subsubsection{Pole Plików}
+Pole wyœwietlaj¹ce drzewo plików projektu. Pliki wyœwietlane s¹ w drzewie, którego korzeniem jest g³ówny folder projektu, nazwany \texttt{res://}. Pole pozwala na przeszukiwanie, otwieranie oraz tworzenie nowych plików i zasobów.
+
+\subsubsection{Inspektor}
+Pole wyœwietlaj¹ce edytowalne z edytora atrybuty aktualnie wybranego wêz³a lub zasobu. Dostêpne s¹ tu atrybuty typu wêz³a oraz ka¿dego z jego przodków w drzewie dziedziczenia. Ponadto, je¿eli skrypt przypiêty do wêz³a posiada zmienn¹ stworzon¹ ze s³owem kluczowym \texttt{export}, mo¿liwe jest edytowanie tych zmiennych wprost z edytora.
+
+
+
+% \subsection{Interfejsy graficzne}
+% W celu stworzenia interfejsów graficznych, takich jak menu czy HUD (\emph{Heads Up Display}), nale¿y wykorzystaæ wêze³ \texttt{Control} i jego pochodne. 
+
 \section{GUT}
