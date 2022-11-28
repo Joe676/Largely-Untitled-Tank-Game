@@ -44,6 +44,7 @@ func _player_connected(id: int):
 	print("Player has connected: " + str(id))
 	Global.instance_player(id)
 	
+	
 func _player_disconnected(id: int):
 	print("Player has disconnected: " + str(id))
 	#Deal with disconneting

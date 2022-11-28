@@ -28,6 +28,7 @@ config/icon="res://icon.png"
 
 CommandsRepository="*res://Resources/CommandsRepository.gd"
 CardsRepository="*res://Objects/Cards/CardsRepository.gd"
+GameState="*res://Resources/GlobalScripts/GameState.gd"
 Network="*res://Resources/GlobalScripts/Network.gd"
 Global="*res://Resources/GlobalScripts/Global.gd"
 PersistentNodes="*res://Resources/GlobalScripts/PersistentNodes.tscn"

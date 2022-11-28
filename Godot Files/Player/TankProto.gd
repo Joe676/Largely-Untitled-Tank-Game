@@ -99,7 +99,9 @@ func start_round():
 	# print("Player ", name, "is ready for the round")
 
 func _physics_process(delta):
-	if is_network_master(): # only steer this player's object
+	if not can_move():
+		return
+	if is_network_master() : # only steer this player's object
 		velocity = Vector3()
 		angular_velocity = 0
 		
@@ -274,3 +276,9 @@ func set_puppet_player_name(new_name: String):
 func _player_connected(id):
 	rset_id(id, "puppet_player_name", player_name)
 	rset_id(id, "puppet_player_colour", player_colour)
+
+func can_move():
+	return GameState.state == GameState.State.IN_GAME
+
+func is_player():
+	pass

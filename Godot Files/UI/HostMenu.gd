@@ -18,13 +18,17 @@ func _on_StartBtn_pressed():
 	if player_name == null or player_name == "": 
 		no_name_popup.popup_centered()
 		return
+	player_name += " (host)"
 	Network.create_server()
 	Global.my_player_data["player_name"] = player_name
+	GameState.my_info["name"] = player_name
 	Global.my_player_data["player_colour"] = colour_picker.color
+	GameState.my_info["colour"] = colour_picker.color
 	Global.instance_player(get_tree().get_network_unique_id())
 	Global.vp_goal = int(vp_label.text)
 	
-	get_tree().change_scene("res://Levels/LevelProto.tscn")
+	# get_tree().change_scene("res://Levels/LevelProto.tscn")
+	get_tree().change_scene("res://UI/Lobby.tscn")
 	#TODO: switch to lobby
 	
 

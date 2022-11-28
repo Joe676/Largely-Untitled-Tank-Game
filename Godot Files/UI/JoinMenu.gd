@@ -17,11 +17,14 @@ func _on_StartBtn_pressed():
 		return
 	# Network.ip_address = ip
 	Global.my_player_data["player_name"] = player_name
+	GameState.my_info["name"] = player_name
 	Global.my_player_data["player_colour"] = colour_picker.color
+	GameState.my_info["colour"] = colour_picker.color
 	var was_created = Network.join_server(ip)
 	if not was_created:
 		wrong_ip_popup.popup_centered()
 		return
 	
-	get_tree().change_scene("res://Levels/LevelProto.tscn")
+	# get_tree().change_scene("res://Levels/LevelProto.tscn")
+	get_tree().change_scene("res://UI/Lobby.tscn")
 	

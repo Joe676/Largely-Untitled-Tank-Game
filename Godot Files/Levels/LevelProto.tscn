@@ -172,3 +172,23 @@ transform = Transform( 0.965926, 0.12941, 0.224144, -0.258819, 0.482963, 0.83651
 mesh = SubResource( 4 )
 
 [node name="CameraTarget" type="Spatial" parent="."]
+
+[node name="SpawnPoints" type="Node" parent="."]
+
+[node name="Point1" type="Spatial" parent="SpawnPoints"]
+transform = Transform( -0.915269, 0, 0.402843, 0, 1, 0, -0.402843, 0, -0.915269, -72.1292, 0, 66.9247 )
+
+[node name="Point2" type="Spatial" parent="SpawnPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -61.7316, 7.62939e-06, -41.5609 )
+
+[node name="Point3" type="Spatial" parent="SpawnPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13.2488, 0, 67.7329 )
+
+[node name="Point4" type="Spatial" parent="SpawnPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 67.9356, 7.62939e-06, -17.9724 )
+
+[node name="Point5" type="Spatial" parent="SpawnPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.31102, 0, -54.561 )
+
+[node name="Point6" type="Spatial" parent="SpawnPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 73.4872, -1.52588e-05, 40.714 )
