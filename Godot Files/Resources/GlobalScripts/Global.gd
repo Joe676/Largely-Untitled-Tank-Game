@@ -31,6 +31,7 @@ func instance_player(id):
 		player_instance.player_name = my_player_data["player_name"]
 		player_instance.player_colour = my_player_data["player_colour"]
 	player_instance.connect("health_updated", GameState, "_player_health_changed")
+	player_instance.connect("died", GameState, "player_died")
 	player_instance.set_up()
 	
 func name_networked_object(node: Node, creator_name: String, base_name: String) -> String:
@@ -53,4 +54,4 @@ func move_players_to_spawnpoints(spawn_points):
 			player = players[player_idx]
 		player.global_transform = point.global_transform
 		player_idx += 1
-		
+	

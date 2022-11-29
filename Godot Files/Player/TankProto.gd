@@ -2,7 +2,7 @@ extends KinematicBody
 
 signal health_updated(id, new_value, max_health)#, player_id)
 signal bullets_updated(current_bullets, max_bullets)
-signal died
+signal died(id)
 
 onready var tween = $Tween
 onready var own_info_hud = $HUD/OwnInfo
@@ -52,6 +52,8 @@ var current_health: int setget set_current_health
 puppet var puppet_current_health: int setget set_puppet_current_health
 
 var current_bullets: int
+
+var is_dead: bool = false
 
 var is_reloading: bool = false
 var has_just_shot: bool = false
@@ -201,11 +203,11 @@ sync func instance_bullet(id):
 	pass
 
 sync func die():
-	can_shoot = 0
+	is_dead = true
+	can_shoot = false
 	hide()
 	$CollisionShape.disabled = true
-	emit_signal("died")
-	# print("Player ", name, " died!")
+	emit_signal("died", name)
 
 func set_current_health(new_value):
 	# print("health changing: ", new_value)
@@ -244,7 +246,8 @@ func _on_PreHealTimer_timeout():
 	heal_timer.start()
 
 func _on_HealTimer_timeout():
-	update_health(healing_value)
+	if not is_dead:
+		update_health(healing_value)
 
 func _on_ReloadTimer_timeout():
 	is_reloading = false

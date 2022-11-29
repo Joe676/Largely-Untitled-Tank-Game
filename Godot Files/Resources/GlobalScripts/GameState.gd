@@ -5,6 +5,9 @@ signal start_game
 signal player_health_changed
 
 onready var number_of_players: int = 1
+var dead_players = []
+
+var vp_goal: int = 1
 
 onready var players_info: Dictionary = {}
 
@@ -35,17 +38,43 @@ func start_game():
 	# for peer in get_tree().get_network_connected_peers():
 	# 	print("peer: ", peer)
 	rpc("remote_start_game")
-	get_tree().change_scene("res://Levels/LevelProto.tscn")
+	start_round()
 
 remote func remote_start_game():
 	state = State.IN_GAME
 	emit_signal("start_game")
-	get_tree().change_scene("res://Levels/LevelProto.tscn")
+	# start_round()
 	
 func _player_health_changed(id, new_value, max_value):
 	if id in players_info:
 		players_info[id]["current_health"] = new_value
 		players_info[id]["max_health"] = max_value
 		emit_signal("player_health_changed")
-	print(players_info)
 	
+func player_died(id):
+	if get_tree().is_network_server():
+		dead_players.append(id)
+		print("dead_players: ", dead_players)
+		if dead_players.size() == number_of_players-1:
+			print("Last man standing!")
+			finish_round()
+
+func finish_round():
+	state = State.GAME_STOPPED
+	rpc("remote_finish_round")
+	get_tree().change_scene("res://UI/WaitingMenu.tscn")
+	pass
+
+remote func remote_finish_round():
+	state = State.GAME_STOPPED
+	get_tree().change_scene("res://UI/WaitingMenu.tscn")
+	pass
+
+func start_round():
+	state = State.IN_GAME
+	rpc("remote_start_round")
+	get_tree().change_scene("res://Levels/LevelProto.tscn")
+
+remote func remote_start_round():
+	state = State.IN_GAME
+	get_tree().change_scene("res://Levels/LevelProto.tscn")
