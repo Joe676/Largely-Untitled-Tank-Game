@@ -6,7 +6,7 @@ onready var bullets_lbl = $VFlowContainer/AmmoAmount
 func _ready():
 	health_bar.min_value = 0
 
-func _on_health_updated(new_amount, max_health):
+func _on_health_updated(_id, new_amount, max_health):
 	health_bar.max_value = max_health
 	health_bar.value = new_amount
 

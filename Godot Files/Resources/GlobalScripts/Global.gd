@@ -30,6 +30,7 @@ func instance_player(id):
 	if player_instance.is_network_master():
 		player_instance.player_name = my_player_data["player_name"]
 		player_instance.player_colour = my_player_data["player_colour"]
+	player_instance.connect("health_updated", GameState, "_player_health_changed")
 	player_instance.set_up()
 	
 func name_networked_object(node: Node, creator_name: String, base_name: String) -> String:

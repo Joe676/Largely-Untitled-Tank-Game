@@ -1,6 +1,6 @@
 extends KinematicBody
 
-signal health_updated(new_value, max_health)#, player_id)
+signal health_updated(id, new_value, max_health)#, player_id)
 signal bullets_updated(current_bullets, max_bullets)
 signal died
 
@@ -65,17 +65,18 @@ puppet var puppet_head_rotation = 0
 
 func _ready():
 	get_tree().connect("network_peer_connected", self, "_player_connected")
+	GameState.connect("start_game", self, "_start_game")
 	start_round()
 
 func set_up():
 	if is_network_master():
 		connect("health_updated", own_info_hud, "_on_health_updated")
-		emit_signal("health_updated", current_health, max_health)
+		emit_signal("health_updated", get_tree().get_network_unique_id(), current_health, max_health)
 
 		connect("bullets_updated", own_info_hud, "_on_bullets_updated")
 		emit_signal("bullets_updated", current_bullets, max_bullets)
 		
-		print("health and bullets signals connected")
+		# print("health and bullets signals connected")
 	else:
 		$HUD.visible = false
 
@@ -88,6 +89,9 @@ func set_timers():
 	reload_timer.wait_time = reload_time
 	pre_heal_timer.wait_time = time_to_healing
 	heal_timer.wait_time = time_between_healing
+
+func _start_game():
+	$HUD.set_up_info()
 
 func start_round():
 	CardsRepository.life_steal_card.attach_to_player(self)
@@ -210,7 +214,7 @@ func set_current_health(new_value):
 		current_health = 0
 	elif new_value >= max_health:
 		current_health = max_health
-	emit_signal("health_updated", current_health, max_health)#, name)
+	emit_signal("health_updated", get_network_master(), current_health, max_health)#, name)
 	if is_network_master():
 		rset("puppet_current_health", current_health)
 		if current_health == 0:
@@ -220,6 +224,7 @@ func set_puppet_current_health(new_value):
 	puppet_current_health = new_value
 	if not is_network_master():
 		current_health = puppet_current_health
+		emit_signal("health_updated", get_network_master(), current_health, max_health)
 
 func damage(amount):
 	heal_timer.stop()
@@ -251,7 +256,7 @@ func set_player_name(new_name: String):
 	player_name = new_name
 	if is_network_master():
 		rset("puppet_player_name", player_name)
-	print("name ", player_name, " set for player ", name)
+	# print("name ", player_name, " set for player ", name)
 
 func set_player_colour(new_colour: Color):
 	player_colour = new_colour
@@ -261,7 +266,7 @@ func set_player_colour(new_colour: Color):
 	$Model/Body/Body.set_surface_material(0, material)
 	if is_network_master():
 		rset("puppet_player_colour", player_colour)
-	print("colour set for player ", name)
+	# print("colour set for player ", name)
 
 func set_puppet_player_colour(new_colour: Color):
 	puppet_player_colour = new_colour
