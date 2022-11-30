@@ -74,6 +74,7 @@ func finish_round():
 		# print("We have a winner!")
 		rpc("remote_finish_round", NextPhase.FINISH, [])
 		get_tree().change_scene("res://UI/FinalMenu.tscn")
+		return
 
 	state = State.GAME_STOPPED
 
@@ -81,13 +82,14 @@ func finish_round():
 	waiting_for = worst_players.size()
 	# print("worst players: ", worst_players)
 	rpc("remote_finish_round", NextPhase.INTERMISSION, worst_players)
-
-	if worst_players.has(get_tree().get_network_unique_id()):
+	if 1 in worst_players or "1" in worst_players:
+		print("WTH")
 		get_tree().change_scene("res://UI/CardsMenu.tscn")
+		return
 	get_tree().change_scene("res://UI/WaitingMenu.tscn")
 
 remote func remote_finish_round(nextPhase, worst_players: Array):
-	# print("remote_finish_round")
+	print("remote_finish_round")
 	# print("this player and the worst players: ", get_tree().get_network_unique_id(), worst_players)
 	# print("is he in the worst? ", worst_players.has(get_tree().get_network_unique_id()))
 	state = State.GAME_STOPPED
@@ -103,6 +105,7 @@ remote func remote_finish_round(nextPhase, worst_players: Array):
 
 func start_round():
 	state = State.IN_GAME
+	dead_players = []
 	emit_signal("start_round")
 	rpc("remote_start_round")
 	get_tree().change_scene("res://Levels/LevelProto.tscn")
@@ -120,7 +123,6 @@ remote func set_last_winner(id):
 func find_winner() -> String:
 	for id in players_info:
 		if not dead_players.has(str(id)):
-			# print("this player was NOT dead: ", id, " ", dead_players)
 			return id
 	return str(get_tree().get_network_unique_id())
 
@@ -155,12 +157,15 @@ func get_worst_players() -> Array:
 	return output
 
 func last_winner_won_game():
-	# print("last winner won?: ", get_last_winner_data()["vp"], vp_goal)
+	print("last winner won?: ", get_last_winner_data(), vp_goal)
 	return get_last_winner_data()["vp"] == vp_goal
 
 func selected_card(card):
 	emit_signal("selected_card", card)
-	rpc_id(1, "server_selected_card")
+	if get_tree().is_network_server():
+		server_selected_card()
+	else:
+		rpc_id(1, "server_selected_card")
 	get_tree().change_scene("res://UI/WaitingMenu.tscn")
 
 remote func server_selected_card():

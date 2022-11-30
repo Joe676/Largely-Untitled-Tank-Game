@@ -2,16 +2,15 @@ extends Control
 
 onready var single_standing_scene = preload("res://UI/SingleStanding.tscn")
 onready var standings_container = $StandingsContainer
+onready var vpgoal_label = $VPGoalLabel
 
 onready var winner_label = $WinnerLabel
 const winner_text: String = "Last round's winner: "
 
 func _ready():
 	winner_label.text = winner_text + GameState.get_last_winner_data()["name"]
+	vpgoal_label.text = "VP Goal: %d" % GameState.vp_goal
 	fill_standings()
-	# if get_tree().is_network_server():
-	# 	yield(get_tree().create_timer(3), "timeout")
-	# 	GameState.start_round()
 
 func fill_standings():
 	var all_players = []

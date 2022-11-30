@@ -37,8 +37,8 @@ func get_3random_cards():
 	while idx2 == idx1:
 		idx2 = randi() % cards_size
 	
-	var idx3 = randi() % cards_size-2
+	var idx3 = randi() % cards_size
 	while idx3 == idx1 or idx3 == idx2:
-		idx3 = randi() % cards_size-2
-		
+		idx3 = randi() % cards_size
+
 	return [cards[idx1], cards[idx2], cards[idx3]]
