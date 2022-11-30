@@ -68,6 +68,8 @@ puppet var puppet_head_rotation = 0
 func _ready():
 	get_tree().connect("network_peer_connected", self, "_player_connected")
 	GameState.connect("start_game", self, "_start_game")
+	GameState.connect("start_round", self, "start_round")
+	GameState.connect("selected_card", self, "attach_card")
 	start_round()
 
 func set_up():
@@ -96,13 +98,14 @@ func _start_game():
 	$HUD.set_up_info()
 
 func start_round():
-	CardsRepository.life_steal_card.attach_to_player(self)
-	current_health = max_health
+	is_dead = false
+	can_shoot = true
+	visible = true
+	set_current_health(max_health)
 	$CollisionShape.disabled = false
 	set_timers()
 	current_bullets = max_bullets
 	emit_signal("bullets_updated", current_bullets, max_bullets)
-	# print("Player ", name, "is ready for the round")
 
 func _physics_process(delta):
 	if not can_move():
@@ -289,4 +292,16 @@ func can_move():
 	return GameState.state == GameState.State.IN_GAME
 
 func is_player():
-	pass
+	pass # This is a dummy function to confirm type
+
+func move_to_spawn_point(spawn_point: Transform):
+	if not is_network_master():
+		rpc("remote_move_to_spawn_point", spawn_point)
+	else:
+		global_transform = spawn_point
+
+master func remote_move_to_spawn_point(spawn_point: Transform):
+	global_transform = spawn_point
+
+func attach_card(card: BaseCard):
+	card.attach_to_player(self)

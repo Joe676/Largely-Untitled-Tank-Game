@@ -41,17 +41,18 @@ func name_networked_object(node: Node, creator_name: String, base_name: String) 
 	return node_name
 
 func move_players_to_spawnpoints(spawn_points):
-	var players = PersistentNodes.get_children()
-	var player_idx = 0
-	for point in spawn_points:
-		if player_idx >= players.size():
-			return
-		var player = players[player_idx]
-		while not player.has_method("is_player"):
-			player_idx += 1
+	if get_tree().is_network_server():
+		var players = PersistentNodes.get_children()
+		var player_idx = 0
+		for point in spawn_points:
 			if player_idx >= players.size():
 				return
-			player = players[player_idx]
-		player.global_transform = point.global_transform
-		player_idx += 1
-	
+			var player = players[player_idx]
+			while not player.has_method("is_player"):
+				player_idx += 1
+				if player_idx >= players.size():
+					return
+				player = players[player_idx]
+			player.move_to_spawn_point(point.global_transform)
+			player_idx += 1
+
