@@ -44,8 +44,7 @@ func _server_disconnected() -> void:
 
 func _player_connected(id: int):
 	Global.instance_player(id)
-	
-	
+
 func _player_disconnected(id: int):
 	if PersistentNodes.has_node(str(id)):
 		PersistentNodes.get_node(str(id)).queue_free()
