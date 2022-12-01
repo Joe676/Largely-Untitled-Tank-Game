@@ -47,8 +47,6 @@ func _player_connected(id: int):
 	
 	
 func _player_disconnected(id: int):
-	print("Player has disconnected: " + str(id))
-	#Deal with disconneting
 	if PersistentNodes.has_node(str(id)):
 		PersistentNodes.get_node(str(id)).queue_free()
 
