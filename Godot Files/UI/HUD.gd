@@ -21,7 +21,6 @@ func set_up_info():
 
 
 func refresh_players_info():
-	print("Refreshing info")
 	for player_id in GameState.players_info:
 		var player_info = GameState.players_info[player_id]
 		if player_id in player_info_instances:

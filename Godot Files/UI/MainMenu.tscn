@@ -101,6 +101,12 @@ grow_vertical = 2
 texture = SubResource( 2 )
 expand = true
 
+[node name="KickedPopup" type="AcceptDialog" parent="."]
+margin_right = 83.0
+margin_bottom = 58.0
+window_title = "Server kicked you!"
+dialog_text = "Lost connection to server!"
+
 [connection signal="pressed" from="Buttons/HostButton" to="." method="_on_HostButton_pressed"]
 [connection signal="pressed" from="Buttons/JoinButton" to="." method="_on_JoinButton_pressed"]
 [connection signal="pressed" from="Buttons/QuitButton" to="." method="_on_QuitButton_pressed"]

@@ -9,9 +9,9 @@ func _ready():
 	var ip_label = $IPLbl
 	ip_label.text = "Your IP: %s" % Network.ip_address 
 
-func _on_VPSlider_value_changed(value:int):
+func _on_VPSlider_value_changed(value: int):
 	vp_label.text = str(value)
-
+	GameState.vp_goal = value
 
 func _on_StartBtn_pressed():
 	var player_name = name_input.text
@@ -33,5 +33,6 @@ func _on_StartBtn_pressed():
 	
 
 func _on_BackBtn_pressed():
+	Network.disconnect_from_network()
 	get_tree().change_scene("res://UI/MainMenu.tscn")
 

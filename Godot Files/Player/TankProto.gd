@@ -2,7 +2,7 @@ extends KinematicBody
 
 signal health_updated(id, new_value, max_health)#, player_id)
 signal bullets_updated(current_bullets, max_bullets)
-signal died
+signal died(id)
 
 onready var tween = $Tween
 onready var own_info_hud = $HUD/OwnInfo
@@ -53,6 +53,8 @@ puppet var puppet_current_health: int setget set_puppet_current_health
 
 var current_bullets: int
 
+var is_dead: bool = false
+
 var is_reloading: bool = false
 var has_just_shot: bool = false
 var can_shoot: bool = true
@@ -66,6 +68,8 @@ puppet var puppet_head_rotation = 0
 func _ready():
 	get_tree().connect("network_peer_connected", self, "_player_connected")
 	GameState.connect("start_game", self, "_start_game")
+	GameState.connect("start_round", self, "start_round")
+	GameState.connect("selected_card", self, "attach_card")
 	start_round()
 
 func set_up():
@@ -75,8 +79,6 @@ func set_up():
 
 		connect("bullets_updated", own_info_hud, "_on_bullets_updated")
 		emit_signal("bullets_updated", current_bullets, max_bullets)
-		
-		# print("health and bullets signals connected")
 	else:
 		$HUD.visible = false
 
@@ -94,13 +96,14 @@ func _start_game():
 	$HUD.set_up_info()
 
 func start_round():
-	CardsRepository.life_steal_card.attach_to_player(self)
-	current_health = max_health
+	is_dead = false
+	can_shoot = true
+	visible = true
+	set_current_health(max_health)
 	$CollisionShape.disabled = false
 	set_timers()
 	current_bullets = max_bullets
 	emit_signal("bullets_updated", current_bullets, max_bullets)
-	# print("Player ", name, "is ready for the round")
 
 func _physics_process(delta):
 	if not can_move():
@@ -201,14 +204,13 @@ sync func instance_bullet(id):
 	pass
 
 sync func die():
-	can_shoot = 0
+	is_dead = true
+	can_shoot = false
 	hide()
 	$CollisionShape.disabled = true
-	emit_signal("died")
-	# print("Player ", name, " died!")
+	emit_signal("died", name)
 
 func set_current_health(new_value):
-	# print("health changing: ", new_value)
 	current_health = new_value
 	if new_value <= 0:
 		current_health = 0
@@ -244,7 +246,8 @@ func _on_PreHealTimer_timeout():
 	heal_timer.start()
 
 func _on_HealTimer_timeout():
-	update_health(healing_value)
+	if not is_dead:
+		update_health(healing_value)
 
 func _on_ReloadTimer_timeout():
 	is_reloading = false
@@ -256,7 +259,6 @@ func set_player_name(new_name: String):
 	player_name = new_name
 	if is_network_master():
 		rset("puppet_player_name", player_name)
-	# print("name ", player_name, " set for player ", name)
 
 func set_player_colour(new_colour: Color):
 	player_colour = new_colour
@@ -266,7 +268,6 @@ func set_player_colour(new_colour: Color):
 	$Model/Body/Body.set_surface_material(0, material)
 	if is_network_master():
 		rset("puppet_player_colour", player_colour)
-	# print("colour set for player ", name)
 
 func set_puppet_player_colour(new_colour: Color):
 	puppet_player_colour = new_colour
@@ -286,4 +287,16 @@ func can_move():
 	return GameState.state == GameState.State.IN_GAME
 
 func is_player():
-	pass
+	pass # This is a dummy function to confirm type
+
+func move_to_spawn_point(spawn_point: Transform):
+	if not is_network_master():
+		rpc("remote_move_to_spawn_point", spawn_point)
+	else:
+		global_transform = spawn_point
+
+master func remote_move_to_spawn_point(spawn_point: Transform):
+	global_transform = spawn_point
+
+func attach_card(card: BaseCard):
+	card.attach_to_player(self)
