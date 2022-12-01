@@ -33,5 +33,6 @@ func _on_StartBtn_pressed():
 	
 
 func _on_BackBtn_pressed():
+	Network.disconnect_from_network()
 	get_tree().change_scene("res://UI/MainMenu.tscn")
 

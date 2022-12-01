@@ -7,6 +7,7 @@ onready var wrong_ip_popup: AcceptDialog = $WrongIPDialog
 onready var colour_picker: ColorPickerButton = $ColorPickerButton
 
 func _on_BackBtn_pressed():
+	Network.disconnect_from_network()
 	get_tree().change_scene("res://UI/MainMenu.tscn")
 
 func _on_StartBtn_pressed():

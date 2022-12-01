@@ -56,3 +56,7 @@ func move_players_to_spawnpoints(spawn_points):
 			player.move_to_spawn_point(point.global_transform)
 			player_idx += 1
 
+static func remove_all_children(node):
+	for child in node.get_children():
+		node.remove_child(child)
+		child.queue_free()

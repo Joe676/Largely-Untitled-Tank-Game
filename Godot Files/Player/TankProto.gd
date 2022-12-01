@@ -79,8 +79,6 @@ func set_up():
 
 		connect("bullets_updated", own_info_hud, "_on_bullets_updated")
 		emit_signal("bullets_updated", current_bullets, max_bullets)
-		
-		# print("health and bullets signals connected")
 	else:
 		$HUD.visible = false
 
@@ -213,7 +211,6 @@ sync func die():
 	emit_signal("died", name)
 
 func set_current_health(new_value):
-	# print("health changing: ", new_value)
 	current_health = new_value
 	if new_value <= 0:
 		current_health = 0
@@ -262,7 +259,6 @@ func set_player_name(new_name: String):
 	player_name = new_name
 	if is_network_master():
 		rset("puppet_player_name", player_name)
-	# print("name ", player_name, " set for player ", name)
 
 func set_player_colour(new_colour: Color):
 	player_colour = new_colour
@@ -272,7 +268,6 @@ func set_player_colour(new_colour: Color):
 	$Model/Body/Body.set_surface_material(0, material)
 	if is_network_master():
 		rset("puppet_player_colour", player_colour)
-	# print("colour set for player ", name)
 
 func set_puppet_player_colour(new_colour: Color):
 	puppet_player_colour = new_colour

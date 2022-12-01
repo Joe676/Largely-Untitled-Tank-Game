@@ -40,8 +40,6 @@ func start_game():
 	get_tree().get_network_peer().refuse_new_connections = true
 	state = State.IN_GAME
 	emit_signal("start_game")
-	# for peer in get_tree().get_network_connected_peers():
-	# 	print("peer: ", peer)
 	rpc("remote_start_game")
 	start_round()
 
@@ -59,48 +57,35 @@ func _player_health_changed(id, new_value, max_value):
 func player_died(id):
 	if get_tree().is_network_server():
 		dead_players.append(id)
-		# print("dead_players: ", dead_players)
 		if dead_players.size() == number_of_players-1:
-			# print("Last man standing!")
 			finish_round()
 
 func finish_round():
-	# print("Finishing round")
 	last_winner_id = find_winner()
-	# print("the winner is: ", last_winner_id)
+	state = State.GAME_STOPPED
 	rpc("set_last_winner", last_winner_id)
 	add_vp()
 	if last_winner_won_game():
-		# print("We have a winner!")
 		rpc("remote_finish_round", NextPhase.FINISH, [])
 		get_tree().change_scene("res://UI/FinalMenu.tscn")
 		return
 
-	state = State.GAME_STOPPED
 
 	var worst_players = get_worst_players()
 	waiting_for = worst_players.size()
-	# print("worst players: ", worst_players)
 	rpc("remote_finish_round", NextPhase.INTERMISSION, worst_players)
 	if 1 in worst_players or "1" in worst_players:
-		print("WTH")
 		get_tree().change_scene("res://UI/CardsMenu.tscn")
 		return
 	get_tree().change_scene("res://UI/WaitingMenu.tscn")
 
 remote func remote_finish_round(nextPhase, worst_players: Array):
-	print("remote_finish_round")
-	# print("this player and the worst players: ", get_tree().get_network_unique_id(), worst_players)
-	# print("is he in the worst? ", worst_players.has(get_tree().get_network_unique_id()))
 	state = State.GAME_STOPPED
 	if nextPhase == NextPhase.FINISH:
-		# print("FINISH game")
 		get_tree().change_scene("res://UI/FinalMenu.tscn")
 	elif worst_players.has(get_tree().get_network_unique_id()):
-		# print("open cards")
 		get_tree().change_scene("res://UI/CardsMenu.tscn")
 	else:
-		# print("just wait")
 		get_tree().change_scene("res://UI/WaitingMenu.tscn")
 
 func start_round():
@@ -116,8 +101,7 @@ remote func remote_start_round():
 	get_tree().change_scene("res://Levels/LevelProto.tscn")
 
 remote func set_last_winner(id):
-	# print("remote setting last winner")
-	last_winner_id = id
+	last_winner_id = str(id)
 	add_vp()
 
 func find_winner() -> String:
@@ -127,19 +111,16 @@ func find_winner() -> String:
 	return str(get_tree().get_network_unique_id())
 
 func get_last_winner_data():
-	# print("get_last_winner: ", last_winner_id)
-	if last_winner_id in players_info:
-		return players_info[last_winner_id]
+	if int(last_winner_id) in players_info:
+		return players_info[int(last_winner_id)]
 	elif last_winner_id == str(get_tree().get_network_unique_id()):
 		return my_info
 
 func add_vp():
-	if last_winner_id in players_info:
-		players_info[last_winner_id]["vp"] += 1
-		# print("new winner vp: ", players_info[last_winner_id]["vp"])
+	if int(last_winner_id) in players_info:
+		players_info[int(last_winner_id)]["vp"] += 1
 	elif last_winner_id == str(get_tree().get_network_unique_id()):
 		my_info["vp"] += 1
-		# print("new winner vp: ", my_info["vp"])
 
 func get_worst_players() -> Array:
 	var output = []
@@ -157,7 +138,6 @@ func get_worst_players() -> Array:
 	return output
 
 func last_winner_won_game():
-	print("last winner won?: ", get_last_winner_data(), vp_goal)
 	return get_last_winner_data()["vp"] == vp_goal
 
 func selected_card(card):

@@ -52,7 +52,7 @@ func refresh_table():
 
 
 func _on_BackBtn_pressed():
-	get_tree().set_network_peer(null)
+	Network.disconnect_from_network()
 	get_tree().change_scene("res://UI/MainMenu.tscn")
 
 
