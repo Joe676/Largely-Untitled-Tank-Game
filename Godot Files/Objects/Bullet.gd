@@ -4,6 +4,7 @@ export(int) var damage: int = 40
 export(int) var speed: int = 20
 export(float) var lifespan: float = 1.0
 export(float) var size: float = 0.5
+export(int) var bounces_left: int = 0
 
 var owner_id: int
 var shooting_point_transform: Transform
@@ -16,11 +17,12 @@ puppet var puppet_position: Vector3 setget set_puppet_position
 puppet var puppet_velocity: Vector3
 puppet var puppet_transform: Transform
 
-func ctor(_damage: int, _speed: int, _lifespan: float, _size: float, _on_hit: Array, _owner_id: int, _transform: Transform):
+func ctor(_damage: int, _speed: int, _lifespan: float, _size: float, bounces: int, _on_hit: Array, _owner_id: int, _transform: Transform):
 	damage = _damage
 	speed = _speed
 	lifespan = _lifespan
 	size = _size
+	bounces_left = bounces
 	on_hit = _on_hit
 	owner_id = _owner_id
 	shooting_point_transform = _transform
@@ -54,7 +56,6 @@ func _physics_process(delta):
 	var collision: KinematicCollision = null
 	if(is_network_master()):
 		collision = move_and_collide(velocity * delta)
-		print(collision)
 	else:
 		collision = move_and_collide(puppet_velocity * delta)
 	if collision:
@@ -69,10 +70,24 @@ func _on_LifespanTimer_timeout():
 
 func _on_collision(collision:KinematicCollision):
 	var body = collision.collider
-	print("hit ", body.name)
+	var damaged: bool = false
 	for command in on_hit:
 		command.execute_command(self, body, collision.position)
 	if body.has_method("damage"):
 		body.damage(damage)
-	if is_network_master():
+		damaged = true
+	if (damaged or bounces_left == 0) and is_network_master():
 		rpc("destroy")
+		return
+	if bounces_left > 0:
+		print("bouncing")
+		bounces_left -= 1
+		bounce(collision)
+
+func bounce(collision: KinematicCollision):
+	var collision_normal = collision.normal
+	print("normal ", collision_normal)
+	print("old velocity ", velocity)
+	velocity = velocity.reflect(collision_normal) * -1
+	print("new velocity ", velocity)
+	look_at(global_translation + velocity, Vector3.UP)

@@ -1,4 +1,5 @@
 extends Node
+class_name BaseCommand
 
 var func_ref: FuncRef
 

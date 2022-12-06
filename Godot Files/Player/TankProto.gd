@@ -41,6 +41,7 @@ export(int) var bullet_damage: int = 40
 export(int) var bullet_speed: int = 5
 export(float) var bullet_lifetime: float = 2.0
 export(float) var bullet_size: float = 1.0 #scale
+export(int) var bullet_bounces: int = 0
 var bullet_on_hit: Array = []
 
 var cards: Array = []
@@ -195,7 +196,7 @@ func _on_NetworkTickRate_timeout():
 sync func instance_bullet(id):
 	var bullet_transform: Transform = get_node("Model/Head/Barrel/BulletOrigin").global_transform
 	var new_bullet = Global.instance_node_with_transform(bullet_scene, bullet_transform)\
-		.ctor(bullet_damage, bullet_speed, bullet_lifetime, bullet_size, bullet_on_hit, id, bullet_transform)
+		.ctor(bullet_damage, bullet_speed, bullet_lifetime, bullet_size, bullet_bounces, bullet_on_hit, id, bullet_transform)
 	
 	Global.name_networked_object(new_bullet, name, "Bullet")
 	new_bullet.set_network_master(id)
@@ -250,10 +251,16 @@ func _on_HealTimer_timeout():
 		update_health(healing_value)
 
 func _on_ReloadTimer_timeout():
+	finalize_reload()
+
+func finalize_reload():
 	is_reloading = false
 	current_bullets = max_bullets
 	emit_signal("bullets_updated", current_bullets, max_bullets)
 	reloading_lbl.visible = false
+	if not reload_timer.is_stopped():
+		reload_timer.stop()
+
 
 func set_player_name(new_name: String):
 	player_name = new_name

@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "BaseCard",
 "language": "GDScript",
 "path": "res://Objects/Cards/BaseCard.gd"
+}, {
+"base": "Node",
+"class": "BaseCommand",
+"language": "GDScript",
+"path": "res://Resources/BaseCommand.gd"
 } ]
 _global_script_class_icons={
-"BaseCard": ""
+"BaseCard": "",
+"BaseCommand": ""
 }
 
 [application]

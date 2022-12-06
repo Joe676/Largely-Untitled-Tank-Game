@@ -44,8 +44,8 @@ onready var sniper_card: BaseCard = base_card.new("Sniper",
 
 onready var rubber_bullets_card: BaseCard = base_card.new("Rubber Bullets",
 		"Your bullets bounce twice before being destroyed",
-		{},
-		[]#TODO: Bounces as bullet's attribute
+		{"bullet_bounces": ["+", 2]},
+		[]
 		)
 
 onready var full_auto_card: BaseCard = base_card.new("FULL AUTO",
@@ -117,7 +117,7 @@ onready var cowboy_card: BaseCard = base_card.new("Cowboy",
 
 onready var chaos_card: BaseCard = base_card.new("CHAOS",
 		"The bullets you shoot bounce a lot.",
-		{},
+		{"bullet_bounces": ["+", 5]},#TODO
 		[]
 		)
 
@@ -129,14 +129,14 @@ onready var knockback_card: BaseCard = base_card.new("Knockback",
 
 onready var directed_bounce_card: BaseCard = base_card.new("Directed Bounce",
 		"The bullets you shoot bounce towards the closest player. Be careful, that might be you.",
-		{},
+		{"bullet_bounces": ["+", 1]},
 		[]#TODO
 		)
 
 onready var tactical_advantage_card: BaseCard = base_card.new("Tactical Advantage",
 		"Hitting an opponent reloads your weapon.",
 		{},
-		[]
+		[CommandsRepository.reload_on_hit_command]
 		)
 
 onready var cards: Array = [
@@ -149,7 +149,8 @@ onready var cards: Array = [
 	life_steal_card,
 	quick_reload_card,
 	big_boy_card,
-	cowboy_card
+	cowboy_card,
+	tactical_advantage_card
 ]
 
 func get_random_card() -> BaseCard:

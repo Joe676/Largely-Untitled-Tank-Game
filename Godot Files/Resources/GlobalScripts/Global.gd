@@ -60,3 +60,11 @@ static func remove_all_children(node):
 	for child in node.get_children():
 		node.remove_child(child)
 		child.queue_free()
+
+func get_all_players():
+	var all_nodes = PersistentNodes.get_children()
+	var output = []
+	for node in all_nodes:
+		if node.has_method("is_player"):
+			output.append(node)
+	return output
