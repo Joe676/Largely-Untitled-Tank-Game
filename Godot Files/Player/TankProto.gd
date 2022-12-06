@@ -299,4 +299,5 @@ master func remote_move_to_spawn_point(spawn_point: Transform):
 	global_transform = spawn_point
 
 func attach_card(card: BaseCard):
-	card.attach_to_player(self)
+	if is_network_master():
+		card.attach_to_player(self)

@@ -1,4 +1,4 @@
-extends Area
+extends KinematicBody
 
 export(int) var damage: int = 40
 export(int) var speed: int = 20
@@ -47,13 +47,18 @@ func _ready():
 
 func set_puppet_position(new_value) -> void:
 	puppet_position = new_value
-	global_translation = puppet_position
+	if not is_network_master():
+		global_translation = puppet_position
 
 func _physics_process(delta):
+	var collision: KinematicCollision = null
 	if(is_network_master()):
-		transform.origin += velocity * speed * delta
+		collision = move_and_collide(velocity * delta)
+		print(collision)
 	else:
-		transform.origin += puppet_velocity * speed * delta
+		collision = move_and_collide(puppet_velocity * delta)
+	if collision:
+		_on_collision(collision)
 
 sync func destroy() -> void:
 	queue_free()
@@ -62,9 +67,11 @@ func _on_LifespanTimer_timeout():
 	if is_network_master():
 		rpc("destroy")
 
-func _on_Bullet_body_entered(body:Node):
+func _on_collision(collision:KinematicCollision):
+	var body = collision.collider
+	print("hit ", body.name)
 	for command in on_hit:
-		command.execute_command(self, body, null)
+		command.execute_command(self, body, collision.position)
 	if body.has_method("damage"):
 		body.damage(damage)
 	if is_network_master():

@@ -18,7 +18,7 @@ emission_on_uv2 = false
 radius = 0.2
 height = 0.5
 
-[node name="Bullet" type="Area"]
+[node name="Bullet" type="KinematicBody"]
 script = ExtResource( 1 )
 speed = 50
 
@@ -31,5 +31,4 @@ shape = SubResource( 3 )
 
 [node name="LifespanTimer" type="Timer" parent="."]
 
-[connection signal="body_entered" from="." to="." method="_on_Bullet_body_entered"]
 [connection signal="timeout" from="LifespanTimer" to="." method="_on_LifespanTimer_timeout"]

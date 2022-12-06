@@ -7,7 +7,7 @@ func _steal_health(bullet, hit_body, _hit_point):
 	if str(shooter_id) == hit_body.name or not hit_body.get("current_health"):
 		return
 	var shooter = get_node("/root/PersistentNodes/%d" % shooter_id)
-	var healing_value = min(bullet.damage, hit_body.current_health)
+	var healing_value = 0.5 * min(bullet.damage, hit_body.current_health)
 	shooter.update_health(healing_value)
 
 onready var steal_health_command = _base_command.new(funcref(self, "_steal_health")) 

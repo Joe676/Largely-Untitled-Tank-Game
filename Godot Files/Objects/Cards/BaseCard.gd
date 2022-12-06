@@ -16,7 +16,11 @@ func _init(name_: String, description_: String, attributes_: Dictionary, on_hit_
 func attach_to_player(player: KinematicBody):
 	for key in attribute_changes.keys():
 		if player.get(key):
-			player[key] += attribute_changes[key]
+			match attribute_changes[key][0]:
+				"*":
+					player[key] *= attribute_changes[key][1]
+				"+":
+					player[key] += attribute_changes[key][1]
 	player["bullet_on_hit"].append_array(on_hit)
 	if player.get("cards"):
 		player["cards"].append(self)
