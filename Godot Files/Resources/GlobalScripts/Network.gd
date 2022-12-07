@@ -39,6 +39,7 @@ func _connected_to_server() -> void:
 func _server_disconnected() -> void:
 	get_tree().network_peer = null
 	Global.remove_all_children(PersistentNodes)
+	GameState.clear_players()
 	has_server_kicked = true
 	get_tree().change_scene("res://UI/MainMenu.tscn")
 
@@ -60,4 +61,4 @@ func set_networked_object_name_index(new_value) -> void:
 func disconnect_from_network():
 	get_tree().network_peer = null
 	Global.remove_all_children(PersistentNodes)
-	pass
+	GameState.clear_players()

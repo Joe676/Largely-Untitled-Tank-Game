@@ -151,5 +151,8 @@ func selected_card(card):
 remote func server_selected_card():
 	waiting_for -= 1
 	if waiting_for == 0:
-		yield(get_tree().create_timer(5), "timeout")
+		yield(get_tree().create_timer(2), "timeout")
 		start_round()
+
+func clear_players():
+	players_info.clear()

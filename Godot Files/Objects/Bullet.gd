@@ -4,7 +4,7 @@ export(int) var damage: int = 40
 export(int) var speed: int = 20
 export(float) var lifespan: float = 1.0
 export(float) var size: float = 0.5
-export(int) var bounces_left: int = 0
+export(int) var bounces_left: int
 
 var owner_id: int
 var shooting_point_transform: Transform
@@ -71,8 +71,14 @@ func _on_LifespanTimer_timeout():
 func _on_collision(collision:KinematicCollision):
 	var body = collision.collider
 	var damaged: bool = false
+	var postponed = []
+	# print(bounces_left)
 	for command in on_hit:
-		command.execute_command(self, body, collision.position)
+		# print(command)
+		if command.get("postponed"):
+			postponed.append(command)
+		else:
+			command.execute_command(self, body, collision.position)
 	if body.has_method("damage"):
 		body.damage(damage)
 		damaged = true
@@ -83,11 +89,13 @@ func _on_collision(collision:KinematicCollision):
 		print("bouncing")
 		bounces_left -= 1
 		bounce(collision)
+	for command in postponed:
+		command.execute_command(self, body, collision.position)
 
 func bounce(collision: KinematicCollision):
 	var collision_normal = collision.normal
-	print("normal ", collision_normal)
-	print("old velocity ", velocity)
+	# print("normal ", collision_normal)
+	# print("old velocity ", velocity)
 	velocity = velocity.reflect(collision_normal) * -1
-	print("new velocity ", velocity)
-	look_at(global_translation + velocity, Vector3.UP)
+	# print("new velocity ", velocity)
+	look_at(global_translation + velocity*500, Vector3.UP)

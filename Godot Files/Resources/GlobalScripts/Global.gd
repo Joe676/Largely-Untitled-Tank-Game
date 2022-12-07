@@ -68,3 +68,6 @@ func get_all_players():
 		if node.has_method("is_player"):
 			output.append(node)
 	return output
+
+func strip_y_rotation(vector: Vector3):
+	return Plane.PLANE_XZ.project(vector)

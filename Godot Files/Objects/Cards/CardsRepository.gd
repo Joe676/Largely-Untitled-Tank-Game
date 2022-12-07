@@ -57,10 +57,11 @@ onready var full_auto_card: BaseCard = base_card.new("FULL AUTO",
 		[]
 		)
 
-onready var garanade_card: BaseCard = base_card.new("Granade Launcher",
+onready var granade_card: BaseCard = base_card.new("Granade Launcher",
 		"You launch granades instead of bullets.",
-		{},
-		[]#TODO
+		{"bullet_damage": ["*", 0.8],
+		"bullet_size": ["*", 1.2]},
+		[CommandsRepository.explosion_command]#TODO
 		)
 
 onready var flame_card: BaseCard = base_card.new("Flaming bullets",
@@ -76,8 +77,12 @@ onready var life_steal_card: BaseCard = base_card.new("Life Steal",
 
 onready var nuke_card: BaseCard = base_card.new("NUKE",
 		"Your bullets hit like nukes",
-		{},
-		[]#TODO
+		{"max_bullets": ["+", -2],
+		"bullet_damage": ["+", 100],
+		"reload_time": ["+", 1],
+		"shooting_cooldown_time": ["+", 0.2],
+		"bullet_size": ["*", 2]},
+		[]#TODO: add explosion
 		)
 
 onready var quick_reload_card: BaseCard = base_card.new("Quick Reload",
@@ -117,20 +122,21 @@ onready var cowboy_card: BaseCard = base_card.new("Cowboy",
 
 onready var chaos_card: BaseCard = base_card.new("CHAOS",
 		"The bullets you shoot bounce a lot.",
-		{"bullet_bounces": ["+", 5]},#TODO
+		{"bullet_bounces": ["+", 5],
+		"bullet_lifetime": ["+", 2]},
 		[]
 		)
 
 onready var knockback_card: BaseCard = base_card.new("Knockback",
 		"Your bullets knock enemies back on hit.",
 		{},
-		[]#TODO
+		[CommandsRepository.knockback_command]#TODO: reconsider - many problems
 		)
 
 onready var directed_bounce_card: BaseCard = base_card.new("Directed Bounce",
 		"The bullets you shoot bounce towards the closest player. Be careful, that might be you.",
 		{"bullet_bounces": ["+", 1]},
-		[]#TODO
+		[CommandsRepository.rotate_bullet_to_closest_player_command]
 		)
 
 onready var tactical_advantage_card: BaseCard = base_card.new("Tactical Advantage",
@@ -140,17 +146,22 @@ onready var tactical_advantage_card: BaseCard = base_card.new("Tactical Advantag
 		)
 
 onready var cards: Array = [
-	tough_card,
-	speedy_card,
-	glass_cannon,
-	cockroach_card,
-	sniper_card,
-	full_auto_card,
-	life_steal_card,
-	quick_reload_card,
-	big_boy_card,
-	cowboy_card,
-	tactical_advantage_card
+	# tough_card,
+	# speedy_card,
+	# glass_cannon,
+	# cockroach_card,
+	# sniper_card,
+	rubber_bullets_card,
+	# full_auto_card,
+	granade_card,
+	# life_steal_card,
+	# quick_reload_card,
+	# big_boy_card,
+	# cowboy_card,
+	chaos_card,
+	# knockback_card, #consider throwing this one away
+	directed_bounce_card,
+	# tactical_advantage_card
 ]
 
 func get_random_card() -> BaseCard:

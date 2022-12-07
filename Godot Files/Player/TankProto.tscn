@@ -20,6 +20,7 @@ height = 3.0
 extents = Vector3( 1.5, 1.36937, 2 )
 
 [node name="Tank" type="KinematicBody"]
+collision_layer = 17
 script = ExtResource( 1 )
 bullet_scene = ExtResource( 2 )
 bullet_speed = 50

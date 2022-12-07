@@ -49,6 +49,9 @@ var cards: Array = []
 var velocity: Vector3
 var angular_velocity: int
 
+master var master_knockback_velocity: Vector3 = Vector3.ZERO
+var knockback_velocity: Vector3 = Vector3.ZERO setget set_knockback
+
 var current_health: int setget set_current_health
 puppet var puppet_current_health: int setget set_puppet_current_health
 
@@ -123,6 +126,8 @@ func _physics_process(delta):
 		
 		# interpret inputs
 		velocity.z = forward_input*max_speed
+		velocity += master_knockback_velocity
+		master_knockback_velocity -= master_knockback_velocity * delta
 		velocity = move_and_slide(velocity.rotated(Vector3(0, 1, 0), rotation.y))
 		angular_velocity = turn_input*max_angular_speed
 		rotate_y(deg2rad(angular_velocity)*delta)
@@ -130,7 +135,8 @@ func _physics_process(delta):
 		# get mouse position and rotate barrel towards it
 		var pointed_position = mousePositionToWorldPosition()
 		if pointed_position != null:
-			get_node("Model/Head").look_at(flatten(pointed_position), Vector3.UP)
+			var head_node = get_node("Model/Head") 
+			head_node.look_at(flatten(pointed_position, head_node.global_translation.y), Vector3.UP)
 			#DEBUG
 			var ball = get_tree().root.get_node("World/DEBUG_BALL")
 			if ball == null:
@@ -143,6 +149,7 @@ func _physics_process(delta):
 
 		if not tween.is_active(): # Client predictions
 			puppet_velocity = move_and_slide(puppet_velocity.rotated(Vector3(0, 1, 0), rotation.y))
+	# translation.y = 0
 
 func shoot():
 	rpc("instance_bullet", get_tree().get_network_unique_id())
@@ -158,8 +165,8 @@ func start_reload():
 	reload_timer.start()
 	reloading_lbl.visible = true
 
-func flatten(vector: Vector3) -> Vector3:
-	return Vector3(vector.x, 0, vector.z)
+func flatten(vector: Vector3, height: float) -> Vector3:
+	return Vector3(vector.x, height, vector.z)
 
 func mousePositionToWorldPosition():
 	var space_state = get_world().direct_space_state
@@ -307,4 +314,9 @@ master func remote_move_to_spawn_point(spawn_point: Transform):
 
 func attach_card(card: BaseCard):
 	if is_network_master():
+		print("attaching card ", card.card_name)
 		card.attach_to_player(self)
+
+func set_knockback(new_value):
+	knockback_velocity = new_value
+	rset("master_knockback_velocity", new_value)
