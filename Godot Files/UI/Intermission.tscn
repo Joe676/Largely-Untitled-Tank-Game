@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Resources/Themes/BaseTheme.tres" type="Theme" id=1]
+
+[node name="Intermission" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.176471, 0.176471, 0.176471, 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="WinnerLabel" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_bottom = 14.0
+grow_horizontal = 2
+theme = ExtResource( 1 )
+text = "Last round's winner: ______"
+
+[node name="WaitingLabel" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -390.5
+margin_top = -67.0
+margin_right = 390.5
+grow_horizontal = 2
+theme = ExtResource( 1 )
+text = "Waiting for other players to choose their cards..."

@@ -1,0 +1,85 @@
+\chapter{Analiza technologii}
+\section{Silnik gier}
+Silnik gier to oprogramowanie pozwalające tworzyć gry komputerowe w prosty i wydajny sposób. Silnik umożliwia tworzenie oprogramowania bez potrzeby przygotowywania wszystkich systemów od podstaw. 
+
+Do podstawowych zadań silnika gier należą:
+\begin{itemize}
+    \item Tworzenie i zarządzanie aplikacją - Zawarte są tu takie elementy jak okno aplikacji, komunikacja z interfejsami wejścia-wyjścia, zarządzanie wątkami itp.
+    \item Generowanie i wyświetlanie grafiki - Programista może korzystać z abstrakcji poprzez korzystanie z zasobów, komponentów lub scen. Silnik zapewnia renderowanie grafiki dwuwymiarowej oraz rzutowanie scen trójwymiarowych. Zwykle w tym celu wyręcza programistę w komunikacji z bibliotekami niższego poziomu. 
+    \item Zarządzanie dźwiękiem - Silniki umożliwiają proste wprowadzenie dźwięków do gry bez potrzeby bezpośredniego interfejsowania z kartą graficzną lub abstrakcją systemu operacyjnego.
+    \item Silnik fizyczny - Wiele silników gier umożliwia korzystanie z wbudowanych silników fizyki brył sztywnych w celu m.in. wykrywania kolizji.
+    \item Dodatkowe moduły - np. nawigacja, sztuczna inteligencja, łączność sieciowa.
+
+    \item Dostarczenie wizualnych narzędzi - Większość silników gier umożliwia wykonywanie podstawowych zadań bez edycji kodu, poprzez interakcję z interfejsem graficznym. 
+    \item Zapewnienie jednolitego środowiska programistycznego (ang. \emph{Integrated Development Environment} - IDE) - Wiele silników pozwala na zarządzanie zasobami oraz ich edycją wewnątrz jednego, spójnego narzędzia. Nadal możliwe jest wykorzystanie zewnętrznych programów, przykładowo do przygotowania grafiki, jednak podstawowe potrzeby często są zapewnione przez środowisko silnika.
+\end{itemize}
+
+\subsection{Popularne silniki gier}
+\subsubsection{Unity}
+\subsubsection{Unreal Engine}
+\subsubsection{GameMaker: Studio}
+
+\section{Silnik Godot}
+Silnik Godot\cite{godot_main} jest darmowym silnikiem gier służącym do rozwoju gier 2D oraz 3D. Jest rozwijany od roku 2007, z pierwszą pełną wersją dostępną od 2014 roku. W tym samym roku projekt został udostępniony otwartoźródłowo na platformie GitHub\cite{godot_github}, z licencją MIT. Od tego czasu Godot jest nieustannie rozwijany, czego efektem jest wiele dostępnych wersji oprogramowania. 
+
+W momencie tworzenia projektu najnowsza dostępna wersja silnika to beta wersji 4.0. Dodaje ona szereg usprawnień względem wersji 3.x, w szczególności te dotyczące wydajności i renderowania grafiki 3D. Jest ona jednak dostępna we wczesnej fazie rozwoju, co może powodować problemy ze stabilnością oraz dostępnością rozszerzeń. Dla wersji 4.0 jest również niewiele dostępnych materiałów edukacyjnych. Z tych względów zdecydowano o wykorzystaniu najnowszej (w momencie rozpoczynania projektu) stabilnej wersji - 3.5\cite{godot_docs}. 
+
+\subsection{Język GDScript}
+Godot umożliwia pisanie kodu z wykorzystaniem kilku języków. Przez twórców projektu wspierane są języki C\# i C++, oraz interfejs programowania wizualnego. Z wykorzystaniem rozszerzeń przygotowanych przez społeczność możliwe jest dodanie wsparcia dla wielu innych języków. Domyślnym językiem dla Godota jest jednak ich własny język GDScript. 
+
+Składnia GDScripta jest oparta o składnię Pythona - bloki kodu oddzielone są wcięciami, a nie nawiasami. Te dwa języki dzielą również wiele podstawowych słów kluczowych. 
+
+\subsection{Drzewo gry}
+Podstawową abstrakcją, z jaką budowane są gry w Godocie jest ich podział na drzewo węzłów (ang. \emph{node}). Węzły mogą być grupowane w sceny (ang. \emph{scenes}) w celu umożliwienia ponownego ich wykorzystywania. Sceny również reprezentowane są jako drzewo węzłów z których się składają. 
+
+Godot dostarcza wiele rodzajów węzłów, umożliwiających wprowadzenie do gry najważniejszych funkcjonalności. 
+
+\begin{itemize}
+    \item[\textbf{\texttt{Node}}] Podstawowy, pusty węzeł. Najczęściej wykorzystywany jako kontener na inne węzły. Jest również bazą dla wspierających węzłów takich jak \texttt{Timer}, \texttt{Tween} czy \texttt{AnimationPlayer}.
+    \item[\textbf{\texttt{Spatial}}] Węzeł przestrzenny, będący bazą wszystkich węzłów wykorzystywanych w grach 3D, m.in. \texttt{Camera}, \texttt{PhysicsBody}, \texttt{CollisionShape}. Zawiera podstawowe informacje na temat położenia w przestrzeni.
+    \item[\textbf{\texttt{Control}}] Węzeł będący bazą węzłów interfejsu użytkownika takich jak \texttt{Button}, \texttt{Label} czy \texttt{ColorRect}.
+    \item[\textbf{\texttt{Node2D}}] Podstawowy węzeł dla elementów gier dwuwymiarowych. Zawiera w sobie przede wszystkim informacje o położeniu na płaszczyźnie. 
+\end{itemize}
+
+W czasie rozgrywki silnik tworzy drzewo z korzeniem nazwanym \texttt{root}. Jako jego dziecko inicjowana jest scena główna, określona w ustawieniach projektu. Ponadto inicjowane są sceny statyczne, które również mogą być określone w ustawieniach projektu jako ,,Autoładowane''. Takie sceny pozwalają na globalny dostęp z innych miejsc drzewa, umożliwiają przechowywanie danych dostępnych między zmianami scen oraz pozwalają na implementację wzorca projektowego singletonu\cite{singleton_refactoring_guru}. Jednak, jak podkreślono w dokumentacji, samo autoładowanie sceny nie tworzy singletonu, ponieważ możliwe jest ponowne instancjonowanie scen autoładowanych. 
+
+Węzłem w drzewie sceny (a co za tym idzie, również w drzewie gry) może być również instancja innej sceny. Jest ona widoczna jako pojedynczy węzeł, mimo, że sama w sobie również jest drzewem. Tak inicjowane sceny również mogą mieć przypisane dzieci.
+
+W czasie działania programu możliwe jest przełączenie sceny głównej programistycznej, poprzez wywołanie na drzewie metody \texttt{change\_scene}, której argumentem jest ścieżka do pliku z nową sceną. Obiekt będący instancją poprzedniej sceny zostaje wtedy usunięty i zastąpiony instancją nowej sceny.
+
+Drzewo udostępnia również szereg użytecznych metod. Przykładem takiej metody może być \texttt{notification} - metoda rozsyłająca powiadomienie do wszystkich obiektów aktualnie w drzewie. Jest ona przydatna przykładowo w momencie zamykania aplikacji - pozwala to zakończyć niezbędne procesy lub wyświetlić prośbę o potwierdzenie zamknięcia.
+
+\subsection{Zasoby}
+Zasoby (ang. \emph{Resources}) są podstawowym sposobem na przechowywanie i dzielenie danych w silniku Godot. Zasoby dzielą się na zewnętrzne, będące plikami zapisanymi na dysku, oraz wbudowane, zapisane jako element sceny. W sytuacji gdy wiele węzłów lub zasobów korzysta z tego samego zasobu zmiany w nim będą widoczne dla każdego użytkownika. Jest to szczególnie istotne w przypadku materiałów. Aby zmienić materiał dla jednego modelu, nie wprowadzając zmian we wszystkich, należy ,,ulokalnić'' go do wybranej sceny. 
+
+\subsection{Renderowanie grafiki}
+Godot udostępnia dwa silniki graficzne: GLES2, oparty na OpenGL 2.1 oraz GLES3 oparty na OpenGL 3.3. Ze względu na nowocześniejszy silnik bazowy, GLES3 dostarcza funkcje niedostępne w GLES2, takie jak akceleracja GPU dla animacji cząsteczkowych. Ponadto zapewnia on lepszą wydajność. GLES2 jest kompatybilny z większą liczbą, szczególnie starszych, urządzeń.
+
+Do rozwoju projektu zostanie zastosowany GLES3.
+
+\subsection{Sygnały}
+W Godocie wbudowana jest implementacja wzorca projektowego obserwatora \cite{game_programming_patterns}, nazwana sygnałami. Węzły wysyłają sygnały, aby poinformować węzły nasłuchujące o zajściu jakiegoś wydarzenia. Wraz z sygnałem mogą zostać wysłane argumenty, których może użyć słuchacz
+
+\subsection{Edytor}
+Godot udostępnia kompleksowy edytor pozwalający na prostą edycję elementów projektu. Umożliwia edycję scen, grafiki, parametrów węzłów, ale również takich aspektów jak animacje i sygnały.
+
+% \subsubsection{Okno graficzne}
+% Większą część okna Godota zajmuje okno edycji. Domyślnie dostępne są dla niego cztery tryby: Edycji 2D, edycji 3D, edycji kodu i biblioteki zasobów. Okno edycji 2D umożliwia wizualną edycję scen dwuwymiarowych, zarówno dla gier 2D jak i dla edycji interfejsów. Okno edycji 3D umożliwia wizualną edycję scen 3D. Okno edycji kodu pozwala na tworzenie skryptów wewnątrz edytora. Zawiera kolorowanie składni dla wspieranych języków oraz aktualną dokumentację. Biblioteka zasobów pozwala pobierać darmowe rozszerzenia dla Godota.
+
+% \subsubsection{Pole Scena}
+% Pole przypięte do brzegu ekranu, służące do edycji drzewa sceny. Wskazuje korzeń sceny oraz jego potomków na wszystkich warstwach. Pozwala również dodawać węzły potomne, wybierając je z listy dostępnych lub inicjując inne sceny. dostępna jest tu również możliwość dodania skryptu bezpośrednio do węzła. To pole wyświetla również podstawowe informacje na temat węzła, takie jak widoczność, blokady, generowane sygnały czy podłączone skrypty.
+
+% \subsubsection{Pole Plików}
+% Pole wyświetlające drzewo plików projektu. Pliki wyświetlane są w drzewie, którego korzeniem jest główny folder projektu, nazwany \texttt{res://}. Pole pozwala na przeszukiwanie, otwieranie oraz tworzenie nowych plików i zasobów.
+
+% \subsubsection{Inspektor}
+% Pole wyświetlające edytowalne z edytora atrybuty aktualnie wybranego węzła lub zasobu. Dostępne są tu atrybuty typu węzła oraz każdego z jego przodków w drzewie dziedziczenia. Ponadto, jeżeli skrypt przypięty do węzła posiada zmienną stworzoną ze słowem kluczowym \texttt{export}, możliwe jest edytowanie tych zmiennych wprost z edytora.
+
+
+
+% \subsection{Interfejsy graficzne}
+% W celu stworzenia interfejsów graficznych, takich jak menu czy HUD (\emph{Heads Up Display}), należy wykorzystać węzeł \texttt{Control} i jego pochodne. 
+
+\section{GUT}
+
+\section{Blender}

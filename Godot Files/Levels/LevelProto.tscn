@@ -3,7 +3,7 @@
 [ext_resource path="res://Levels/Level.gd" type="Script" id=1]
 
 [sub_resource type="VisualShaderNodeColorConstant" id=1]
-constant = Color( 0.0156863, 0.219608, 0.0980392, 1 )
+constant = Color( 0.208773, 0.208773, 0.208773, 1 )
 
 [sub_resource type="VisualShader" id=2]
 code = "shader_type spatial;
@@ -19,7 +19,7 @@ void vertex() {
 
 void fragment() {
 // Color:2
-	vec3 n_out2p0 = vec3(0.015686, 0.219608, 0.098039);
+	vec3 n_out2p0 = vec3(0.208773, 0.208773, 0.208773);
 	float n_out2p1 = 1.000000;
 
 // Output:0
@@ -32,7 +32,7 @@ void light() {
 
 }
 "
-graph_offset = Vector2( -381.159, 177.951 )
+graph_offset = Vector2( 5.82715, 303.318 )
 nodes/fragment/2/node = SubResource( 1 )
 nodes/fragment/2/position = Vector2( 120, 260 )
 nodes/fragment/connections = PoolIntArray( 2, 0, 0, 0 )
@@ -169,6 +169,27 @@ enabled = true
 transform = Transform( 0.965926, 0.12941, 0.224144, -0.258819, 0.482963, 0.836516, 0, -0.866025, 0.5, 0, 34, 0 )
 
 [node name="DEBUG_BALL" type="MeshInstance" parent="."]
+visible = false
 mesh = SubResource( 4 )
 
 [node name="CameraTarget" type="Spatial" parent="."]
+
+[node name="SpawnPoints" type="Node" parent="."]
+
+[node name="Point1" type="Spatial" parent="SpawnPoints"]
+transform = Transform( -0.915269, 0, 0.402843, 0, 1, 0, -0.402843, 0, -0.915269, -72.1292, 0.397222, 66.9247 )
+
+[node name="Point2" type="Spatial" parent="SpawnPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -61.7316, 7.62939e-06, -41.5609 )
+
+[node name="Point3" type="Spatial" parent="SpawnPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13.2488, 0, 67.7329 )
+
+[node name="Point4" type="Spatial" parent="SpawnPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 67.9356, 7.62939e-06, -17.9724 )
+
+[node name="Point5" type="Spatial" parent="SpawnPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.31102, 0, -54.561 )
+
+[node name="Point6" type="Spatial" parent="SpawnPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 73.4872, -1.52588e-05, 40.714 )

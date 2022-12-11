@@ -1,0 +1,41 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Resources/Themes/BaseTheme.tres" type="Theme" id=1]
+
+[node name="SingleStanding" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1669.0
+margin_bottom = -942.0
+rect_min_size = Vector2( 250, 0 )
+
+[node name="Container" type="VBoxContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="NameAndPlace" type="HBoxContainer" parent="Container"]
+margin_right = 251.0
+margin_bottom = 67.0
+custom_constants/separation = 10
+
+[node name="Placing" type="Label" parent="Container/NameAndPlace"]
+margin_right = 40.0
+margin_bottom = 67.0
+theme = ExtResource( 1 )
+text = "#1"
+
+[node name="Name" type="Label" parent="Container/NameAndPlace"]
+margin_left = 50.0
+margin_right = 251.0
+margin_bottom = 67.0
+theme = ExtResource( 1 )
+text = "Player name"
+
+[node name="VPLabel" type="Label" parent="Container"]
+margin_top = 71.0
+margin_right = 251.0
+margin_bottom = 138.0
+grow_horizontal = 2
+theme = ExtResource( 1 )
+text = "VP: 3"
+align = 1
