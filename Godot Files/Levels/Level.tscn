@@ -176,35 +176,35 @@ transform = Transform( 0.00345579, 0, 0.999994, 0, 1, 0, -0.999994, 0, 0.0034557
 shape = SubResource( 7 )
 
 [node name="SmallObstacle" type="CollisionShape" parent="Level"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5087, 2.77076, -51.9032 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5087, 1.54505, -51.9032 )
 shape = SubResource( 9 )
 
 [node name="SmallObstacle2" type="CollisionShape" parent="Level"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15.1414, 2.77076, -51.9032 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15.1414, 1.54505, -51.9032 )
 shape = SubResource( 9 )
 
 [node name="SmallObstacle3" type="CollisionShape" parent="Level"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.619, 2.77076, -43.6887 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.619, 1.54505, -43.6887 )
 shape = SubResource( 9 )
 
 [node name="SmallObstacle4" type="CollisionShape" parent="Level"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24.0584, 2.77076, -43.6707 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24.0584, 1.54505, -43.6707 )
 shape = SubResource( 9 )
 
 [node name="SmallObstacle5" type="CollisionShape" parent="Level"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 37.7901, 2.77076, -43.7306 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 37.7901, 1.54505, -43.7306 )
 shape = SubResource( 9 )
 
 [node name="SmallObstacle6" type="CollisionShape" parent="Level"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 38.3305, 2.77076, -51.891 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 38.3305, 1.54505, -51.891 )
 shape = SubResource( 9 )
 
 [node name="SmallObstacle7" type="CollisionShape" parent="Level"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 47.6798, 2.77076, -51.927 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 47.6798, 1.54505, -51.927 )
 shape = SubResource( 9 )
 
 [node name="SmallObstacle8" type="CollisionShape" parent="Level"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 47.2174, 2.77076, -43.6898 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 47.2174, 1.54505, -43.6898 )
 shape = SubResource( 9 )
 
 [node name="Camera" type="InterpolatedCamera" parent="."]
