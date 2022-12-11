@@ -2,7 +2,7 @@
 \section{Silnik gier}
 Silnik gier to oprogramowanie pozwalające tworzyć gry komputerowe w prosty i wydajny sposób. Silnik umożliwia tworzenie oprogramowania bez potrzeby przygotowywania wszystkich systemów od podstaw. 
 
-Do podstawowych zadań silnika gier należą:
+Do podstawowych zadań silnika gier należą \cite{pipg4}:
 \begin{itemize}
     \item Tworzenie i zarządzanie aplikacją - Zawarte są tu takie elementy jak okno aplikacji, komunikacja z interfejsami wejścia-wyjścia, zarządzanie wątkami itp.
     \item Generowanie i wyświetlanie grafiki - Programista może korzystać z abstrakcji poprzez korzystanie z zasobów, komponentów lub scen. Silnik zapewnia renderowanie grafiki dwuwymiarowej oraz rzutowanie scen trójwymiarowych. Zwykle w tym celu wyręcza programistę w komunikacji z bibliotekami niższego poziomu. 
@@ -15,9 +15,17 @@ Do podstawowych zadań silnika gier należą:
 \end{itemize}
 
 \subsection{Popularne silniki gier}
+Na rynku dostępnych jest wiele silników gier. Można podzielić je na tworzone z myślą o konkretnej grze oraz silniki ogólnego przeznaczenia\cite{game_engine_architecture}. Te pierwsze najczęściej tworzone są przez zespoły jedynie do użytku wewnętrznego. Z tego względu mają często bardziej ograniczone możliwości, są jednak lepiej zoptymalizowane oraz, ze względu na zupełną kontrolę zespołu bądź firmy, mogą byc dostosowywane do konkretnych potrzeb. 
+
+Silniki ogólnego przeznaczenia tworzone są z myślą o wykorzystaniu w wielu projektach o różnych cechach i potrzebach. Poniżej opisane zostały najpopularniejsze silniki dostępne na rynku.
 \subsubsection{Unity}
+Unity jest silnikiem gier ogólnego przeznaczenia darmowym dla projektów zarabiających poniżej astu tysięcy dolarów rocznie\cite{unity_page}\cite{gamedev_unity}. Jest jednym z najpopularniejszych silników, wykorzystywanym w niemalże połowie projektów dostępnych na platformie itch.io\cite{most_used_engines}. Wykorzystuje język programowania C\# i jest mocno związany z środowiskiem .NET. Ze względu na dużą popularność dostępnych jest wiele materiałów edukacyjnych, zasobów oraz rozszerzeń tworzonych przez społeczność fanów. Unity posiada szeroki zbiór narzędzi do tworzenia złożonych gier zarówno 2D jak i 3D. Jest prosty w obsłudze, jednak wizualnie mniej zaawansowany niż Unreal.   
+
 \subsubsection{Unreal Engine}
+Silnik Unreal służy głównie do tworzenia gier 3D o wysokiej złożoności grafiki z naciskiem na realistyczność\cite{unreal_page}\cite{intro_to_ue4}. Słabiej niż Unity nadaje się do tworzenia mniejszych gier np. na platformy mobilne\cite{unity_v_unreal}. W związku z tym, szczególnie w ostatnich latach\cite{cdp_unreal}, częściej wykorzystywany jest w większych firmach niż małych niezależnych zespołach. Silnik jest darmowy, jednak dla projektów o zarobkach powyżej miliona dolarów należna jest opłata w wysokości 5\% przychodów. Programowanie w tym silniku możliwe jest z wykorzystaniem języka C++ lub narzędzia programowania wizualnego ,,Blueprints''. 
+
 \subsubsection{GameMaker: Studio}
+GameMaker jest silnikiem przeznaczonym do tworzenia gier dwuwymiarowych. Pozwala na tworzenie gier z wykorzystaniem języka GML (,,GameMaker Language''). Ze względu na ograniczone możliwości jest o wiele mniej popularny niż silniki wymienione powyżej, jednak mimo to wielu twórców niezależnych z niego korzysta. Proste narzędzie programowania wizualnego oraz niskie wymagania sprzętowe powodują, że jest jednym z najpopularniejszych silników na platformie itch.io\cite{most_used_engines}.  
 
 \section{Silnik Godot}
 Silnik Godot\cite{godot_main} jest darmowym silnikiem gier służącym do rozwoju gier 2D oraz 3D. Jest rozwijany od roku 2007, z pierwszą pełną wersją dostępną od 2014 roku. W tym samym roku projekt został udostępniony otwartoźródłowo na platformie GitHub\cite{godot_github}, z licencją MIT. Od tego czasu Godot jest nieustannie rozwijany, czego efektem jest wiele dostępnych wersji oprogramowania. 
@@ -75,11 +83,43 @@ Godot udostępnia kompleksowy edytor pozwalający na prostą edycję elementów 
 % \subsubsection{Inspektor}
 % Pole wyświetlające edytowalne z edytora atrybuty aktualnie wybranego węzła lub zasobu. Dostępne są tu atrybuty typu węzła oraz każdego z jego przodków w drzewie dziedziczenia. Ponadto, jeżeli skrypt przypięty do węzła posiada zmienną stworzoną ze słowem kluczowym \texttt{export}, możliwe jest edytowanie tych zmiennych wprost z edytora.
 
-
-
 % \subsection{Interfejsy graficzne}
 % W celu stworzenia interfejsów graficznych, takich jak menu czy HUD (\emph{Heads Up Display}), należy wykorzystać węzeł \texttt{Control} i jego pochodne. 
 
+\subsection{System sieciowy}
+W silniku Godot dostępnych jest wiele sposobów na wprowadzenie interakcji sieciowych do tworzonych gier. Możliwe jest tu korzystanie bezpośrednio z protokołów niskiego poziomu: TCP i UDP. Udostępnione są również interfejsy protokołów wyższego poziomu: SSL i HTTP. Najprostszym sposobem jest korzystanie z wysokopoziomowego API (ang. \emph{Aplication Programming Interface}, Interfejs programowania aplikacji). Pozbawia ono twórcę dokładnej kontroli nad pakietami, wprowadzając jednak wiele abstrakcji upraszczających pracę.
+
+Sieciowe API Godota oparte jest na zmodyfikowanym protokole UDP. Daje to możliwość komunikacji zawodnej dla szybkiej komunikacji lub komunikacji niezawodnej dla pewności otrzymania pakietów przez adresatów. 
+
+Podstawową klasą niezbędną do wprowadzenia funkcji sieciowych w Godocie jest \texttt{NetworkedMultiplayerENet}. Jest to implementacja interfejsu \texttt{PacketPeer} korzystająca z biblioteki ENet\cite{enet}. Instancja tej klasy zapisywana jest w drzewie gry jako \texttt{peer}. Zarządza ona komunikacją sieciową. Może zostać zainicjowana jako serwer lub klient. W roli serwera obiekt nasłuchuje komunikacji na podanym porcie oraz pod podanym interfejsem IP. Domyślnie używana jest "dzika karta" (ang. \emph{wild card}) - serwer może nasłuchiwać na wszystkich dostępnych interfejsach IP. Możliwe jest również określenie maksymalnej liczby połączonych klientów w zakresie do 4095. W rzeczywistości jednak najpewniej możliwa do utrzymania będzie znacznie mniejsza liczba połączeń. W roli klienta, obiekt nawiązuje komunikację z serwerem nasłuchującym na podanym porcie pod podanym adresem. 
+
+Komunikacja na wyższym poziomie odbywa się pomiędzy odpowiadającymi sobie węzłami drzew gry u klientów i na serwerze. Tworząc węzły, które miałyby komunikować się między sobą należy nazwać je tak samo na wszystkich urządzeniach. Wszystkie odpowiadające sobie węzły muszą być pod kontrolą jednego z komputerów. Taka relacja nazwana jest \emph{master-puppet} (ang. mistrz-marionetka). Mistrzem nazywany jest węzeł znajdujący się na kontrolującym go komputerze, podczas gdy marionetki to odpowiadające mu węzły na pozostałych komputerach biorących udział w komunikacji.
+
+W czasie działania programu wykorzystywane są trzy mechanizmy komunikacji:
+\begin{itemize}
+    \item \texttt{rpc} (ang. \emph{Remote Procedure Call}, zdalne wywołanie procedury) - Pozwala wywołać metodę na odpowiadającym węźle innego komputera. Metody przekazywane są poprzez nazwę metody i zestaw argumentów np. \texttt{rpc("start\_game")}. Aby móc wywołać metodę zdalnie musi być ona zdefiniowana z jednym ze słów kluczowych określających metody zdalne.
+    \item \texttt{rset} (ang. \emph{Remote Set}, Ustaw Zdalnie) - Pozwala na zmianę wartości zmiennej na innych komputerach np. \texttt{rset("position", my\_position)}. Podobnie jak metody - zmienne ustawiane w ten sposób muszą byc zdefiniowane z wykorzystaniem odpowiednich słów kluczowych.
+    \item  Wbudowane sygnały - Ustawiony w drzewie gry \emph{network peer} emituje sygnały w przypadku zmiany statusu połączenia, np. gdy z serwerem połączy się nowy klient lub gdy połączenie z serwerem zostanie utracone. 
+\end{itemize}
+
+Udostępnione są również zmodyfikowane wersje \texttt{rpc} i \texttt{rset}, korzystające z połączenia zawodnego (\texttt{rpc\_unreliable}, \texttt{rset\_unreliable}), pozwalające na przesyłanie danych do konkretnego komputera (\texttt{rpc\_id}, \texttt{rset\_id}) lub obu (\texttt{rpc\_unreliable\_id}, \texttt{rset\_unreliable\_id}). Ponadto metody oraz zmienne wykorzystywane w komunikacji muszą być tworzone z wykorzystaniem odpowiednich słów kluczowych:
+\begin{itemize}
+    \item[\texttt{remote}] Umożliwia wykorzystanie metody lub zmiennej do komunikacji z dowolnego połączonego urządzenia.
+    \item[\texttt{puppet}] Umożliwia wysyłanie poleceń jedynie z mistrza do marionetek.
+    \item[\texttt{master}] Umożliwia wysyłanie poleceń jedynie od marionetek do mistrza. 
+\end{itemize}
+
+Ponadto dodając końcówkę \texttt{sync} do powyższych słów kluczowych możliwe jest wywołanie zapytania rpc lub rset również lokalnie, bez konieczności ręcznego wywoływania funkcji.
+
 \section{GUT}
+GUT (\emph{Godot Unit Testing})\cite{gut_wiki} jest zestawem narzędzi pozwalających na pisanie i uruchamianie testów jednostkowych w środowisku Godot. Zawiera narzędzia linii komend, rozszerzenie do edytora oraz niezbędne klasy i metody testujące.
+
+Testy w GUT pisane są w języku GDScript. Należy umieszczać je w klasach rozszerzających \texttt{GutTest}. W ustawieniach dodatku określić można foldery oraz schematy nazewnictwa plików testowych. Nazwy funkcji testowych muszą rozpoczynać się od ,,\texttt{test\_}''. Mogą one być również pogrupowane na podklasy. 
+
+Klasa rozszerzająca \texttt{GutTest} może korzystać z metod zarządzających testami - uruchamianych przed lub po każdym lub wszystkich testach (np. \texttt{before\_each} lub \texttt{before\_all}).
+
+Do przeprowadzania testów udostępniony jest szeroki zestaw asercji, pozwalających sprawdzić zgodność otrzymanych wartości i zdarzeń z oczekiwaniami.
+
 
 \section{Blender}
+Blender jest darmowym, otwartoźródłowym programem do tworzenia grafiki 3D\cite{blender_page}\cite{mastering_blender}. Pozwala tworzyć i edytować trójwymiarowe modele i sceny, teksturować je oraz tworzyć materiały i shadery. Ponadto umożliwia tworzenie animacji a nawet prostych gier. Został wykorzystany do stworzenia modeli w tym projekcie ze względu na jego popularność, dostępność materiałów edukacyjnych oraz licencję GNU GPL pozwalającą na darmowe korzystanie w każdym celu.
