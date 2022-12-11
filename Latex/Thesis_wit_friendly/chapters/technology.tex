@@ -14,10 +14,15 @@ Do podstawowych zadań silnika gier należą:
     \item Zapewnienie jednolitego środowiska programistycznego (ang. \emph{Integrated Development Environment} - IDE) - Wiele silników pozwala na zarządzanie zasobami oraz ich edycją wewnątrz jednego, spójnego narzędzia. Nadal możliwe jest wykorzystanie zewnętrznych programów, przykładowo do przygotowania grafiki, jednak podstawowe potrzeby często są zapewnione przez środowisko silnika.
 \end{itemize}
 
+\subsection{Popularne silniki gier}
+\subsubsection{Unity}
+\subsubsection{Unreal Engine}
+\subsubsection{GameMaker: Studio}
+
 \section{Silnik Godot}
 Silnik Godot\cite{godot_main} jest darmowym silnikiem gier służącym do rozwoju gier 2D oraz 3D. Jest rozwijany od roku 2007, z pierwszą pełną wersją dostępną od 2014 roku. W tym samym roku projekt został udostępniony otwartoźródłowo na platformie GitHub\cite{godot_github}, z licencją MIT. Od tego czasu Godot jest nieustannie rozwijany, czego efektem jest wiele dostępnych wersji oprogramowania. 
 
-W momencie tworzenia projektu najnowsza dostępna wersja silnika to beta wersji 4.0. Dodaje ona szereg usprawnień względem wersji 3.x, w szczególności te dotyczące wydajności i renderowania grafiki 3D. Jest ona jednak dostępna we wczesnej fazie rozwoju, co może powodować problemy ze stabilnością oraz dostępnością rozszerzeń. Dla wersji 4.0 jest również niewiele dostępnych materiałów edukacyjnych. Z tych względów zdecydowano o wykorzystaniu najnowszej (w momencie rozpoczynania projektu) stabilnej wersji - 3.5. 
+W momencie tworzenia projektu najnowsza dostępna wersja silnika to beta wersji 4.0. Dodaje ona szereg usprawnień względem wersji 3.x, w szczególności te dotyczące wydajności i renderowania grafiki 3D. Jest ona jednak dostępna we wczesnej fazie rozwoju, co może powodować problemy ze stabilnością oraz dostępnością rozszerzeń. Dla wersji 4.0 jest również niewiele dostępnych materiałów edukacyjnych. Z tych względów zdecydowano o wykorzystaniu najnowszej (w momencie rozpoczynania projektu) stabilnej wersji - 3.5\cite{godot_docs}. 
 
 \subsection{Język GDScript}
 Godot umożliwia pisanie kodu z wykorzystaniem kilku języków. Przez twórców projektu wspierane są języki C\# i C++, oraz interfejs programowania wizualnego. Z wykorzystaniem rozszerzeń przygotowanych przez społeczność możliwe jest dodanie wsparcia dla wielu innych języków. Domyślnym językiem dla Godota jest jednak ich własny język GDScript. 
@@ -56,19 +61,19 @@ Do rozwoju projektu zostanie zastosowany GLES3.
 W Godocie wbudowana jest implementacja wzorca projektowego obserwatora \cite{game_programming_patterns}, nazwana sygnałami. Węzły wysyłają sygnały, aby poinformować węzły nasłuchujące o zajściu jakiegoś wydarzenia. Wraz z sygnałem mogą zostać wysłane argumenty, których może użyć słuchacz
 
 \subsection{Edytor}
-Godot udostępnia kompleksowy edytor pozwalający na edycję wszystkich elementów projektu od ustawień, po grafikę i kod. Poniżej opisane zostały najważniejsze elementy edytora.
+Godot udostępnia kompleksowy edytor pozwalający na prostą edycję elementów projektu. Umożliwia edycję scen, grafiki, parametrów węzłów, ale również takich aspektów jak animacje i sygnały.
 
-\subsubsection{Okno graficzne}
-Większą część okna Godota zajmuje okno edycji. Domyślnie dostępne są dla niego cztery tryby: Edycji 2D, edycji 3D, edycji kodu i biblioteki zasobów. Okno edycji 2D umożliwia wizualną edycję scen dwuwymiarowych, zarówno dla gier 2D jak i dla edycji interfejsów. Okno edycji 3D umożliwia wizualną edycję scen 3D. Okno edycji kodu pozwala na tworzenie skryptów wewnątrz edytora. Zawiera kolorowanie składni dla wspieranych języków oraz aktualną dokumentację. Biblioteka zasobów pozwala pobierać darmowe rozszerzenia dla Godota.
+% \subsubsection{Okno graficzne}
+% Większą część okna Godota zajmuje okno edycji. Domyślnie dostępne są dla niego cztery tryby: Edycji 2D, edycji 3D, edycji kodu i biblioteki zasobów. Okno edycji 2D umożliwia wizualną edycję scen dwuwymiarowych, zarówno dla gier 2D jak i dla edycji interfejsów. Okno edycji 3D umożliwia wizualną edycję scen 3D. Okno edycji kodu pozwala na tworzenie skryptów wewnątrz edytora. Zawiera kolorowanie składni dla wspieranych języków oraz aktualną dokumentację. Biblioteka zasobów pozwala pobierać darmowe rozszerzenia dla Godota.
 
-\subsubsection{Pole Scena}
-Pole przypięte do brzegu ekranu, służące do edycji drzewa sceny. Wskazuje korzeń sceny oraz jego potomków na wszystkich warstwach. Pozwala również dodawać węzły potomne, wybierając je z listy dostępnych lub inicjując inne sceny. dostępna jest tu również możliwość dodania skryptu bezpośrednio do węzła. To pole wyświetla również podstawowe informacje na temat węzła, takie jak widoczność, blokady, generowane sygnały czy podłączone skrypty.
+% \subsubsection{Pole Scena}
+% Pole przypięte do brzegu ekranu, służące do edycji drzewa sceny. Wskazuje korzeń sceny oraz jego potomków na wszystkich warstwach. Pozwala również dodawać węzły potomne, wybierając je z listy dostępnych lub inicjując inne sceny. dostępna jest tu również możliwość dodania skryptu bezpośrednio do węzła. To pole wyświetla również podstawowe informacje na temat węzła, takie jak widoczność, blokady, generowane sygnały czy podłączone skrypty.
 
-\subsubsection{Pole Plików}
-Pole wyświetlające drzewo plików projektu. Pliki wyświetlane są w drzewie, którego korzeniem jest główny folder projektu, nazwany \texttt{res://}. Pole pozwala na przeszukiwanie, otwieranie oraz tworzenie nowych plików i zasobów.
+% \subsubsection{Pole Plików}
+% Pole wyświetlające drzewo plików projektu. Pliki wyświetlane są w drzewie, którego korzeniem jest główny folder projektu, nazwany \texttt{res://}. Pole pozwala na przeszukiwanie, otwieranie oraz tworzenie nowych plików i zasobów.
 
-\subsubsection{Inspektor}
-Pole wyświetlające edytowalne z edytora atrybuty aktualnie wybranego węzła lub zasobu. Dostępne są tu atrybuty typu węzła oraz każdego z jego przodków w drzewie dziedziczenia. Ponadto, jeżeli skrypt przypięty do węzła posiada zmienną stworzoną ze słowem kluczowym \texttt{export}, możliwe jest edytowanie tych zmiennych wprost z edytora.
+% \subsubsection{Inspektor}
+% Pole wyświetlające edytowalne z edytora atrybuty aktualnie wybranego węzła lub zasobu. Dostępne są tu atrybuty typu węzła oraz każdego z jego przodków w drzewie dziedziczenia. Ponadto, jeżeli skrypt przypięty do węzła posiada zmienną stworzoną ze słowem kluczowym \texttt{export}, możliwe jest edytowanie tych zmiennych wprost z edytora.
 
 
 
@@ -76,3 +81,5 @@ Pole wyświetlające edytowalne z edytora atrybuty aktualnie wybranego węzła l
 % W celu stworzenia interfejsów graficznych, takich jak menu czy HUD (\emph{Heads Up Display}), należy wykorzystać węzeł \texttt{Control} i jego pochodne. 
 
 \section{GUT}
+
+\section{Blender}
