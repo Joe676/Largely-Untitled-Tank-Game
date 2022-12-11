@@ -61,18 +61,18 @@ onready var granade_card: BaseCard = base_card.new("Granade Launcher",
 		"You launch granades instead of bullets.",
 		{"bullet_damage": ["*", 0.8],
 		"bullet_size": ["*", 1.2]},
-		[CommandsRepository.explosion_command]#TODO
+		[CommandsRepository.explosion_command]
 		)
 
 onready var flame_card: BaseCard = base_card.new("Flaming bullets",
 		"Your bullets set the opponents ablaze!",
-		{},
-		[]#TODO: player's active state (same for freezing)
+		{"bullet_speed": ["+", 10]},
+		[CommandsRepository.fire_command]
 		)
 		
 onready var life_steal_card: BaseCard = base_card.new("Life Steal", 
 		"When you hit an enemy with a bullet you get healed by half of the amount of damage caused.", 
-		{}, 
+		{"time_between_healing": ["*", 2]}, 
 		[CommandsRepository.steal_health_command])
 
 onready var nuke_card: BaseCard = base_card.new("NUKE",
@@ -82,7 +82,7 @@ onready var nuke_card: BaseCard = base_card.new("NUKE",
 		"reload_time": ["+", 1],
 		"shooting_cooldown_time": ["+", 0.2],
 		"bullet_size": ["*", 2]},
-		[]#TODO: add explosion
+		[CommandsRepository.explosion_command]
 		)
 
 onready var quick_reload_card: BaseCard = base_card.new("Quick Reload",
@@ -102,14 +102,14 @@ onready var big_boy_card: BaseCard = base_card.new("Big Boy",
 
 onready var fragmentation_card: BaseCard = base_card.new("Fragmentation",
 		"Your bullet splits into many smaller fragments that scatter on hit",
-		{},
-		[]#TODO
+		{"reload_time": ["+", 0.2]},
+		[CommandsRepository.fragmentation_command]
 		)
 	
 onready var freezing_bullet_card: BaseCard = base_card.new("Freezing Bullet",
 		"Your bullets freeze hit opponents.",
-		{},
-		[]#TODO
+		{"reload_time": ["+", 0.2]},
+		[CommandsRepository.freeze_command]
 		)
 
 onready var cowboy_card: BaseCard = base_card.new("Cowboy",
@@ -141,7 +141,7 @@ onready var directed_bounce_card: BaseCard = base_card.new("Directed Bounce",
 
 onready var tactical_advantage_card: BaseCard = base_card.new("Tactical Advantage",
 		"Hitting an opponent reloads your weapon.",
-		{},
+		{"reload_time": ["+", 0.5]},
 		[CommandsRepository.reload_on_hit_command]
 		)
 
@@ -151,16 +151,20 @@ onready var cards: Array = [
 	# glass_cannon,
 	# cockroach_card,
 	# sniper_card,
-	rubber_bullets_card,
+	# rubber_bullets_card,
 	# full_auto_card,
-	granade_card,
+	# granade_card,
+	flame_card,
 	# life_steal_card,
+	# nuke_card,
 	# quick_reload_card,
 	# big_boy_card,
+	fragmentation_card,
+	freezing_bullet_card,
 	# cowboy_card,
-	chaos_card,
+	# chaos_card,
 	# knockback_card, #consider throwing this one away
-	directed_bounce_card,
+	# directed_bounce_card, #consider throwing this away - seems to not work properly
 	# tactical_advantage_card
 ]
 

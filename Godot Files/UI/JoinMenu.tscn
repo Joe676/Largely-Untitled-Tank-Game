@@ -25,84 +25,20 @@ theme = ExtResource( 1 )
 text = "JOIN GAME"
 uppercase = true
 
-[node name="IPLbl" type="Label" parent="."]
+[node name="StartBtn" type="Button" parent="."]
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -483.0
-margin_top = -149.0
-margin_right = -63.0
-margin_bottom = -53.0
-grow_horizontal = 0
+anchor_bottom = 1.0
+margin_left = -163.0
+margin_top = -223.0
+margin_right = 165.0
+margin_bottom = -121.0
+grow_horizontal = 2
+grow_vertical = 0
 theme = ExtResource( 1 )
-text = "Server IP"
-align = 2
-valign = 1
-
-[node name="IPInput" type="LineEdit" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 38.0
-margin_top = -149.0
-margin_right = 416.0
-margin_bottom = -43.0
-theme = ExtResource( 1 )
-caret_blink = true
-
-[node name="NameLbl" type="Label" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -328.0
-margin_top = -45.0
-margin_right = -61.0
-margin_bottom = 51.0
-grow_horizontal = 0
-theme = ExtResource( 1 )
-text = "Your Name"
-align = 2
-valign = 1
-
-[node name="NameInput" type="LineEdit" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 38.0
-margin_top = -45.0
-margin_right = 416.0
-margin_bottom = 61.0
-theme = ExtResource( 1 )
-caret_blink = true
-
-[node name="ColourLbl" type="Label" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -328.0
-margin_top = 68.0
-margin_right = -55.0
-margin_bottom = 164.0
-grow_horizontal = 0
-theme = ExtResource( 1 )
-text = "Your Colour"
-
-[node name="ColorPickerButton" type="ColorPickerButton" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 38.0
-margin_top = 68.0
-margin_right = 416.0
-margin_bottom = 164.0
+text = "Join Game"
 flat = true
-color = Color( 1, 0, 0, 1 )
 
 [node name="BackBtn" type="Button" parent="."]
 anchor_left = 0.5
@@ -117,21 +53,6 @@ grow_horizontal = 2
 grow_vertical = 0
 theme = ExtResource( 1 )
 text = "Back to Menu"
-flat = true
-
-[node name="StartBtn" type="Button" parent="."]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -163.0
-margin_top = -223.0
-margin_right = 165.0
-margin_bottom = -121.0
-grow_horizontal = 2
-grow_vertical = 0
-theme = ExtResource( 1 )
-text = "Start Game"
 flat = true
 
 [node name="NoNameDialog" type="AcceptDialog" parent="."]
@@ -158,5 +79,74 @@ margin_bottom = 29.0
 window_title = "Invalid IP"
 dialog_text = "Could not connect. Check the provided IP and try again."
 
-[connection signal="pressed" from="BackBtn" to="." method="_on_BackBtn_pressed"]
+[node name="GridContainer" type="GridContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -275.0
+margin_top = -150.5
+margin_right = 275.0
+margin_bottom = 150.5
+grow_horizontal = 2
+grow_vertical = 2
+custom_constants/vseparation = 40
+custom_constants/hseparation = 60
+columns = 2
+
+[node name="IPLbl" type="Label" parent="GridContainer"]
+margin_top = 5.0
+margin_right = 190.0
+margin_bottom = 72.0
+grow_horizontal = 0
+theme = ExtResource( 1 )
+text = "Server IP"
+align = 2
+valign = 1
+
+[node name="IPInput" type="LineEdit" parent="GridContainer"]
+margin_left = 250.0
+margin_right = 550.0
+margin_bottom = 77.0
+theme = ExtResource( 1 )
+caret_blink = true
+
+[node name="NameLbl" type="Label" parent="GridContainer"]
+margin_top = 122.0
+margin_right = 190.0
+margin_bottom = 189.0
+grow_horizontal = 0
+theme = ExtResource( 1 )
+text = "Your Name"
+align = 2
+valign = 1
+
+[node name="NameInput" type="LineEdit" parent="GridContainer"]
+margin_left = 250.0
+margin_top = 117.0
+margin_right = 550.0
+margin_bottom = 194.0
+theme = ExtResource( 1 )
+caret_blink = true
+
+[node name="ColourLbl" type="Label" parent="GridContainer"]
+margin_top = 234.0
+margin_right = 190.0
+margin_bottom = 301.0
+grow_horizontal = 0
+theme = ExtResource( 1 )
+text = "Your Colour"
+align = 2
+valign = 1
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="GridContainer"]
+margin_left = 250.0
+margin_top = 234.0
+margin_right = 550.0
+margin_bottom = 301.0
+rect_min_size = Vector2( 300, 0 )
+flat = true
+color = Color( 1, 0, 0, 1 )
+
 [connection signal="pressed" from="StartBtn" to="." method="_on_StartBtn_pressed"]
+[connection signal="pressed" from="BackBtn" to="." method="_on_BackBtn_pressed"]

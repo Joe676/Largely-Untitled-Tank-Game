@@ -24,11 +24,16 @@ onready var state = State.IN_LOBBY
 
 func _ready():
 	get_tree().connect("network_peer_connected", self, "_player_connected")
-	pass
+	get_tree().connect("network_peer_disconnected", self,"_player_disconnected")
 
 func _player_connected(id):
 	number_of_players += 1
 	rpc_id(id, "register_player", my_info)
+
+func _player_disconnected(id):
+	number_of_players -= 1
+	players_info.erase(id)
+	
 
 remote func register_player(info):
 	var id = get_tree().get_rpc_sender_id()
@@ -40,10 +45,11 @@ func start_game():
 	get_tree().get_network_peer().refuse_new_connections = true
 	state = State.IN_GAME
 	emit_signal("start_game")
-	rpc("remote_start_game")
+	rpc("remote_start_game", vp_goal)
 	start_round()
 
-remote func remote_start_game():
+remote func remote_start_game(vp):
+	vp_goal = vp
 	state = State.IN_GAME
 	emit_signal("start_game")
 	# start_round()
@@ -93,12 +99,14 @@ func start_round():
 	dead_players = []
 	emit_signal("start_round")
 	rpc("remote_start_round")
-	get_tree().change_scene("res://Levels/LevelProto.tscn")
+	# get_tree().change_scene("res://Levels/LevelProto.tscn")
+	get_tree().change_scene("res://Levels/Level.tscn")
 
 remote func remote_start_round():
 	state = State.IN_GAME
 	emit_signal("start_round")
-	get_tree().change_scene("res://Levels/LevelProto.tscn")
+	# get_tree().change_scene("res://Levels/LevelProto.tscn")
+	get_tree().change_scene("res://Levels/Level.tscn")
 
 remote func set_last_winner(id):
 	last_winner_id = str(id)

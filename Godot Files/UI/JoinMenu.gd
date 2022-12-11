@@ -1,10 +1,10 @@
 extends Control
 
-onready var name_input: LineEdit = $NameInput
-onready var ip_input: LineEdit = $IPInput
+onready var name_input: LineEdit = $GridContainer/NameInput
+onready var ip_input: LineEdit = $GridContainer/IPInput
 onready var no_name_popup: AcceptDialog = $NoNameDialog
 onready var wrong_ip_popup: AcceptDialog = $WrongIPDialog
-onready var colour_picker: ColorPickerButton = $ColorPickerButton
+onready var colour_picker: ColorPickerButton = $GridContainer/ColorPickerButton
 
 func _on_BackBtn_pressed():
 	Network.disconnect_from_network()

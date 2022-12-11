@@ -23,8 +23,6 @@ extents = Vector3( 1.5, 1.36937, 2 )
 collision_layer = 17
 script = ExtResource( 1 )
 bullet_scene = ExtResource( 2 )
-bullet_speed = 50
-bullet_lifetime = 5.0
 
 [node name="Model" type="Spatial" parent="."]
 
@@ -79,6 +77,8 @@ one_shot = true
 
 [node name="HealTimer" type="Timer" parent="Timers"]
 autostart = true
+
+[node name="States" type="Node" parent="."]
 
 [connection signal="timeout" from="NetworkTickRate" to="." method="_on_NetworkTickRate_timeout"]
 [connection signal="timeout" from="Timers/ShootingTimer" to="." method="_on_ShootingTimer_timeout"]

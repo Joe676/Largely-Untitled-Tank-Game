@@ -81,10 +81,77 @@ func _knock_player_back(bullet, hit_body, _hit_point):
 
 onready var knockback_command = _base_command.new(funcref(self, "_knock_player_back"))
 
-func _explosion(_bullet, _hit_body, hit_point):
+sync func _instance_explosion(point, id):
 	var explosion_instance = explosion_scene.instance()
-	explosion_instance.global_translation = hit_point
+	explosion_instance.global_translation = point
+	Global.name_networked_object(explosion_instance, str(id), "Explosion")
+	explosion_instance.set_network_master(id)
 	PersistentNodes.add_child(explosion_instance)
-	pass
+
+func _explosion(_bullet, _hit_body, hit_point):
+	rpc("_instance_explosion", hit_point, get_tree().get_network_unique_id())
 
 onready var explosion_command = _base_command.new(funcref(self, "_explosion"))
+
+var bullet_scene = preload("res://Objects/Bullet.tscn")
+
+sync func _instance_fragment(bullet_attrs, rotation):
+	print("instancing a fragment")
+	var owner_id = bullet_attrs[5]
+	var bullet_transform = bullet_attrs[6]
+	var new_bullet = Global.instance_node_with_transform(bullet_scene, bullet_transform)\
+		.ctor(bullet_attrs[0], bullet_attrs[1], bullet_attrs[2], bullet_attrs[3] * 0.6, bullet_attrs[4] + 1, [], owner_id, bullet_attrs[6])
+	new_bullet.rotate_y(rotation)
+	
+	Global.name_networked_object(new_bullet, name, "Bullet")
+	new_bullet.set_network_master(owner_id)
+	PersistentNodes.add_child(new_bullet)
+
+
+func _fragmentation(bullet, hit_body, _hit_point):
+	if hit_body.has_method("is_player"):
+		return
+	for random_rotation in [-PI/4, PI/4]:
+		rpc("_instance_fragment", 
+				[bullet.damage, bullet.speed, bullet.lifetime, bullet.size, bullet.bounces_left, bullet.owner_id, bullet.global_transform], 
+				random_rotation)
+
+onready var fragmentation_command = _base_command.new(funcref(self, "_fragmentation"))
+
+var fire_scene = preload("res://Objects/States/OnFireState.tscn")
+
+sync func _instance_fire(player_id):
+	var fire_instance = fire_scene.instance()
+		
+	var target = PersistentNodes.get_node(str(player_id))
+	target.get_node("States").add_child(fire_instance)
+	Global.name_networked_object(fire_instance, name, "FireState")
+	fire_instance.target = target
+	fire_instance.set_network_master(int(player_id))
+	fire_instance.start_fire()
+
+
+func _fire(_bullet, hit_body, _hit_point):
+	if hit_body.has_method("is_player"):
+		rpc("_instance_fire", hit_body.name)
+
+onready var fire_command = _base_command.new(funcref(self, "_fire"))
+
+var freeze_scene = preload("res://Objects/States/FrozenState.tscn")
+
+sync func _instance_freeze(player_id):
+	var freeze_instance = freeze_scene.instance()
+	
+	var target = PersistentNodes.get_node(str(player_id))
+	target.get_node("States").add_child(freeze_instance)
+	Global.name_networked_object(freeze_instance, name, "FrozenState")
+	freeze_instance.target = target
+	freeze_instance.set_network_master(int(player_id))
+	freeze_instance.start_freeze()
+
+
+func _freeze(_bullet, hit_body, _hit_point):
+	if hit_body.has_method("is_player"):
+		rpc("_instance_freeze", hit_body.name)
+
+onready var freeze_command = _base_command.new(funcref(self, "_freeze"))

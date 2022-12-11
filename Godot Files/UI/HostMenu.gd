@@ -1,9 +1,9 @@
 extends Control
 
-onready var vp_label: Label = $VPSlider/CurrentVP
-onready var name_input: LineEdit = $NameInput
+onready var vp_label: Label = $GridContainer/HFlowContainer/VPSlider/CurrentVP
+onready var name_input: LineEdit = $GridContainer/NameInput
 onready var no_name_popup: AcceptDialog = $NoNameDialog
-onready var colour_picker: ColorPickerButton = $ColorPickerButton
+onready var colour_picker: ColorPickerButton = $GridContainer/ColorPickerButton
 
 func _ready():
 	var ip_label = $IPLbl
@@ -27,9 +27,7 @@ func _on_StartBtn_pressed():
 	Global.instance_player(get_tree().get_network_unique_id())
 	Global.vp_goal = int(vp_label.text)
 	
-	# get_tree().change_scene("res://Levels/LevelProto.tscn")
 	get_tree().change_scene("res://UI/Lobby.tscn")
-	#TODO: switch to lobby
 	
 
 func _on_BackBtn_pressed():

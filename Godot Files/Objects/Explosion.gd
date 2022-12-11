@@ -8,10 +8,12 @@ func _ready():
 	lifetime_timer.start()
 
 func _on_HitBox_body_entered(body:Node):
-	if body.has_method("damage"):
+	if get_tree().is_network_server() and body.has_method("damage"):
 		body.damage(20)
 
+sync func destroy() -> void:
+	queue_free()
 
 func _on_LifetimeTimer_timeout():
-	#TODO: rpc("destroy")
-	queue_free()
+	if is_network_master():
+		rpc("destroy")

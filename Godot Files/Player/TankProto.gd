@@ -4,6 +4,9 @@ signal health_updated(id, new_value, max_health)#, player_id)
 signal bullets_updated(current_bullets, max_bullets)
 signal died(id)
 
+onready var head_node = $Model/Head
+onready var bullet_origin = $Model/Head/BulletOrigin
+
 onready var tween = $Tween
 onready var own_info_hud = $HUD/OwnInfo
 onready var reloading_lbl = $HUD/OwnInfo/VFlowContainer/ReloadingLabel
@@ -25,22 +28,23 @@ var current_vp: int
 
 #attributes
 #movement
-export(int) var max_speed: int = 10 
-export(int) var max_angular_speed: int = 40
+export(float) var max_speed: float = 10 setget set_max_speed
+var current_speed: float
+export(float) var max_angular_speed: float = 40
 export(int) var max_health: int = 100
 #healing
 export(float) var time_to_healing: float = 5.0
 export(float) var time_between_healing: float = 1.0
-export(int, 0, 100) var healing_value: int = 5
+export(int, 0, 100) var healing_value: float = 5
 #shooting
 export(int) var max_bullets: int = 6
 export(float) var reload_time: float = 1.5
 export(float) var shooting_cooldown_time: float = 0.4
 #bullet characteristics
 export(int) var bullet_damage: int = 40
-export(int) var bullet_speed: int = 5
-export(float) var bullet_lifetime: float = 2.0
-export(float) var bullet_size: float = 1.0 #scale
+export(int) var bullet_speed: int = 20
+export(float) var bullet_lifetime: float = 5.0
+export(float) var bullet_size: float = 0.25 #scale
 export(int) var bullet_bounces: int = 0
 var bullet_on_hit: Array = []
 
@@ -56,6 +60,11 @@ var current_health: int setget set_current_health
 puppet var puppet_current_health: int setget set_puppet_current_health
 
 var current_bullets: int
+
+const SHOOT_BUFFER_FRAMES = 3
+var shoot_buffer: int = 0
+
+var states = []
 
 var is_dead: bool = false
 
@@ -98,12 +107,16 @@ func set_timers():
 
 func _start_game():
 	$HUD.set_up_info()
+	current_speed = max_speed
 
 func start_round():
+	# for player in Global.get_all_players():
+	# 	var 
 	is_dead = false
 	can_shoot = true
 	visible = true
 	set_current_health(max_health)
+	current_speed = max_speed
 	$CollisionShape.disabled = false
 	set_timers()
 	current_bullets = max_bullets
@@ -121,11 +134,20 @@ func _physics_process(delta):
 		var turn_input = int(Input.is_action_pressed("Left")) - int(Input.is_action_pressed("Right"))
 		
 		if Input.is_action_just_pressed("MainAction") and can_shoot:
-			if not has_just_shot and not is_reloading:
+			if has_just_shot or is_reloading:
+				shoot_buffer = SHOOT_BUFFER_FRAMES
+			else:
 				shoot()
+		elif shoot_buffer > 0: #shot buffering
+			if is_reloading or has_just_shot:
+				shoot_buffer -= 1
+			else:
+				shoot()
+	
+			
 		
 		# interpret inputs
-		velocity.z = forward_input*max_speed
+		velocity.z = forward_input*current_speed
 		velocity += master_knockback_velocity
 		master_knockback_velocity -= master_knockback_velocity * delta
 		velocity = move_and_slide(velocity.rotated(Vector3(0, 1, 0), rotation.y))
@@ -135,24 +157,25 @@ func _physics_process(delta):
 		# get mouse position and rotate barrel towards it
 		var pointed_position = mousePositionToWorldPosition()
 		if pointed_position != null:
-			var head_node = get_node("Model/Head") 
+			# var head_node = get_node("Model/Head") 
 			head_node.look_at(flatten(pointed_position, head_node.global_translation.y), Vector3.UP)
 			#DEBUG
-			var ball = get_tree().root.get_node("World/DEBUG_BALL")
-			if ball == null:
-				return
-			ball.transform.origin = pointed_position
+			# var ball = get_tree().root.get_node("World/DEBUG_BALL")
+			# if ball == null:
+			# 	return
+			# ball.transform.origin = pointed_position
 			
 	else: # This is another player - move them according to the data from network
 		rotation.y = puppet_body_rotation
-		$Model/Head.rotation.y = puppet_head_rotation
+		head_node.rotation.y = puppet_head_rotation
 
 		if not tween.is_active(): # Client predictions
 			puppet_velocity = move_and_slide(puppet_velocity.rotated(Vector3(0, 1, 0), rotation.y))
 	# translation.y = 0
 
 func shoot():
-	rpc("instance_bullet", get_tree().get_network_unique_id())
+	shoot_buffer = 0
+	rpc("instance_bullet", get_tree().get_network_unique_id(), bullet_size)
 	has_just_shot = true
 	shooting_timer.start()
 	current_bullets -= 1
@@ -198,12 +221,13 @@ func _on_NetworkTickRate_timeout():
 		rset_unreliable("puppet_velocity", velocity)
 
 		rset_unreliable("puppet_body_rotation", rotation.y)
-		rset_unreliable("puppet_head_rotation", $Model/Head.rotation.y)
+		rset_unreliable("puppet_head_rotation", head_node.rotation.y)
 
-sync func instance_bullet(id):
-	var bullet_transform: Transform = get_node("Model/Head/Barrel/BulletOrigin").global_transform
+sync func instance_bullet(id, size):
+	var bullet_transform: Transform = bullet_origin.global_transform
+	# print("shooting_point_transform ", bullet_transform)
 	var new_bullet = Global.instance_node_with_transform(bullet_scene, bullet_transform)\
-		.ctor(bullet_damage, bullet_speed, bullet_lifetime, bullet_size, bullet_bounces, bullet_on_hit, id, bullet_transform)
+		.ctor(bullet_damage, bullet_speed, bullet_lifetime, size, bullet_bounces, bullet_on_hit, id, bullet_transform)
 	
 	Global.name_networked_object(new_bullet, name, "Bullet")
 	new_bullet.set_network_master(id)
@@ -254,7 +278,7 @@ func _on_PreHealTimer_timeout():
 	heal_timer.start()
 
 func _on_HealTimer_timeout():
-	if not is_dead:
+	if not is_dead and current_health < max_health:
 		update_health(healing_value)
 
 func _on_ReloadTimer_timeout():
@@ -268,20 +292,39 @@ func finalize_reload():
 	if not reload_timer.is_stopped():
 		reload_timer.stop()
 
-
 func set_player_name(new_name: String):
 	player_name = new_name
 	if is_network_master():
 		rset("puppet_player_name", player_name)
 
+func set_max_speed(new_value):
+	max_speed = new_value
+	if max_speed < 2:
+		max_speed = 2
+
 func set_player_colour(new_colour: Color):
+	# print("changing the colour of ", name, " to ", new_colour)
 	player_colour = new_colour
-	# var material = $Model/Body/Body.get_surface_material(0)
-	var material = SpatialMaterial.new()
-	material.albedo_color = player_colour
-	$Model/Body/Body.set_surface_material(0, material)
+
+	var body_mesh: Mesh = $Model/Body/Body.mesh
+	var tower_mesh: Mesh = $Model/Head/Tower.mesh
+	var barrel_mesh: Mesh = $Model/Head/Barrel.mesh
+
+	var body_material: SpatialMaterial = preload("res://Resources/Models/BodyMaterial.material").duplicate() #Duplicating to not share the material between players
+	var light_ring_material: SpatialMaterial = preload("res://Resources/Models/BodyLight.material").duplicate()
+	
+	body_material.albedo_color = new_colour
+	light_ring_material.albedo_color = new_colour
+	light_ring_material.emission = new_colour
+
+	body_mesh.surface_set_material(0, body_material)
+	tower_mesh.surface_set_material(0, body_material)
+	tower_mesh.surface_set_material(1, light_ring_material)
+	barrel_mesh.surface_set_material(0, body_material)
+
 	if is_network_master():
 		rset("puppet_player_colour", player_colour)
+
 
 func set_puppet_player_colour(new_colour: Color):
 	puppet_player_colour = new_colour
@@ -303,14 +346,16 @@ func can_move():
 func is_player():
 	pass # This is a dummy function to confirm type
 
-func move_to_spawn_point(spawn_point: Transform):
+func move_to_spawn_point(spawn_point: Vector3, spawn_rotation: Vector3):
 	if not is_network_master():
-		rpc("remote_move_to_spawn_point", spawn_point)
+		rpc("remote_move_to_spawn_point", spawn_point, spawn_rotation)
 	else:
-		global_transform = spawn_point
+		global_translation = spawn_point
+		rotation = spawn_rotation
 
-master func remote_move_to_spawn_point(spawn_point: Transform):
-	global_transform = spawn_point
+master func remote_move_to_spawn_point(spawn_point: Vector3, spawn_rotation: Vector3):
+	global_translation = spawn_point
+	rotation = spawn_rotation
 
 func attach_card(card: BaseCard):
 	if is_network_master():

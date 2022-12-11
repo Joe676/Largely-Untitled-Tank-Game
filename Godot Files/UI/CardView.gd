@@ -1,6 +1,6 @@
 extends Control
 
-signal selected(card)
+signal preselected(card)
 
 onready var name_label = $CardContainer/Name
 onready var description_label = $CardContainer/Description
@@ -13,4 +13,4 @@ func _ready():
 
 
 func _on_Button_pressed():
-	emit_signal("selected", card)
+	emit_signal("preselected", card)
