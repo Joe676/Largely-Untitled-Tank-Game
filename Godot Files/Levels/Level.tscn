@@ -217,6 +217,7 @@ enabled = true
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 0.965926, 0.12941, 0.224144, -0.258819, 0.482963, 0.836516, 0, -0.866025, 0.5, 0, 34, 0 )
+shadow_enabled = true
 
 [node name="DEBUG_BALL" type="MeshInstance" parent="."]
 visible = false

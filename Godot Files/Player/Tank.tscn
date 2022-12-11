@@ -113,12 +113,12 @@ script = ExtResource( 5 )
 bullet_scene = ExtResource( 7 )
 
 [node name="Model" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.503214, 0 )
 
 [node name="Body" type="Spatial" parent="Model"]
 
 [node name="Body" type="MeshInstance" parent="Model/Body"]
 transform = Transform( 1, 0, 0, 0, 0.418434, 0, 0, 0, 1, 0, 0, 0 )
+cast_shadow = 0
 mesh = SubResource( 5 )
 skeleton = NodePath("../../..")
 
@@ -126,11 +126,13 @@ skeleton = NodePath("../../..")
 
 [node name="Tower" type="MeshInstance" parent="Model/Head"]
 transform = Transform( 0.599963, 0, 0, 0, 0.209403, 0, 0, 0, 0.599963, 0, 0.289078, 0 )
+cast_shadow = 0
 mesh = SubResource( 6 )
 skeleton = NodePath("../../..")
 
 [node name="Barrel" type="MeshInstance" parent="Model/Head"]
 transform = Transform( 0.0928513, -0.00214554, -0.015245, 0.0152462, 0.00483356, 0.0928498, -0.000155811, -0.80561, 0.000597691, 0.00214554, 0.764786, -0.226006 )
+cast_shadow = 0
 mesh = SubResource( 7 )
 skeleton = NodePath("../../..")
 
@@ -138,7 +140,7 @@ skeleton = NodePath("../../..")
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.00214554, 0.764786, -2.03857 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.757445, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.271099, 0 )
 shape = SubResource( 4 )
 
 [node name="NetworkTickRate" type="Timer" parent="."]
