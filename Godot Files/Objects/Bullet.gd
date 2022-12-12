@@ -82,9 +82,7 @@ func _on_collision(collision:KinematicCollision):
 	var body = collision.collider
 	var damaged: bool = false
 	var postponed = []
-	# print(bounces_left)
 	for command in on_hit:
-		# print(command)
 		if command.get("postponed"):
 			postponed.append(command)
 		else:
@@ -92,7 +90,7 @@ func _on_collision(collision:KinematicCollision):
 	if body.has_method("damage"):
 		body.damage(damage)
 		damaged = true
-	if (damaged or bounces_left == 0) and is_network_master():
+	if (damaged or bounces_left == 0) and get_tree().is_network_server():
 		rpc("destroy")
 		return
 	if bounces_left > 0:
@@ -103,8 +101,5 @@ func _on_collision(collision:KinematicCollision):
 
 func bounce(collision: KinematicCollision):
 	var collision_normal = collision.normal
-	# print("normal ", collision_normal)
-	# print("old velocity ", velocity)
 	velocity = velocity.reflect(collision_normal) * -1
-	# print("new velocity ", velocity)
 	look_at(global_translation + velocity*500, Vector3.UP)

@@ -21,7 +21,7 @@ func set_up_table():
 	table.set_column_title(0, "Name")
 	table.set_column_title(1, "Colour")
 	# table.set_column_title(2, "id")
-	var root = table.create_item()
+	table.create_item()
 	table.set_hide_root(true)
 	
 	# if not get_tree().is_network_server(): # for the future

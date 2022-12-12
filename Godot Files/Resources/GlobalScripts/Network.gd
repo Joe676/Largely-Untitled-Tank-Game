@@ -7,6 +7,7 @@ var server = null
 var client = null
 
 var has_server_kicked: bool = false
+var has_player_disconnected: bool = false
 
 var ip_address : String = ""
 
@@ -37,9 +38,7 @@ func _connected_to_server() -> void:
 	Global.instance_player(get_tree().get_network_unique_id())
 
 func _server_disconnected() -> void:
-	get_tree().network_peer = null
-	Global.remove_all_children(PersistentNodes)
-	GameState.clear_players()
+	disconnect_from_network()
 	has_server_kicked = true
 	get_tree().change_scene("res://UI/MainMenu.tscn")
 
@@ -49,6 +48,10 @@ func _player_connected(id: int):
 func _player_disconnected(id: int):
 	if PersistentNodes.has_node(str(id)):
 		PersistentNodes.get_node(str(id)).queue_free()
+	
+	if GameState.state != GameState.State.IN_LOBBY:
+		has_player_disconnected = true
+		get_tree().change_scene("res://UI/MainMenu.tscn")
 
 func set_puppet_networked_object_name_index(new_value) -> void:
 	networked_object_name_index = new_value
@@ -59,7 +62,9 @@ func set_networked_object_name_index(new_value) -> void:
 		rset("puppet_networked_object_name_index", networked_object_name_index)
 
 func disconnect_from_network():
-	get_tree().network_peer.close_connection()
-	get_tree().network_peer = null
+	if get_tree().network_peer != null:
+		get_tree().network_peer.close_connection()
+		get_tree().network_peer = null
 	Global.remove_all_children(PersistentNodes)
 	GameState.clear_players()
+	GameState.reset_game()

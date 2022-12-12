@@ -21,6 +21,7 @@ func attach_to_player(player: KinematicBody):
 					player[key] *= attribute_changes[key][1]
 				"+":
 					player[key] += attribute_changes[key][1]
-	player["bullet_on_hit"].append_array(on_hit)
+	if player.get("bullet_on_hit") != null:
+		player["bullet_on_hit"].append_array(on_hit)
 	if player.get("cards") != null:
 		player["cards"].append(self)

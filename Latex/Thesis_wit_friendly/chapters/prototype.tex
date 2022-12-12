@@ -128,16 +128,16 @@ Poniżej zostały opisane sygnały oraz przypisane do nich funkcje:
     \item \texttt{network\_peer\_disconnected} zostaje emitowany gdy inny gracz odłącza się od serwera. Funkcja usuwa postać rozłączonego gracza.
 \end{itemize}
 
-Ponadto w skrypcie \texttt{Network} zdefiniowane są funkcje \texttt{create\_server}\ref{create_server_prototype} i \texttt{join\_server}\ref{join_server_prototype} służące do, odpowiednio, stworzenia serwera i dołączenia do serwera. W tym celu wykorzystana została klasa \texttt{NetworkedMultiplayerENet}, implementująca warstwę sieciową korzystającą z połączenia UDP.
+Ponadto w skrypcie \texttt{Network} zdefiniowane są funkcje \texttt{create\_server} \ref{lst:create_server_prototype} i \texttt{join\_server} \ref{lst:join_server_prototype} służące do, odpowiednio, stworzenia serwera i dołączenia do serwera. W tym celu wykorzystana została klasa \texttt{NetworkedMultiplayerENet}, implementująca warstwę sieciową korzystającą z połączenia UDP.
 
 
-\begin{lstlisting}[language=python,caption=Funkcja inicjująca serwer gry., label=lst:create_server_prototype ,basicstyle=\footnotesize\ttfamily]
+\begin{lstlisting}[language=python,caption=Funkcja inicjująca serwer gry., label=lst:create_server_prototype,basicstyle=\footnotesize\ttfamily]
 func create_server() -> void:
   server = NetworkedMultiplayerENet.new()
   server.create_server(DEAFAULT_PORT, MAX_CLIENTS)
   get_tree().set_network_peer(server)
 \end{lstlisting}
-\begin{lstlisting}[language=python,caption=Funkcja łącząca do serwera gry., label=lst:join_server_prototype ,basicstyle=\footnotesize\ttfamily]
+\begin{lstlisting}[language=python,caption=Funkcja łącząca do serwera gry., label=lst:join_server_prototype,basicstyle=\footnotesize\ttfamily]
 func join_server() -> void:
   client = NetworkedMultiplayerENet.new()
   client.create_client(ip_address, DEAFAULT_PORT)

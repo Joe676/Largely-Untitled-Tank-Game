@@ -34,8 +34,9 @@ func _player_disconnected(id):
 	number_of_players -= 1
 	players_info.erase(id)
 	emit_signal("player_registered")
-	
 
+
+	
 remote func register_player(info):
 	var id = get_tree().get_rpc_sender_id()
 
@@ -164,3 +165,18 @@ remote func server_selected_card():
 
 func clear_players():
 	players_info.clear()
+
+func reset_game():
+	number_of_players = 1
+	dead_players = []
+	waiting_for= 0
+	vp_goal = 3
+	last_winner_id = ""
+	players_info = {}
+	my_info = {name = "", colour = Color(1, 0, 0, 1), vp = 0, current_health = 100, max_health = 100}
+	state = State.IN_LOBBY
+
+func _input(event):
+	if event.is_action_pressed("go_back_to_menu"):
+		Network.disconnect_from_network()
+		get_tree().change_scene("res://UI/MainMenu.tscn")
