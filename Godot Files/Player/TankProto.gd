@@ -51,7 +51,7 @@ var bullet_on_hit: Array = []
 var cards: Array = []
 
 var velocity: Vector3
-var angular_velocity: int
+var angular_velocity: float
 
 master var master_knockback_velocity: Vector3 = Vector3.ZERO
 var knockback_velocity: Vector3 = Vector3.ZERO setget set_knockback

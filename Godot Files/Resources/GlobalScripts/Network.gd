@@ -59,6 +59,7 @@ func set_networked_object_name_index(new_value) -> void:
 		rset("puppet_networked_object_name_index", networked_object_name_index)
 
 func disconnect_from_network():
+	get_tree().network_peer.close_connection()
 	get_tree().network_peer = null
 	Global.remove_all_children(PersistentNodes)
 	GameState.clear_players()

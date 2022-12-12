@@ -1,11 +1,11 @@
 extends Control
 
-onready var ip_label: Label = $ServerIP
+onready var ip_label: Label = $VBoxContainer/ServerIP
 onready var wait_for_host_label: Label = $WaitForHostLabel
 onready var start_btn: Button = $StartBtn
-onready var n_of_players_label = $NumberOfPlayers
+onready var n_of_players_label = $VBoxContainer/NumberOfPlayers
 
-onready var table: Tree = $Table
+onready var table: Tree = $VBoxContainer/Table
 
 func _ready():
 	GameState.connect("player_registered", self, "refresh_table")
@@ -48,7 +48,14 @@ func refresh_table():
 		add_player_to_table(player_info)
 	
 	n_of_players_label.text = str(GameState.number_of_players)
-	n_of_players_label.text += " Player connected" if GameState.number_of_players == 1 else " Players connected"
+	if GameState.number_of_players == 1:
+		start_btn.visible = false
+		n_of_players_label.text += " Player connected"
+	else:
+		if get_tree().is_network_server():
+			start_btn.visible = true
+		n_of_players_label.text += " Players connected"
+
 
 
 func _on_BackBtn_pressed():

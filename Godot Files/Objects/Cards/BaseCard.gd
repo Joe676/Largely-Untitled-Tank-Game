@@ -14,13 +14,8 @@ func _init(name_: String, description_: String, attributes_: Dictionary, on_hit_
 	on_hit = on_hit_
 
 func attach_to_player(player: KinematicBody):
-	# print("is player a player: ", player.has_method("is_player"))
-	# print("attaching ", card_name, " to player")
 	for key in attribute_changes.keys():
-		# print("key: ", key)
-		# print("get key: ", player.get(key))
 		if player.get(key) != null:
-			# print("player has key")
 			match attribute_changes[key][0]:
 				"*":
 					player[key] *= attribute_changes[key][1]

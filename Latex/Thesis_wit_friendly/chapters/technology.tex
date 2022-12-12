@@ -37,6 +37,8 @@ Godot umożliwia pisanie kodu z wykorzystaniem kilku języków. Przez twórców 
 
 Składnia GDScripta jest oparta o składnię Pythona - bloki kodu oddzielone są wcięciami, a nie nawiasami. Te dwa języki dzielą również wiele podstawowych słów kluczowych. 
 
+Podobnie jak Python, GDScript nie jest językiem o silnym typowaniu. Posiada jednak możliwość określenia typu zmiennej w celu uproszczenia rozwoju oprogramowania. Te typy są wykorzystywane tylko w fazie tworzenia gier. W czasie działania aplikacji zmienne mogą przechowywać dane dowolnego typu, i język nie chroni przed błędnymi przypisaniami. Ze względu na to ograniczenie należy stosować technikę znaną jako \emph{duck typing} (ang. typowanie kaczkowe). Polega ona na sprawdzeniu istnienia konkretnej metody bądź pola przed ich użyciem w czasie egzekucji programu. Nazwa wywodzi się z założenia, że ,,jeżeli coś wygląda jak kaczka i kwacze jak kaczka, to jest to kaczka''.
+
 \subsection{Drzewo gry}
 Podstawową abstrakcją, z jaką budowane są gry w Godocie jest ich podział na drzewo węzłów (ang. \emph{node}). Węzły mogą być grupowane w sceny (ang. \emph{scenes}) w celu umożliwienia ponownego ich wykorzystywania. Sceny również reprezentowane są jako drzewo węzłów z których się składają. 
 

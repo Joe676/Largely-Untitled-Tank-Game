@@ -33,6 +33,7 @@ func _player_connected(id):
 func _player_disconnected(id):
 	number_of_players -= 1
 	players_info.erase(id)
+	emit_signal("player_registered")
 	
 
 remote func register_player(info):
@@ -75,7 +76,6 @@ func finish_round():
 		rpc("remote_finish_round", NextPhase.FINISH, [])
 		get_tree().change_scene("res://UI/FinalMenu.tscn")
 		return
-
 
 	var worst_players = get_worst_players()
 	waiting_for = worst_players.size()

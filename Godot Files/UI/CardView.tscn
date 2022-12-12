@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Resources/Fonts/Oswald-VariableFont_wght.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://UI/CardView.gd" type="Script" id=2]
@@ -13,12 +13,6 @@ fill_to = Vector2( 1, 1 )
 
 [sub_resource type="DynamicFont" id=3]
 size = 32
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 1 )
-
-[sub_resource type="DynamicFont" id=4]
-size = 18
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 1 )
@@ -62,40 +56,6 @@ text = "Description of what the card does.
 
 "
 autowrap = true
-
-[node name="GridContainer" type="GridContainer" parent="CardContainer"]
-margin_top = 174.0
-margin_right = 190.0
-margin_bottom = 174.0
-custom_constants/hseparation = 15
-columns = 2
-
-[node name="Label" type="Label" parent="CardContainer/GridContainer"]
-visible = false
-margin_top = 7.0
-margin_right = 139.0
-margin_bottom = 21.0
-text = "Attribute"
-
-[node name="Label2" type="Label" parent="CardContainer/GridContainer"]
-visible = false
-margin_right = 24.0
-margin_bottom = 28.0
-custom_colors/font_color = Color( 0.00392157, 0.992157, 0.0901961, 1 )
-custom_fonts/font = SubResource( 4 )
-text = "+10"
-
-[node name="Label3" type="Label" parent="CardContainer/GridContainer"]
-visible = false
-margin_right = 139.0
-margin_bottom = 14.0
-text = "Attribute with a name"
-
-[node name="Label4" type="Label" parent="CardContainer/GridContainer"]
-visible = false
-margin_right = 24.0
-margin_bottom = 14.0
-text = "+10"
 
 [node name="Button" type="Button" parent="."]
 anchor_right = 1.0
