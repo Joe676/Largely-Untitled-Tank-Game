@@ -60,7 +60,8 @@ func move_players_to_spawnpoints(spawn_points):
 static func remove_all_children(node):
 	for child in node.get_children():
 		node.remove_child(child)
-		child.queue_free()
+		if not child.is_queued_for_deletion():
+			child.queue_free()
 
 func get_all_players():
 	var all_nodes = PersistentNodes.get_children()

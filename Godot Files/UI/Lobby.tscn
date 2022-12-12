@@ -1,17 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Resources/Themes/BaseTheme.tres" type="Theme" id=1]
 [ext_resource path="res://UI/Lobby.gd" type="Script" id=2]
-[ext_resource path="res://Resources/Fonts/Oswald-VariableFont_wght.ttf" type="DynamicFontData" id=3]
-
-[sub_resource type="DynamicFont" id=1]
-size = 32
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 3 )
-
-[sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.639216, 0.639216, 0.639216, 0.0352941 )
 
 [node name="Lobby" type="Control"]
 anchor_right = 1.0
@@ -35,39 +25,40 @@ theme = ExtResource( 1 )
 text = "Lobby"
 uppercase = true
 
-[node name="ServerIP" type="Label" parent="."]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -79.0
-margin_top = 136.0
-margin_right = 80.0
-margin_bottom = 232.0
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+margin_top = 174.0
+margin_bottom = 716.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_constants/separation = 5
+
+[node name="ServerIP" type="Label" parent="VBoxContainer"]
+margin_right = 1920.0
+margin_bottom = 67.0
 grow_horizontal = 2
 theme = ExtResource( 1 )
 text = "Server IP: 0.0.0.0"
+align = 1
 
-[node name="NumberOfPlayers" type="Label" parent="."]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -204.0
-margin_top = 232.0
-margin_right = 205.0
-margin_bottom = 328.0
+[node name="NumberOfPlayers" type="Label" parent="VBoxContainer"]
+margin_top = 72.0
+margin_right = 1920.0
+margin_bottom = 139.0
 grow_horizontal = 2
 theme = ExtResource( 1 )
 text = "# players connected"
+align = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-visible = false
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-margin_left = 130.0
-margin_top = -130.0
-margin_right = -130.0
-margin_bottom = 317.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Table" type="Tree" parent="VBoxContainer"]
+margin_top = 144.0
+margin_right = 1920.0
+margin_bottom = 344.0
+rect_min_size = Vector2( 0, 200 )
+columns = 3
+column_titles_visible = true
+hide_folding = true
+hide_root = true
 
 [node name="BackBtn" type="Button" parent="."]
 anchor_left = 0.5
@@ -110,31 +101,6 @@ margin_bottom = -127.0
 grow_horizontal = 2
 theme = ExtResource( 1 )
 text = "Waiting for host to start the game..."
-
-[node name="ItemList" type="ItemList" parent="."]
-visible = false
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-margin_top = -212.0
-margin_bottom = 249.0
-theme = ExtResource( 1 )
-custom_fonts/font = SubResource( 1 )
-custom_styles/bg = SubResource( 2 )
-items = [ "name", null, false, "id", null, false, "Item 2", null, false ]
-max_columns = 2
-same_column_width = true
-
-[node name="Table" type="Tree" parent="."]
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-margin_top = -130.0
-margin_bottom = 123.0
-columns = 3
-column_titles_visible = true
-hide_folding = true
-hide_root = true
 
 [connection signal="pressed" from="BackBtn" to="." method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="StartBtn" to="." method="_on_StartBtn_pressed"]

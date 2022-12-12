@@ -146,26 +146,26 @@ onready var tactical_advantage_card: BaseCard = base_card.new("Tactical Advantag
 		)
 
 onready var cards: Array = [
-	# tough_card,
-	# speedy_card,
-	# glass_cannon,
-	# cockroach_card,
-	# sniper_card,
-	# rubber_bullets_card,
-	# full_auto_card,
-	# granade_card,
+	tough_card,
+	speedy_card,
+	glass_cannon,
+	cockroach_card,
+	sniper_card,
+	rubber_bullets_card,
+	full_auto_card,
+	granade_card,
 	flame_card,
-	# life_steal_card,
-	# nuke_card,
-	# quick_reload_card,
-	# big_boy_card,
+	life_steal_card,
+	nuke_card,
+	quick_reload_card,
+	big_boy_card,
 	fragmentation_card,
 	freezing_bullet_card,
-	# cowboy_card,
-	# chaos_card,
+	cowboy_card,
+	chaos_card,
 	# knockback_card, #consider throwing this one away
 	# directed_bounce_card, #consider throwing this away - seems to not work properly
-	# tactical_advantage_card
+	tactical_advantage_card
 ]
 
 func get_random_card() -> BaseCard:

@@ -51,7 +51,7 @@ var bullet_on_hit: Array = []
 var cards: Array = []
 
 var velocity: Vector3
-var angular_velocity: int
+var angular_velocity: float
 
 master var master_knockback_velocity: Vector3 = Vector3.ZERO
 var knockback_velocity: Vector3 = Vector3.ZERO setget set_knockback
@@ -144,8 +144,6 @@ func _physics_process(delta):
 			else:
 				shoot()
 	
-			
-		
 		# interpret inputs
 		velocity.z = forward_input*current_speed
 		velocity += master_knockback_velocity
@@ -303,7 +301,6 @@ func set_max_speed(new_value):
 		max_speed = 2
 
 func set_player_colour(new_colour: Color):
-	# print("changing the colour of ", name, " to ", new_colour)
 	player_colour = new_colour
 
 	var body_mesh: Mesh = $Model/Body/Body.mesh

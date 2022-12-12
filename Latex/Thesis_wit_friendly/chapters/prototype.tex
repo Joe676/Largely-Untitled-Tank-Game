@@ -15,7 +15,7 @@ Na tym etapie nie przygotowano żadnych grafik, jako modele i poziom zostały wy
 W ramach prototypu wprowadzone zostały implementacje poruszania/sterowania, celowania i strzelania.
 
 \subsection{Przygotowanie projektu}
-Aby móc programować i testować implementacje mechanik niezbędne było przygotowanie świata gry oraz postaci gracza. 
+Tworzenie projektu rozpoczęto od przygotowania świata gry oraz postaci gracza, w celu umożliwienia testowania oprogramowania. 
 
 Świat gry został zbudowany z przeskalowanych prostopadłościanów działających jako podłoże, ściany ograniczające poziom oraz przeszkody w poziomie. Wykorzystano również figury CSG (\emph{Constructive Solid Geometry} - ang. Konstrulcyjna Geometria Bryłowa) w celu stworzenia bardziej skomplikowanej przeszkody. Bryły tego rodzaju można łączyć w spójne figury z pomocą takich operacji jak suma, różnica czy część wspólna.
 
@@ -32,8 +32,10 @@ Proces fizyczny to metoda w skryptach Godota, wywoływana co ustalony czas, niez
 Ponieważ ruch w osi przód-tył i obrót w prawo-lewo są różnymi zachowaniami wejścia z nimi związane zostały zapisane do oddzielnych zmiennych. Ponadto, ponieważ jednoczesny obrót lub ruch w obie strony się wykluczają, wartość tych dwóch poleceń zostaje od siebie odjęta. \ref{lst:getting_input}
 
 \begin{lstlisting}[language=python,caption=Kod pobierający polecenia gracza, label=lst:getting_input,basicstyle=\footnotesize\ttfamily]
-var forward_input = int(Input.is_action_pressed("Forward")) - int(Input.is_action_pressed("Back"))
-var turn_input = int(Input.is_action_pressed("Left")) - int(Input.is_action_pressed("Right"))
+var forward_input = int(Input.is_action_pressed("Forward")) 
+  - int(Input.is_action_pressed("Back"))
+var turn_input = int(Input.is_action_pressed("Left")) 
+  - int(Input.is_action_pressed("Right"))
 \end{lstlisting}
 
 \texttt{Input} jest obiektem tworzonym przez silnik, singletonem, który zarządza interfejsami poleceń gracza takimi jak klawiatura i mysz. Zamiast metody \texttt{is\_action\_pressed}, która sprawdza aktualny stan akcji, możliwe jest również wykorzystanie metody \texttt{get\_axis}, która pozwala skrócić powyższy zapis zachowując ten sam rezultat. Odpowiednie akcje zostały stworzone i zmapowane do odpowiednich wejść z tabeli \ref{tab:steering}, korzystając z mapowania wejścia w ustawieniach projektu Godota.
@@ -42,7 +44,7 @@ W skrypcie gracza zdefiniowane zostały atrybuty niezbędne do implementacji por
 
 Jako oś przód-tył wykorzystano oś $z$ modelu gracza, gdzie przód jest zwrócony zgodnie z dodatnią częścią osi. W celu poruszenia całego obiektu gracza wywołana zostaje funkcja \texttt{move\_and\_slide}, która służy do przemieszczania obiektów z uwzględnieniem kolizji. Do obrócenia modelu wykorzystano metodę \texttt{rotate\_y}, ponieważ w silniku Godot oś ``y'' jest osią pionową.
 
-Aby awatar wraz z otoczeniem mogły być stale widoczne dla gracza kamera musi poruszać się wraz z nim. Została podjęta decyzja o wykorzystaniu kamery trzecioosobowej, tj. takiej, która podąża za graczem i widzi również jego model, w odróżnieniu od kamery pierwszoosobowej, która widzi świat z perspektywy gracza. Wybrano wbudowaną w silnik Godot kamerę interpolowaną (\texttt{InterpolatedCamera}). Jest to kamera, która porusza się płynnie tak, aby jej położenie pokrywało się z jej celem. Cel kamery jest również obiektem o odpowiedniej pozycji i rotacji.
+Została podjęta decyzja o wykorzystaniu kamery trzecioosobowej, tj. takiej, która podąża za graczem i widzi również jego model, w odróżnieniu od kamery pierwszoosobowej, która widzi świat z perspektywy gracza. Wybrano wbudowaną w silnik Godot kamerę interpolowaną (\texttt{InterpolatedCamera}). Jest to kamera, która porusza się płynnie tak, aby jej położenie pokrywało się z jej celem. Cel kamery jest również obiektem o odpowiedniej pozycji i rotacji.
 
 Cel oraz kamera zostały dodane do sceny świata, a nie gracza, aby na etapie dodawania systemu sieciowego (\ref{sec:network_prototype}) móc uniknąć problemu wielu niewykorzystanych obiektów. 
 
@@ -85,7 +87,7 @@ Jeżeli zostanie znaleziony punkt przecięcia promienia z obiektami świata, ca�
 \subsection{Strzelanie}
 Stworzony został obiekt pocisku. Jego modelem jak i kształtem kolizji jest figura kapsuły. 
 
-Aby możliwe było strzelanie należało dodać do obiektu postaci gracza punkt, w którym tworzone będą pociski. Został on umieszczony na końcu lufy i przypisany jako dziecko tego obiektu. W ten sposób punkt ten będzie przemieszczał się tak samo jak jego rodzic. Do skryptu gracza została również dodana zmienna przechowująca referencję do sceny pocisku.
+Jako część postaci gracza dodany został węzeł typu \texttt{Spatial} reprezentujący punkt, w którym tworzone będą pociski. Został on umieszczony na końcu lufy i przypisany jako dziecko tego obiektu. W ten sposób punkt ten będzie przemieszczał się tak samo jak jego rodzic. Do skryptu gracza została również dodana zmienna przechowująca referencję do sceny pocisku.
 
 Do skryptu gracza dodano także funkcję strzału, oraz kod przyjmujący polecenie strzału z myszy. Podobnie jak akcje poruszania, akcja strzału została zmapowana w ustawieniach projektu. Z perspektywy gracza strzał polega jedynie na stworzeniu instancji sceny pocisku, umieszczeniu jej w punkcie strzału na końcu lufy oraz przypisaniu jej do świata gry. Pociski nie mogą być zapisywane jako dzieci gracza, ponieważ wtedy przemieszczałyby się razem z nim.
 
@@ -126,16 +128,16 @@ Poniżej zostały opisane sygnały oraz przypisane do nich funkcje:
     \item \texttt{network\_peer\_disconnected} zostaje emitowany gdy inny gracz odłącza się od serwera. Funkcja usuwa postać rozłączonego gracza.
 \end{itemize}
 
-Ponadto w skrypcie \texttt{Network} zdefiniowane są funkcje \texttt{create\_server}\ref{create_server_prototype} i \texttt{join\_server}\ref{join_server_prototype} służące do, odpowiednio, stworzenia serwera i dołączenia do serwera. W tym celu wykorzystana została klasa \texttt{NetworkedMultiplayerENet}, implementująca warstwę sieciową korzystającą z połączenia UDP.
+Ponadto w skrypcie \texttt{Network} zdefiniowane są funkcje \texttt{create\_server} \ref{lst:create_server_prototype} i \texttt{join\_server} \ref{lst:join_server_prototype} służące do, odpowiednio, stworzenia serwera i dołączenia do serwera. W tym celu wykorzystana została klasa \texttt{NetworkedMultiplayerENet}, implementująca warstwę sieciową korzystającą z połączenia UDP.
 
 
-\begin{lstlisting}[language=python,caption=Funkcja inicjująca serwer gry., label=lst:create_server_prototype ,basicstyle=\footnotesize\ttfamily]
+\begin{lstlisting}[language=python,caption=Funkcja inicjująca serwer gry., label=lst:create_server_prototype,basicstyle=\footnotesize\ttfamily]
 func create_server() -> void:
   server = NetworkedMultiplayerENet.new()
   server.create_server(DEAFAULT_PORT, MAX_CLIENTS)
   get_tree().set_network_peer(server)
 \end{lstlisting}
-\begin{lstlisting}[language=python,caption=Funkcja łącząca do serwera gry., label=lst:join_server_prototype ,basicstyle=\footnotesize\ttfamily]
+\begin{lstlisting}[language=python,caption=Funkcja łącząca do serwera gry., label=lst:join_server_prototype,basicstyle=\footnotesize\ttfamily]
 func join_server() -> void:
   client = NetworkedMultiplayerENet.new()
   client.create_client(ip_address, DEAFAULT_PORT)

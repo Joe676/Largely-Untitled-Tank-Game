@@ -3,7 +3,7 @@
 W projektowanej grze gracze sterują czołgami, mogą do siebie strzelać, a w czasie rozgrywki będą dostawali ulepszenia, wzmacniające ich możliwości bojowe, zarówno pasywne i aktywne.
 W tym rozdziale szczwegółowo opisane zostaną mechaniki gry oraz wymagania z dziedziny \emph{game designu}.
 
-\section{Projekt mechanik}
+\section{Mechaniki}\label{sec:mechanics_concept}
 
 Do zaimplementowania zaplanowane zostały następujące mechaniki:
 
@@ -46,17 +46,18 @@ Taka metoda sterowania da dużą dokładność celowania. Jest również stosunk
 
 Na pociski gracza nie będzie działać fizyka - będą poruszały się jedynie w płaszczyźnie równoległej do ziemi. Pociski będą wchodzić w kontakt z innymi graczami oraz z obiektami umieszczonymi w poziomie.
 
-Gracz będzie mógł strzelić z wykorzystaniem lewego przycisku myszy. Każde wciśnięcie przycisku odpowiadać będzie jednemu wystrzelonwmu pociskowi, choć to zachowanie może ulec zmianie w czasie rozgrywki [odniesienie do rozdziału z kartami?].
+Gracz będzie mógł strzelić z wykorzystaniem lewego przycisku myszy. Każde wciśnięcie przycisku odpowiadać będzie jednemu wystrzelonemu pociskowi.
 
 Postać gracza będzie miała ograniczoną pojemność "magazynku". Przeładowanie będzie trwało określony czas. W przeciwieństwie do wielu gier z podobną mechaniką, przeładowanie nie będzie konsumować pocisków z większej puli - gracz ma możliwość nieograniczonych przeładowań. Rolą tej mechaniki jest wymuszenie na graczach myślenia taktycznego oraz zarządzania zasobami.
 
-Aby uniemożliwić nazbyt szybkie strzelanie gracz będzie miał ograniczoną maksymalną "szybkość ataku". Jest ona określona jako minimalny czas pomiędzy kolejnymi strzałami.
+
+Ograniczona maksymalna szybkość ataku zostanie wprowadzona aby uniemożliwić nazbyt szybkie oddawanie strzałów. ,,Szybkość ataku'' jest określona jako minimalny czas pomiędzy kolejnymi strzałami.
 
 Atrybuty związane ze strzelaniem zostały zebrane i opisane w tabeli \ref{tab:stats_description}. 
 
 \subsection{System zdrowia i życia}
 
-Aby umożliwić graczom eliminację przeciwników wprowadzony zostanie system zdrowia. 
+System zdrowia zostanie wprowadzony w celu umożliwienia graczom eliminacji przeciwników.
 
 Każdą rundę gracz rozpoczyna z punktami życia równymi ich maksymalnej wartości. W czasie rozgrywki, otrzymując obrażenia, ta wartość będzie zmniejszana. Gdy wartość ta osiągnie 0, gracz zostaje wyeliminowany z aktualnej rundy.
 
@@ -68,40 +69,11 @@ Atrybuty postaci związane ze zdrowiem zostały zebrane i opisane w tabeli \ref{
 
 Gra będzie podzielona na rundy. Każda z rund trwa do momentu, w którym tylko jeden gracz nie będzie wyeliminowany. Ten gracz dostaje jeden punkt zwycięstwa, a następnie gracze przechodzą do kolejnej rundy. Pomiędzy rundami następuje faza wyboru kart (opisana w rozdziale \ref{sec:upgrade_cards}). Gra trwa do rundy, po której jeden z graczy osiągnie docelową liczbę punktów zwycięstwa.
 
-Taki system rozgrywki prowadzi do różnej liczby rund dla różnej liczby graczy oraz dla różnej docelowej liczby punktów. Minimalną i maksymalną liczbę rund można wyrazić następującymi wzorami:
+Taki system rozgrywki prowadzi do różnej liczby rund dla różnej liczby graczy oraz dla różnej docelowej liczby punktów. 
 
-$$ n - docelowa\ liczba\ punktów\ zwycięstwa $$
-$$ p - liczba\ graczy $$
-$$ r_{min} - minimalna\ liczba\ rund $$
-$$ r_{max} - maksymalna\ liczba\ rund $$
-$$ r_{min} = n \\ $$
-$$ r_{max} = p * (n-1) + 1 $$
+Minimalna liczba rund będzie miała miejsce w rozgrywce, w której w każdej rundzie wygrywa ten sam gracz. Maksymalna liczba rund odbędzie się w rozgrywce, w której każdy gracz wygrywa liczbę rund o jeden mniejszą niż docelowa, a następnie jeden z graczy wygrywa rundę, tym samym wygrywając grę.
 
-Minimalna liczba rund to rozgrywka, w której w każdej rundzie wygrywa ten sam gracz. Maksymalna liczba rund to rozgrywka, w której każdy gracz wygrywa liczbę rund o jeden mniejszą niż docelowa, a następnie jeden z graczy wygrywa rundę, tym samym wygrywając grę. Wyliczenia dla możliwych liczb graczy oraz dla przykładowych liczb docelowych punktów zostały zaprezentowane w tabeli \ref{tab:round_count}.
-
-\begin{table}
-    % \small
-    \centering
-    \caption{Liczba rund dla różnej liczby graczy i docelowych punktów zwycięstwa.}
-    \label{tab:round_count}
-    \begin{tabularx}{\linewidth}{|c||X|X|}
-        \hline
-        Liczba graczy & Liczba rund dla $n=3$ & Liczba rund dla $n=5$ \\
-        \hline \hline
-        2 & 3 - 5 & 5 - 9 \\
-        \hline 
-        3 & 3 - 7 & 5 - 13 \\
-        \hline
-        4 & 3 - 9 & 5 - 17 \\
-        \hline
-        5 & 3 - 11 & 5 - 21 \\
-        \hline
-        6 & 3 - 13 & 5 - 25 \\
-        \hline 
-    \end{tabularx}
-\end{table}
-
-W związku ze zwiększeniem liczby rund znacznie zwiększy się czas rozgrywki. Z tego względu dla większych liczb graczy sugerowane będą mniejsze cele punktowe, jednak nie zostaną one ograniczone domyślnie; decyzja na temat liczby docelowych punktów zwycięstwa zostanie pozostawiona hostowi.
+W związku ze zwiększeniem liczby rund znacznie zwiększy się czas rozgrywki. Z tego względu dla większych liczb graczy sugerowane będą mniejsze cele punktowe, jednak nie zostaną one ograniczone domyślnie; decyzja na temat liczby docelowych punktów zwycięstwa zostanie pozostawiona hostowi, jednak jedynie w zakresie od 1 do 10.
 
 \subsection{Atrybuty pasywne i aktywne}\label{sec:characteristics}
 
@@ -110,8 +82,6 @@ W celu rezprezentacji różnych cech postaci gracza każdy z nich ma swoje \emph
 Atrybuty pasywne reprezentowane są jedynie jako wartości liczbowe, które wpływają na zwykłe akcje wykonywane przez gracza. Każda z postaci zapisuje atrybuty pasywne dotyczące jej samej oraz używanych przez nią pocisków. Każdy z graczy ma stały zbiór atrybutów pasywnych.
 
 Atrybuty aktywne to wydarzenia wywoływane w momencie zaistnienia innego wydarzenia. W projektowanych mechanikach jedynym wydarzeniem inicjującym jest trafienie pociskiem innego gracza lub przeszkody, jednak możliwe jest wprowadzenie kolejnych w czasie rozwoju gry.
-
-% TODO: Dodać planowane atrybuty aktywne (Taki glosariusz dla następnych sekcji)
 
 \begin{table}
     \small
@@ -173,49 +143,49 @@ W celu zróżnicowania rozgrywek przygotowane zostanie 20 kart z możliwością 
     \centering
     \caption{Początkowy zbiór kart}
     \label{tab:cards}
-    \begin{tabularx}{\linewidth}{|c|c|c|X|}
+    \begin{tabularx}{\linewidth}{|c|c|X|}
         \hline
-        lp. & Nazwa & Nazwa angielska & Opis\\
+        lp. & Nazwa angielska & Opis\\
         \hline \hline
-        1 & tbc & TANK & Zwiększona żywotność, Zmniejszona szybkość \\
+        1   & TANK & Zwiększona żywotność, Zmniejszona szybkość \\
         \hline 
-        2 & tbc & Speedy Gonzales & Zwiększona szybkość, Zmniejszona żywotność \\
+        2   & Speedy Gonzales & Zwiększona szybkość, Zmniejszona żywotność \\
         \hline 
-        3 & tbc & Glass Canon & Zwiększone obrażenia, Zancznie zmniejszona żywotność \\
+        3   & Glass Canon & Zwiększone obrażenia, Zancznie zmniejszona żywotność \\
         \hline 
-        4 & tbc & Cockroach & Zmniejszona żywotność, zwiększona wartość leczenia \\
+        4   & Cockroach & Zmniejszona żywotność, zwiększona wartość leczenia \\
         \hline 
-        5 & tbc & Sniper & Zwiększone obrażenia, zwiększona szybkość kuli, zmniejszona szybkostrzelność, zmniejszona pojemność magazynka \\
+        5   & Sniper & Zwiększone obrażenia, zwiększona szybkość kuli, zmniejszona szybkostrzelność, zmniejszona pojemność magazynka \\
         \hline 
-        6 & tbc & Rubber Bullets & Dodatkowe odbicia kuli, Wydłużony czas przeładowania\\
+        6   & Rubber Bullets & Dodatkowe odbicia kuli, Wydłużony czas przeładowania\\
         \hline 
-        7 & tbc & FULL AUTO & Zwiększona szybkostrzelność, zmniejszone obrażenia, znacznie zwiększona pojemność magazynku, zwiększony czas przeładowania (jeśli się uda: Automatyczne strzelanie, nie trzeba puszczać przycisku strzału, aby wykonać kolejny strzał) \\
+        7   & FULL AUTO & Zwiększona szybkostrzelność, zmniejszone obrażenia, znacznie zwiększona pojemność magazynku, zwiększony czas przeładowania (jeśli się uda: Automatyczne strzelanie, nie trzeba puszczać przycisku strzału, aby wykonać kolejny strzał) \\
         \hline 
-        8 & tbc & Granade Launcher & Zmniejszone obrażenia pocisku, zmniejszona prędkość pocisku, AKTYWNA: Przy trafieniu lub zakończeniu życia pocisk eksploduje, zadając obrażenia w promieniu \\
+        8   & Granade Launcher & Zmniejszone obrażenia pocisku, zmniejszona prędkość pocisku, AKTYWNA: Przy trafieniu lub zakończeniu życia pocisk eksploduje, zadając obrażenia w promieniu \\
         \hline 
-        9 & tbc & Flame & Pociski podpalają trafionego gracza, zadając mu obrażenia przez kilka sekund, Zwiększone obrażenia, wydłużony czas przeładowania \\
+        9   & Flame & Pociski podpalają trafionego gracza, zadając mu obrażenia przez kilka sekund, Zwiększone obrażenia, wydłużony czas przeładowania \\
         \hline 
-        10 & tbc & Life Steal & Trafienie przeciwnika leczy właściciela o część zadanych obrażeń  \\
+        10  & Life Steal & Trafienie przeciwnika leczy właściciela o część zadanych obrażeń  \\
         \hline 
-        11 & tbc & NUKE & Zmniejszenie pojemności magazynku, Znaczne zwiększenie obrażeń, Eksplozja\\
+        11  & NUKE & Zmniejszenie pojemności magazynku, Znaczne zwiększenie obrażeń, Eksplozja\\
         \hline 
-        12 & tbc & Quick Reload & Znaczne zmniejszenie czasu przeładowania \\
+        12  & Quick Reload & Znaczne zmniejszenie czasu przeładowania \\
         \hline 
-        13 & tbc & BIG BOY & Znaczne zwiększenie żywotności, Znaczne zmniejszenie wartości leczenia (albo zwiększenie czasu leczenia)  \\
+        13  & BIG BOY & Znaczne zwiększenie żywotności, Znaczne zmniejszenie wartości leczenia (albo zwiększenie czasu leczenia)  \\
         \hline 
-        14 & tbc & Fragmentation & Po trafieniu przeszkody w miejscu trafienia tworzone są mniejsze, słabsze pociski skierowane w losowych kierunkach (odłamki), Zwiększony czas przeładowywania\\
+        14  & Fragmentation & Po trafieniu przeszkody w miejscu trafienia tworzone są mniejsze, słabsze pociski skierowane w losowych kierunkach (odłamki), Zwiększony czas przeładowywania\\
         \hline 
-        15 & tbc & Freezing Bullet & Zwiększony czas przeładowania, Po trafieniu postaci zostaje ona zamrożona - jej szybkość zostaje znacznie zmniejszona \\
+        15  & Freezing Bullet & Zwiększony czas przeładowania, Po trafieniu postaci zostaje ona zamrożona - jej szybkość zostaje znacznie zmniejszona \\
         \hline 
-        16 & tbc & Cowboy & Znacznie zwiększona szybkostrzelność, Zwiększone obrażenia, Znacznie zwiększony czas przeładowania \\
+        16  & Cowboy & Znacznie zwiększona szybkostrzelność, Zwiększone obrażenia, Znacznie zwiększony czas przeładowania \\
         \hline 
-        17 & tbc & CHAOS & Znacznie więcej odbić kuli, Zmniejszone obrażenia \\
+        17  & CHAOS & Znacznie więcej odbić kuli, Zmniejszone obrażenia \\
         \hline 
-        18 & tbc & Knockback & Trafiona postać zostaje odepchnięta w kierunku, w którym leciała kula \\
+        18  & Knockback & Trafiona postać zostaje odepchnięta w kierunku, w którym leciała kula \\
         \hline 
-        19 & tbc & Directed Bounce & Dodatkowe jedno odbicie, Kule odbijają się w kierunku najbliższego widocznego gracza, jeżeli żaden nie jest widoczny odbijają się normalnie \\
+        19  & Directed Bounce & Dodatkowe jedno odbicie, Kule odbijają się w kierunku najbliższego widocznego gracza, jeżeli żaden nie jest widoczny odbijają się normalnie \\
         \hline 
-        20 & tbc & Tactical Advantage & Trafienie przeciwnika przeładowuje magazynek właściciela, Znaczne zwiększenie czasu przeładowania \\
+        20  & Tactical Advantage & Trafienie przeciwnika przeładowuje magazynek właściciela, Znaczne zwiększenie czasu przeładowania \\
         \hline 
     \end{tabularx}
 \end{table}
@@ -226,7 +196,7 @@ W celu zapewnienia satysfakcjonującej rozgrywki zostaną zastosowane techniki p
 
 \subsubsection{Buforowanie akcji}
 
-Buforowanie akcji odnosi się do techniki, w której polecenia wydawane przez gracza są zapisywane w przypadku gdy nie jest możliwe wykonanie ich natychmiast. Akcje wywoływane przez te polecenia zostają aktywowane w momencie gdy nastanie taka możliwość. \cite{input_buffering}
+Buforowanie akcji odnosi się do techniki, w której polecenia wydawane przez gracza są zapisywane w przypadku gdy nie jest możliwe wykonanie ich natychmiast. Akcje wywoływane przez te polecenia zostają aktywowane w momencie gdy nastanie taka możliwość\cite{input_buffering}. 
 
 W przygotowywanej grze ta technika zostanie wykorzystana dla akcji strzelania. Gdy postać gracza będzie w stanie przeładowywania lub oczekiwania na kolejny strzał a gracz wprowadzi polecenie strzału zostanie ono zapisane na kilka klatek i wykonane, jeżeli w tym czasie ta akcja zostanie odblokowana. 
 

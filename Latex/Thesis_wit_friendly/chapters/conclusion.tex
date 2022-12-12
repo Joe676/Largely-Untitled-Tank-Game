@@ -1,4 +1,36 @@
 \chapter{Podsumowanie}
 
-\section{Dalszy rozwój projektu}
 \section{Wnioski}
+Aplikacja została w pełni zaimplementowana zgodnie z wymaganiami i koncepcją. Korzystanie z silnika Godot znacznie ułatwiło pracę nad wieloma aspektami gry. Wprowadzenie systemu sieciowego było o wiele prostszym zadaniem niż wyglądało. Mimo to w przypadku dalszego rozwoju warto byłoby dokładniej zaplanować działanie tego systemu. Szczególnie w przypadku znacznego rozrostu funkcjonalności gry niezbędne może okazać się zbudowanie kodu sieciowego od nowa tak, aby podział odpowiedzialności był oczywisty. W przygotowanej implementacji zdarza się, że podobne zachowanie aplikacji wywoływane jest z wielu powodów. 
+
+Rozpoczęcie pracy od przygotowania koncepcji i prototypu pomogło głębiej zrozumieć działanie silnika Godot oraz jego interfejsów sieciowych. Błędem było jednak budowanie dalszych rozwiązań bezpośrednio na implementacji prototypu. Lepszym rozwiązaniem byłoby zbudowanie ostatecznej implementacji niezależnie, korzystając jedynie ze zdobytej wiedzy.
+
+Język GDScript wykorzystany w projekcie jest prostym, czytelnym i bardzo łatwym w obsłudze narzędziem. Autor projektu odczuł jednak, że brak silnego typowania oraz nietypowa implementacja obiektowego paradygmatu programowania opóźniały pracę i wprowadzały błędy, których możnaby uniknąć w innych językach. Ponadto korzystanie z innych języków programowania wiązałoby się z możliwościom korzystania z ich, o wiele bogatszej dokumentacji i dokładniejszej oraz materiałów edukacyjnych dostępnych w Internecie.
+
+\section{Znane problemy}
+Istnieje znany problem którego dotychczas nie udało się rozwiązać. W czasie rozgrywki co jakiś czas pojawiają się błędy kamery, obraca się ona i przesuwa w chaotyczny sposób. Możliwe, że jest to związane z aktualizacjami pozycji spowodowanymi opóźnieniem połączenia internetowego, ciężko jest jednak sprawdzić tego typu błędy. 
+
+\section{Dalszy rozwój projektu}
+Istnieje wiele możliwości dalszego rozwoju projektu. Podzielić je można na dwie główne grupy. Rozwój ,,techniczny'' jest związany z poprawą jakości technologicznej części projektu oraz dodaniem dodatkowych funkcjonalności. Rozwój ,,kreatywny'' wiąże się z poszerzeniem sfery \emph{game designu} oraz audiowizualnej.
+
+\subsection{Warstwa techniczna}
+Wśród możliwości technicznych większość ma związek z usprawnieniem kodu sieciowego. Jednym z możliwych usprawnień byłoby stworzenie dedykowanej aplikacji serwerowej, tj. takiej bez warstwy wizualnej, uruchamianej na przykład jako polecenie terminala. Taka aplikacja nie mogłaby być związana z żadną postacią gracza. Stworzenie takiej wersji aplikacji jest możliwe z wykorzystaniem Godota. Może to być oddzielna aplikacja lub inaczej uruchamiana modyfikacja przygotowanego projektu.
+
+Alternatywą mogłoby być wprowadzenie obsługi zewnętrznej usługi serwerów. Przykładem gotowego rozwiązania sieciowego którego obsługę możnaby wprowadzić są serwery Steam. Istnieje rozszerzenie Godota pozwalające na wprowadzenie ich obsługi. Wymagałoby to jednak najpewniej zupełnej przebudowy kodu sieciowego.
+
+Kolejnym aspektem technicznym możliwym do dodania jest wprowadzenie obsługi kontrolerów oraz własne mapowanie wejść przez gracza. Oba z tych rozwiązań są wspierane przez silnik, istnieje więc możliwość prostego wprowadzenia takich rozszerzeń.
+
+Aktualnie aplikacja obsługiwana jest jedynie w języku angielskim. Wartym rozważenia rozszerzeniem mogłoby być wprowadzenie tłumaczeń na inne języki. Wprowadzanie tłumaczeń jest wspierane przez Godot.
+
+W grze rozwinięta została w pewnym stopniu warstwa wizualna, wiele mogłoby jednak dodać również wprowadzenie obsługi dźwięków takich jak odgłosy czołgów graczy, strzałów czy eksplozji. Ponadto, warstwa wizualna mogłaby zostać rozbudowana o animacje. Wprowadzenie cieni i realistycznych odbić w obiektach metalicznych zostało wypróbowane, jednak wygląd takich rozwiązań był niezadowalający.
+
+Istotnym elementem po dodaniu powyższych rozszerzeń jest wprowadzenie menu ustawień, w którym gracz mógłby zmieniać aspekty działania aplikacji. Ponadto do gry powinno zostać dodane menu pauzy, w którym gracz mógłby zobaczyć listę aktualnie posiadanych kart.
+
+\subsection{Warstwa kreatywna}
+Ciekawym rozszerzeniem i urozmaiceniem gry jest dodanie dodatkowych trybów rozgrywki. W innych trybach gracze dostawaliby punkty za osiąganie innych celów, mogliby również łączyć się w zespoły i współpracować.
+
+Oczywistym dodatkiem do gry jest również poszerzenie bazy dostępnych kart. Korzystając z aktualnie dostępnych systemów możliwe jest stworzenie wielu ciekawych kombinacji. Dodatkowym aspektem może być również dodanie kolejnej akcji, na przykład uruchamianej drugim przyciskiem myszy. Byłaby ona uruchamiana w punkcie, w którym znajduje się gracz. Taka mechanika również korzystałaby z komend.
+
+Innym sposobem na urozmaicenie gry jest rozwinięcie warstwy wizualnej. Jedną z możliwości jest tu wprowadzenie dodatkowych poziomów. Każda runda mogłaby wtedy rozgrywać się na losowym poziomie o różnych charakterystykach. Dodanie do poziomów zagrożeń środowiskowych również mogłoby rozszerzyć możliwości tworzenia kolejnych poziomów.
+
+Kolejnym artystycznym aspektem możliwym do rozwinięcia jest wprowadzenie grafik do menu, ekranów i jako ikonę gry. Ponadto wprowadzenie kolejnych możliwości personalizacji modeli również może urozmaicić rozgrywkę.
