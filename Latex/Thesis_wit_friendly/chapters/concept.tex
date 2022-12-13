@@ -1,5 +1,4 @@
 \chapter{Koncepcja gry}\label{ch:concept}
-\cite{game_engine_architecture}
 W projektowanej grze gracze sterują czołgami, mogą do siebie strzelać, a w czasie rozgrywki będą dostawali ulepszenia, wzmacniające ich możliwości bojowe, zarówno pasywne i aktywne.
 W tym rozdziale szczwegółowo opisane zostaną mechaniki gry oraz wymagania z dziedziny \emph{game designu}.
 
@@ -8,13 +7,13 @@ W tym rozdziale szczwegółowo opisane zostaną mechaniki gry oraz wymagania z d
 Do zaimplementowania zaplanowane zostały następujące mechaniki:
 
 \begin{itemize}
-    \item Sterowanie gracza,
-    \item Strzelanie,
-    \item System zdrowia/życia,
-    \item System rund,
-    \item Karty ulepszeń,
-    \item Atrybuty pasywne i aktywne,
-    \item \emph{User experience}.
+    \item sterowanie gracza,
+    \item strzelanie,
+    \item system zdrowia/życia,
+    \item system rund,
+    \item karty ulepszeń,
+    \item atrybuty pasywne i aktywne,
+    \item \emph{user experience}.
 \end{itemize}
 
 Zostaną one szczegółowo opisane w kolejnych sekcjach.
@@ -32,9 +31,9 @@ W przypadku większości gier, w których gracz steruje pewną postacią (awatar
 W projektowanej grze awatarem gracza jest czołg, wykorzystany zostanie więc schemat sterowania zwany "sterowaniem czołgowym" (ang. \emph{tank controls}). \cite{horror_tank_controls}
 Poza potencjalnie intuicyjną interpretacją sterowania przez graczy, taki schemat charakteryzuje się również przewidywalnym zachowaniem awatara w przypadku zmiany perspektywy kamery.
 
-W tym schemacie sterowania awatar porusza się w kierunku określonym względem jego własnej orientacji, w przeciwieństwie do wielu współczesnych tytułów, w których postać porusza się w kierunku względnym do kamery. [przygotować schemat na rysunku]
+W tym schemacie sterowania awatar porusza się w kierunku określonym względem jego własnej orientacji, w przeciwieństwie do wielu współczesnych tytułów, w których postać porusza się w kierunku względnym do kamery. 
 
-Gra przygotowywana jest z myślą o sterowaniu klawiaturą i myszą, schemat sterowania zostanie więc zmapowany na odpowiednie przyciski i gesty związane z charakterystyką tych urządzeń. [tabela ze schematem sterowania]
+Gra przygotowywana jest z myślą o sterowaniu klawiaturą i myszą, schemat sterowania zostanie więc zmapowany na odpowiednie przyciski i gesty związane z charakterystyką tych urządzeń. 
 
 
 \subsection{Strzelanie}\label{sec:shooting_concept}
@@ -135,7 +134,7 @@ Ulepszenia nadawane są jedynie postaciom o najmniejszej liczbie punktów zwyci�
 
 Każda z kart ulepszeń modyfikuje co najmniej jeden atrybut postaci - zwiększa lub zmniejsza wartość pasywną lub dodaje kolejny atrybut aktywny. Karta poprawi przynajmniej jedną wartość atrybutu, jednak możliwe jest, że pogorszy inne atrybuty aby zbalansować jej działanie. Wprowadza to również nieoczywistą decyzję do podjęcia dla gracza (przykładowo: \emph{Czy warto wybrać kartę poprawiającą dwukrotnie zadawane obrażenia, ale obniżającą o połowę własną żywotność?}).
 
-\subsubsection{Początkowy zbiór kart}
+\subsubsection*{Początkowy zbiór kart}
 W celu zróżnicowania rozgrywek przygotowane zostanie 20 kart z możliwością dodania kolejnych w przyszłości. Planowane do zaimplementowania karty przedstawione zostały w tabeli \ref{tab:cards}.
 
 \begin{table}
@@ -194,7 +193,7 @@ W celu zróżnicowania rozgrywek przygotowane zostanie 20 kart z możliwością 
 
 W celu zapewnienia satysfakcjonującej rozgrywki zostaną zastosowane techniki poprawy doświadczenia graczy (\emph{User Experience} - UX). 
 
-\subsubsection{Buforowanie akcji}
+\subsubsection*{Buforowanie akcji}
 
 Buforowanie akcji odnosi się do techniki, w której polecenia wydawane przez gracza są zapisywane w przypadku gdy nie jest możliwe wykonanie ich natychmiast. Akcje wywoływane przez te polecenia zostają aktywowane w momencie gdy nastanie taka możliwość\cite{input_buffering}. 
 
@@ -202,7 +201,7 @@ W przygotowywanej grze ta technika zostanie wykorzystana dla akcji strzelania. G
 
 Zastosowanie tej techniki pozwoli uniknąć sytuacji, w której gracz wprowadzi polecenie tuż przed zmianą stanu. Bez buforowania akcji to polecenie zostałoby zignorowane, co może prowadzić do poczucia niesprawiedliwego potraktowania przez grę. Wprowadzenie buforowania sprawia, że gra \emph{wydaje się} być bardziej sprawiedliwa poprzez wybaczanie drobnych błędów gracza.
 
-\subsubsection{Predykcje klienckie}\label{sec:concept_prediction}
+\subsubsection*{Predykcje klienckie}\label{sec:concept_prediction}
 
 W grze sieciowej nie sposób uniknąć opóźnień związanych z połączeniem, nawet gdy komputery graczy znajdują się w tej samej sieci. Przesyłając pozycję graczy przez sieć opóźnienie i utracone pakiety sprawiają, że postaci innych graczy wyglądają jakby "przeskakiwały". W związku z tym należy wprowadzić usprawnienia sprawiające, że te "przeskoki" nie sa widoczne. 
 

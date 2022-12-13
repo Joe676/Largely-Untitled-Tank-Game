@@ -141,7 +141,7 @@ Mechanika strzelania zostanie rozszerzona o buforowanie, przeładowanie oraz szy
     \label{fig:shoot_flowchart}
 \end{figure}
 
-\subsubsection{Wydarzenia po trafieniu}
+\subsubsection*{Wydarzenia po trafieniu}
 Wydarzenia po trafieniu będą przechowywane jako obiekty implementujące wzorzec projektowy Komendy\cite{game_programming_patterns}. Taka implementacja pozwoli na potencjalne rozszerzenie wydarzeń o dodatkowe wartości lub pamięć. 
 
 Stworzone zostaną dwa rodzaje komend - podstawowe i opóźnione. Gracz będzie przechowywał listę takich obiektów i przekazywał ją tworzonym pociskom. Po trafieniu pocisk będzie uruchamiał wszystkie komendy podstawowe, następnie ranił trafionego gracza, wykonywał odbicia, a dopiero ostatecznie, uruchamiał komendy opóźnione. Taki podział jest niezbędny dla implementacji niektórych kart.
